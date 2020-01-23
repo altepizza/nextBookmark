@@ -15,6 +15,7 @@
 		98AED5FB2364FF1D0009ACA3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98AED5FA2364FF1D0009ACA3 /* Default-568h@2x.png */; };
 		98AF64C623245CE70029F327 /* SharedUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98AF64C523245CE70029F327 /* SharedUserDefaults.swift */; };
 		98AF64C723245CE70029F327 /* SharedUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98AF64C523245CE70029F327 /* SharedUserDefaults.swift */; };
+		98B3C3E623DA432500524D07 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 98B3C3E523DA432400524D07 /* README.md */; };
 		98C1DA2B2370BCD50006B4BC /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 98C1DA2A2370BCD50006B4BC /* Podfile */; };
 		98CB333B2319A89F00DA4763 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CB333A2319A89F00DA4763 /* AppDelegate.swift */; };
 		98CB33432319A89F00DA4763 /* nextBookmark.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 98CB33412319A89F00DA4763 /* nextBookmark.xcdatamodeld */; };
@@ -83,6 +84,7 @@
 		98AED5F32364F5A40009ACA3 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		98AED5FA2364FF1D0009ACA3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		98AF64C523245CE70029F327 /* SharedUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedUserDefaults.swift; sourceTree = "<group>"; };
+		98B3C3E523DA432400524D07 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		98C1DA2A2370BCD50006B4BC /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		98CB33372319A89F00DA4763 /* nextBookmark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nextBookmark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98CB333A2319A89F00DA4763 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 		98CB332E2319A89F00DA4763 = {
 			isa = PBXGroup;
 			children = (
+				98B3C3E523DA432400524D07 /* README.md */,
 				9874B04B23C51E9D0070C202 /* .gitignore */,
 				98E12EFE23A82EE000E6CDD6 /* model */,
 				98E12EFB23A82D4000E6CDD6 /* middleware */,
@@ -407,6 +410,7 @@
 			files = (
 				9874B04C23C51E9D0070C202 /* .gitignore in Resources */,
 				98C1DA2B2370BCD50006B4BC /* Podfile in Resources */,
+				98B3C3E623DA432500524D07 /* README.md in Resources */,
 				98CB33452319A8A000DA4763 /* Assets.xcassets in Resources */,
 				98AED5FB2364FF1D0009ACA3 /* Default-568h@2x.png in Resources */,
 			);
