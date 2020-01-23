@@ -1,0 +1,6 @@
+*.ipa
+.build/
+xcuserdata/
+.DS_Store
+.AppleDouble
+.LSOverride

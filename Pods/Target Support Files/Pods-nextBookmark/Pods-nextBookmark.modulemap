@@ -1,0 +1,6 @@
+framework module Pods_nextBookmark {
+  umbrella header "Pods-nextBookmark-umbrella.h"
+
+  export *
+  module * { export * }
+}

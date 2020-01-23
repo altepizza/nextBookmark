@@ -1,0 +1,28 @@
+PODS:
+  - Alamofire (5.0.0-rc.3)
+  - Introspect (0.0.6)
+  - SwiftUIRefresh (0.0.2):
+    - Introspect (~> 0.0.6)
+  - SwiftyJSON (5.0.0)
+
+DEPENDENCIES:
+  - Alamofire (~> 5.0.0-rc.3)
+  - SwiftUIRefresh
+  - SwiftyJSON
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - Introspect
+    - SwiftUIRefresh
+    - SwiftyJSON
+
+SPEC CHECKSUMS:
+  Alamofire: ca8c0de6906873be89d6deec5c8de279e00bf872
+  Introspect: 3575a13dbece038e564e4375eeac2117e64a0242
+  SwiftUIRefresh: 3daa095596b5a624ea67fd0174997026b339a5bc
+  SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
+
+PODFILE CHECKSUM: 6fc4658f933682af25608ff8c4f1f8ee54215930
+
+COCOAPODS: 1.8.4

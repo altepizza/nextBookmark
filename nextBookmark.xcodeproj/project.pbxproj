@@ -1,0 +1,983 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 51;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		73C51A04F9A192CCAEB7539F /* Pods_nextBookmarkTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D8BD6D68B5003F856395EF6 /* Pods_nextBookmarkTests.framework */; };
+		98239462235CE2A1005A3AC9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98239461235CE2A1005A3AC9 /* SettingsView.swift */; };
+		9874B04C23C51E9D0070C202 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 9874B04B23C51E9D0070C202 /* .gitignore */; };
+		989C17C2236A2A2F00EE273A /* BookmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989C17C1236A2A2F00EE273A /* BookmarksView.swift */; };
+		98AED5F52364F5A40009ACA3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98AED5F32364F5A40009ACA3 /* SceneDelegate.swift */; };
+		98AED5FB2364FF1D0009ACA3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98AED5FA2364FF1D0009ACA3 /* Default-568h@2x.png */; };
+		98AF64C623245CE70029F327 /* SharedUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98AF64C523245CE70029F327 /* SharedUserDefaults.swift */; };
+		98AF64C723245CE70029F327 /* SharedUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98AF64C523245CE70029F327 /* SharedUserDefaults.swift */; };
+		98C1DA2B2370BCD50006B4BC /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 98C1DA2A2370BCD50006B4BC /* Podfile */; };
+		98CB333B2319A89F00DA4763 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CB333A2319A89F00DA4763 /* AppDelegate.swift */; };
+		98CB33432319A89F00DA4763 /* nextBookmark.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 98CB33412319A89F00DA4763 /* nextBookmark.xcdatamodeld */; };
+		98CB33452319A8A000DA4763 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98CB33442319A8A000DA4763 /* Assets.xcassets */; };
+		98CB33532319A8A000DA4763 /* nextBookmarkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CB33522319A8A000DA4763 /* nextBookmarkTests.swift */; };
+		98CB335E2319A8A000DA4763 /* nextBookmarkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CB335D2319A8A000DA4763 /* nextBookmarkUITests.swift */; };
+		98CB33722319AD7100DA4763 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CB33712319AD7100DA4763 /* ShareViewController.swift */; };
+		98CB33752319AD7100DA4763 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98CB33732319AD7100DA4763 /* MainInterface.storyboard */; };
+		98CB33792319AD7100DA4763 /* ShareExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 98CB336F2319AD7100DA4763 /* ShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		98E12EFD23A82D7600E6CDD6 /* CallNextcloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E12EFC23A82D7600E6CDD6 /* CallNextcloud.swift */; };
+		98E12F0023A82F0500E6CDD6 /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E12EFF23A82F0500E6CDD6 /* Bookmark.swift */; };
+		9F63AB39C7F8051F9D25252F /* Pods_ShareExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E8994A52D7339B925153D26 /* Pods_ShareExtension.framework */; };
+		9FF918AA6324488908B8B290 /* Pods_nextBookmark.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68BC10D1C1C08EFD98A15CE3 /* Pods_nextBookmark.framework */; };
+		EC875858CAB386BE4D04A7D7 /* Pods_nextBookmark_nextBookmarkUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A539669B24C3D3B430562706 /* Pods_nextBookmark_nextBookmarkUITests.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		98CB334F2319A8A000DA4763 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98CB332F2319A89F00DA4763 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 98CB33362319A89F00DA4763;
+			remoteInfo = nextBookmark;
+		};
+		98CB335A2319A8A000DA4763 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98CB332F2319A89F00DA4763 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 98CB33362319A89F00DA4763;
+			remoteInfo = nextBookmark;
+		};
+		98CB33772319AD7100DA4763 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98CB332F2319A89F00DA4763 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 98CB336E2319AD7100DA4763;
+			remoteInfo = ShareExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		98CB337D2319AD7100DA4763 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				98CB33792319AD7100DA4763 /* ShareExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		2E8994A52D7339B925153D26 /* Pods_ShareExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShareExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		43BB328613C9BCD48A1DC440 /* Pods-nextBookmark-nextBookmarkUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nextBookmark-nextBookmarkUITests.release.xcconfig"; path = "Target Support Files/Pods-nextBookmark-nextBookmarkUITests/Pods-nextBookmark-nextBookmarkUITests.release.xcconfig"; sourceTree = "<group>"; };
+		4C914B2030EC2B8410C0D4A8 /* Pods-nextBookmark-nextBookmarkUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nextBookmark-nextBookmarkUITests.debug.xcconfig"; path = "Target Support Files/Pods-nextBookmark-nextBookmarkUITests/Pods-nextBookmark-nextBookmarkUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		585C7173629420546C2CC4FC /* Pods-ShareExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareExtension.release.xcconfig"; path = "Target Support Files/Pods-ShareExtension/Pods-ShareExtension.release.xcconfig"; sourceTree = "<group>"; };
+		5D8BD6D68B5003F856395EF6 /* Pods_nextBookmarkTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_nextBookmarkTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		68BC10D1C1C08EFD98A15CE3 /* Pods_nextBookmark.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_nextBookmark.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E89D7EF9ECAC41E5BCE44CD /* Pods-ShareExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareExtension.debug.xcconfig"; path = "Target Support Files/Pods-ShareExtension/Pods-ShareExtension.debug.xcconfig"; sourceTree = "<group>"; };
+		98239461235CE2A1005A3AC9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		9874B04B23C51E9D0070C202 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		989C17C1236A2A2F00EE273A /* BookmarksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksView.swift; sourceTree = "<group>"; };
+		98AED5F32364F5A40009ACA3 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		98AED5FA2364FF1D0009ACA3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		98AF64C523245CE70029F327 /* SharedUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedUserDefaults.swift; sourceTree = "<group>"; };
+		98C1DA2A2370BCD50006B4BC /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		98CB33372319A89F00DA4763 /* nextBookmark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nextBookmark.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		98CB333A2319A89F00DA4763 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		98CB33422319A89F00DA4763 /* nextBookmark.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = nextBookmark.xcdatamodel; sourceTree = "<group>"; };
+		98CB33442319A8A000DA4763 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		98CB33492319A8A000DA4763 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		98CB334E2319A8A000DA4763 /* nextBookmarkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = nextBookmarkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		98CB33522319A8A000DA4763 /* nextBookmarkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nextBookmarkTests.swift; sourceTree = "<group>"; };
+		98CB33542319A8A000DA4763 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		98CB33592319A8A000DA4763 /* nextBookmarkUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = nextBookmarkUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		98CB335D2319A8A000DA4763 /* nextBookmarkUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nextBookmarkUITests.swift; sourceTree = "<group>"; };
+		98CB335F2319A8A000DA4763 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		98CB336F2319AD7100DA4763 /* ShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		98CB33712319AD7100DA4763 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		98CB33742319AD7100DA4763 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		98CB33762319AD7100DA4763 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		98CB337E2319B4B300DA4763 /* nextBookmark.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = nextBookmark.entitlements; sourceTree = "<group>"; };
+		98CB337F2319B6B700DA4763 /* ShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShareExtension.entitlements; sourceTree = "<group>"; };
+		98E12EFC23A82D7600E6CDD6 /* CallNextcloud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallNextcloud.swift; sourceTree = "<group>"; };
+		98E12EFF23A82F0500E6CDD6 /* Bookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bookmark.swift; sourceTree = "<group>"; };
+		A539669B24C3D3B430562706 /* Pods_nextBookmark_nextBookmarkUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_nextBookmark_nextBookmarkUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2FB1B6E6FA329FB5E0BC8EF /* Pods-nextBookmarkTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nextBookmarkTests.debug.xcconfig"; path = "Target Support Files/Pods-nextBookmarkTests/Pods-nextBookmarkTests.debug.xcconfig"; sourceTree = "<group>"; };
+		BF005C41D01AE8F89CC6EFBB /* Pods-nextBookmark.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nextBookmark.release.xcconfig"; path = "Target Support Files/Pods-nextBookmark/Pods-nextBookmark.release.xcconfig"; sourceTree = "<group>"; };
+		DC7A917E06124EC99C6062FE /* Pods-nextBookmarkTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nextBookmarkTests.release.xcconfig"; path = "Target Support Files/Pods-nextBookmarkTests/Pods-nextBookmarkTests.release.xcconfig"; sourceTree = "<group>"; };
+		FA04B11255EEBD0A493DDBB7 /* Pods-nextBookmark.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-nextBookmark.debug.xcconfig"; path = "Target Support Files/Pods-nextBookmark/Pods-nextBookmark.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		98CB33342319A89F00DA4763 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9FF918AA6324488908B8B290 /* Pods_nextBookmark.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98CB334B2319A8A000DA4763 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73C51A04F9A192CCAEB7539F /* Pods_nextBookmarkTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98CB33562319A8A000DA4763 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC875858CAB386BE4D04A7D7 /* Pods_nextBookmark_nextBookmarkUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98CB336C2319AD7100DA4763 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9F63AB39C7F8051F9D25252F /* Pods_ShareExtension.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		175F6C2EFEBC92B5D58D484D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8E89D7EF9ECAC41E5BCE44CD /* Pods-ShareExtension.debug.xcconfig */,
+				585C7173629420546C2CC4FC /* Pods-ShareExtension.release.xcconfig */,
+				FA04B11255EEBD0A493DDBB7 /* Pods-nextBookmark.debug.xcconfig */,
+				BF005C41D01AE8F89CC6EFBB /* Pods-nextBookmark.release.xcconfig */,
+				4C914B2030EC2B8410C0D4A8 /* Pods-nextBookmark-nextBookmarkUITests.debug.xcconfig */,
+				43BB328613C9BCD48A1DC440 /* Pods-nextBookmark-nextBookmarkUITests.release.xcconfig */,
+				B2FB1B6E6FA329FB5E0BC8EF /* Pods-nextBookmarkTests.debug.xcconfig */,
+				DC7A917E06124EC99C6062FE /* Pods-nextBookmarkTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		323E8D96BC756052F055C8A9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2E8994A52D7339B925153D26 /* Pods_ShareExtension.framework */,
+				68BC10D1C1C08EFD98A15CE3 /* Pods_nextBookmark.framework */,
+				A539669B24C3D3B430562706 /* Pods_nextBookmark_nextBookmarkUITests.framework */,
+				5D8BD6D68B5003F856395EF6 /* Pods_nextBookmarkTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		98CB332E2319A89F00DA4763 = {
+			isa = PBXGroup;
+			children = (
+				9874B04B23C51E9D0070C202 /* .gitignore */,
+				98E12EFE23A82EE000E6CDD6 /* model */,
+				98E12EFB23A82D4000E6CDD6 /* middleware */,
+				98AED5FA2364FF1D0009ACA3 /* Default-568h@2x.png */,
+				98C1DA2A2370BCD50006B4BC /* Podfile */,
+				98CB33392319A89F00DA4763 /* nextBookmark */,
+				98CB33512319A8A000DA4763 /* nextBookmarkTests */,
+				98CB335C2319A8A000DA4763 /* nextBookmarkUITests */,
+				98CB33702319AD7100DA4763 /* ShareExtension */,
+				98CB33382319A89F00DA4763 /* Products */,
+				175F6C2EFEBC92B5D58D484D /* Pods */,
+				323E8D96BC756052F055C8A9 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		98CB33382319A89F00DA4763 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				98CB33372319A89F00DA4763 /* nextBookmark.app */,
+				98CB334E2319A8A000DA4763 /* nextBookmarkTests.xctest */,
+				98CB33592319A8A000DA4763 /* nextBookmarkUITests.xctest */,
+				98CB336F2319AD7100DA4763 /* ShareExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		98CB33392319A89F00DA4763 /* nextBookmark */ = {
+			isa = PBXGroup;
+			children = (
+				98AED5F32364F5A40009ACA3 /* SceneDelegate.swift */,
+				98CB337E2319B4B300DA4763 /* nextBookmark.entitlements */,
+				98CB333A2319A89F00DA4763 /* AppDelegate.swift */,
+				98CB33442319A8A000DA4763 /* Assets.xcassets */,
+				98CB33492319A8A000DA4763 /* Info.plist */,
+				98CB33412319A89F00DA4763 /* nextBookmark.xcdatamodeld */,
+				98AF64C523245CE70029F327 /* SharedUserDefaults.swift */,
+				98239461235CE2A1005A3AC9 /* SettingsView.swift */,
+				989C17C1236A2A2F00EE273A /* BookmarksView.swift */,
+			);
+			path = nextBookmark;
+			sourceTree = "<group>";
+		};
+		98CB33512319A8A000DA4763 /* nextBookmarkTests */ = {
+			isa = PBXGroup;
+			children = (
+				98CB33522319A8A000DA4763 /* nextBookmarkTests.swift */,
+				98CB33542319A8A000DA4763 /* Info.plist */,
+			);
+			path = nextBookmarkTests;
+			sourceTree = "<group>";
+		};
+		98CB335C2319A8A000DA4763 /* nextBookmarkUITests */ = {
+			isa = PBXGroup;
+			children = (
+				98CB335D2319A8A000DA4763 /* nextBookmarkUITests.swift */,
+				98CB335F2319A8A000DA4763 /* Info.plist */,
+			);
+			path = nextBookmarkUITests;
+			sourceTree = "<group>";
+		};
+		98CB33702319AD7100DA4763 /* ShareExtension */ = {
+			isa = PBXGroup;
+			children = (
+				98CB337F2319B6B700DA4763 /* ShareExtension.entitlements */,
+				98CB33712319AD7100DA4763 /* ShareViewController.swift */,
+				98CB33732319AD7100DA4763 /* MainInterface.storyboard */,
+				98CB33762319AD7100DA4763 /* Info.plist */,
+			);
+			path = ShareExtension;
+			sourceTree = "<group>";
+		};
+		98E12EFB23A82D4000E6CDD6 /* middleware */ = {
+			isa = PBXGroup;
+			children = (
+				98E12EFC23A82D7600E6CDD6 /* CallNextcloud.swift */,
+			);
+			path = middleware;
+			sourceTree = "<group>";
+		};
+		98E12EFE23A82EE000E6CDD6 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				98E12EFF23A82F0500E6CDD6 /* Bookmark.swift */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		98CB33362319A89F00DA4763 /* nextBookmark */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 98CB33622319A8A000DA4763 /* Build configuration list for PBXNativeTarget "nextBookmark" */;
+			buildPhases = (
+				4BC785DF38AA8A062AAD4F5A /* [CP] Check Pods Manifest.lock */,
+				98CB33332319A89F00DA4763 /* Sources */,
+				98CB33342319A89F00DA4763 /* Frameworks */,
+				98CB33352319A89F00DA4763 /* Resources */,
+				98CB337D2319AD7100DA4763 /* Embed App Extensions */,
+				0FE727AFFF61D165F81B6389 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				98CB33782319AD7100DA4763 /* PBXTargetDependency */,
+			);
+			name = nextBookmark;
+			productName = nextBookmark;
+			productReference = 98CB33372319A89F00DA4763 /* nextBookmark.app */;
+			productType = "com.apple.product-type.application";
+		};
+		98CB334D2319A8A000DA4763 /* nextBookmarkTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 98CB33652319A8A000DA4763 /* Build configuration list for PBXNativeTarget "nextBookmarkTests" */;
+			buildPhases = (
+				41AD222EE35C7642F443146D /* [CP] Check Pods Manifest.lock */,
+				98CB334A2319A8A000DA4763 /* Sources */,
+				98CB334B2319A8A000DA4763 /* Frameworks */,
+				98CB334C2319A8A000DA4763 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				98CB33502319A8A000DA4763 /* PBXTargetDependency */,
+			);
+			name = nextBookmarkTests;
+			productName = nextBookmarkTests;
+			productReference = 98CB334E2319A8A000DA4763 /* nextBookmarkTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		98CB33582319A8A000DA4763 /* nextBookmarkUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 98CB33682319A8A000DA4763 /* Build configuration list for PBXNativeTarget "nextBookmarkUITests" */;
+			buildPhases = (
+				A01651CCF2756FA36D620AB1 /* [CP] Check Pods Manifest.lock */,
+				98CB33552319A8A000DA4763 /* Sources */,
+				98CB33562319A8A000DA4763 /* Frameworks */,
+				98CB33572319A8A000DA4763 /* Resources */,
+				6CDB23FCE6BE2D52420BFB38 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				98CB335B2319A8A000DA4763 /* PBXTargetDependency */,
+			);
+			name = nextBookmarkUITests;
+			productName = nextBookmarkUITests;
+			productReference = 98CB33592319A8A000DA4763 /* nextBookmarkUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		98CB336E2319AD7100DA4763 /* ShareExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 98CB337A2319AD7100DA4763 /* Build configuration list for PBXNativeTarget "ShareExtension" */;
+			buildPhases = (
+				80A80C57316D8E32669FD9AF /* [CP] Check Pods Manifest.lock */,
+				98CB336B2319AD7100DA4763 /* Sources */,
+				98CB336C2319AD7100DA4763 /* Frameworks */,
+				98CB336D2319AD7100DA4763 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ShareExtension;
+			productName = ShareExtension;
+			productReference = 98CB336F2319AD7100DA4763 /* ShareExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		98CB332F2319A89F00DA4763 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1030;
+				LastUpgradeCheck = 1030;
+				ORGANIZATIONNAME = "Kai Rieger";
+				TargetAttributes = {
+					98CB33362319A89F00DA4763 = {
+						CreatedOnToolsVersion = 10.3;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
+					98CB334D2319A8A000DA4763 = {
+						CreatedOnToolsVersion = 10.3;
+						TestTargetID = 98CB33362319A89F00DA4763;
+					};
+					98CB33582319A8A000DA4763 = {
+						CreatedOnToolsVersion = 10.3;
+						TestTargetID = 98CB33362319A89F00DA4763;
+					};
+					98CB336E2319AD7100DA4763 = {
+						CreatedOnToolsVersion = 10.3;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
+				};
+			};
+			buildConfigurationList = 98CB33322319A89F00DA4763 /* Build configuration list for PBXProject "nextBookmark" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 98CB332E2319A89F00DA4763;
+			productRefGroup = 98CB33382319A89F00DA4763 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				98CB33362319A89F00DA4763 /* nextBookmark */,
+				98CB334D2319A8A000DA4763 /* nextBookmarkTests */,
+				98CB33582319A8A000DA4763 /* nextBookmarkUITests */,
+				98CB336E2319AD7100DA4763 /* ShareExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		98CB33352319A89F00DA4763 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9874B04C23C51E9D0070C202 /* .gitignore in Resources */,
+				98C1DA2B2370BCD50006B4BC /* Podfile in Resources */,
+				98CB33452319A8A000DA4763 /* Assets.xcassets in Resources */,
+				98AED5FB2364FF1D0009ACA3 /* Default-568h@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98CB334C2319A8A000DA4763 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98CB33572319A8A000DA4763 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98CB336D2319AD7100DA4763 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				98CB33752319AD7100DA4763 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0FE727AFFF61D165F81B6389 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-nextBookmark/Pods-nextBookmark-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-nextBookmark/Pods-nextBookmark-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-nextBookmark/Pods-nextBookmark-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		41AD222EE35C7642F443146D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-nextBookmarkTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4BC785DF38AA8A062AAD4F5A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-nextBookmark-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6CDB23FCE6BE2D52420BFB38 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-nextBookmark-nextBookmarkUITests/Pods-nextBookmark-nextBookmarkUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-nextBookmark-nextBookmarkUITests/Pods-nextBookmark-nextBookmarkUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-nextBookmark-nextBookmarkUITests/Pods-nextBookmark-nextBookmarkUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		80A80C57316D8E32669FD9AF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ShareExtension-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A01651CCF2756FA36D620AB1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-nextBookmark-nextBookmarkUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		98CB33332319A89F00DA4763 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				98239462235CE2A1005A3AC9 /* SettingsView.swift in Sources */,
+				98E12EFD23A82D7600E6CDD6 /* CallNextcloud.swift in Sources */,
+				98AED5F52364F5A40009ACA3 /* SceneDelegate.swift in Sources */,
+				98E12F0023A82F0500E6CDD6 /* Bookmark.swift in Sources */,
+				989C17C2236A2A2F00EE273A /* BookmarksView.swift in Sources */,
+				98AF64C623245CE70029F327 /* SharedUserDefaults.swift in Sources */,
+				98CB333B2319A89F00DA4763 /* AppDelegate.swift in Sources */,
+				98CB33432319A89F00DA4763 /* nextBookmark.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98CB334A2319A8A000DA4763 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				98CB33532319A8A000DA4763 /* nextBookmarkTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98CB33552319A8A000DA4763 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				98CB335E2319A8A000DA4763 /* nextBookmarkUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98CB336B2319AD7100DA4763 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				98CB33722319AD7100DA4763 /* ShareViewController.swift in Sources */,
+				98AF64C723245CE70029F327 /* SharedUserDefaults.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		98CB33502319A8A000DA4763 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 98CB33362319A89F00DA4763 /* nextBookmark */;
+			targetProxy = 98CB334F2319A8A000DA4763 /* PBXContainerItemProxy */;
+		};
+		98CB335B2319A8A000DA4763 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 98CB33362319A89F00DA4763 /* nextBookmark */;
+			targetProxy = 98CB335A2319A8A000DA4763 /* PBXContainerItemProxy */;
+		};
+		98CB33782319AD7100DA4763 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 98CB336E2319AD7100DA4763 /* ShareExtension */;
+			targetProxy = 98CB33772319AD7100DA4763 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		98CB33732319AD7100DA4763 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				98CB33742319AD7100DA4763 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		98CB33602319A8A000DA4763 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		98CB33612319A8A000DA4763 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		98CB33632319A8A000DA4763 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FA04B11255EEBD0A493DDBB7 /* Pods-nextBookmark.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = nextBookmark/nextBookmark.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3K22348YPB;
+				INFOPLIST_FILE = nextBookmark/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		98CB33642319A8A000DA4763 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BF005C41D01AE8F89CC6EFBB /* Pods-nextBookmark.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = nextBookmark/nextBookmark.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3K22348YPB;
+				INFOPLIST_FILE = nextBookmark/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		98CB33662319A8A000DA4763 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B2FB1B6E6FA329FB5E0BC8EF /* Pods-nextBookmarkTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = nextBookmarkTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmarkTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/nextBookmark.app/nextBookmark";
+			};
+			name = Debug;
+		};
+		98CB33672319A8A000DA4763 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DC7A917E06124EC99C6062FE /* Pods-nextBookmarkTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = nextBookmarkTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmarkTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/nextBookmark.app/nextBookmark";
+			};
+			name = Release;
+		};
+		98CB33692319A8A000DA4763 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4C914B2030EC2B8410C0D4A8 /* Pods-nextBookmark-nextBookmarkUITests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = nextBookmarkUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmarkUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = nextBookmark;
+			};
+			name = Debug;
+		};
+		98CB336A2319A8A000DA4763 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 43BB328613C9BCD48A1DC440 /* Pods-nextBookmark-nextBookmarkUITests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = nextBookmarkUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmarkUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = nextBookmark;
+			};
+			name = Release;
+		};
+		98CB337B2319AD7100DA4763 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8E89D7EF9ECAC41E5BCE44CD /* Pods-ShareExtension.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ShareExtension/ShareExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3K22348YPB;
+				INFOPLIST_FILE = ShareExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark.ShareExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		98CB337C2319AD7100DA4763 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 585C7173629420546C2CC4FC /* Pods-ShareExtension.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ShareExtension/ShareExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3K22348YPB;
+				INFOPLIST_FILE = ShareExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark.ShareExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		98CB33322319A89F00DA4763 /* Build configuration list for PBXProject "nextBookmark" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				98CB33602319A8A000DA4763 /* Debug */,
+				98CB33612319A8A000DA4763 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		98CB33622319A8A000DA4763 /* Build configuration list for PBXNativeTarget "nextBookmark" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				98CB33632319A8A000DA4763 /* Debug */,
+				98CB33642319A8A000DA4763 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		98CB33652319A8A000DA4763 /* Build configuration list for PBXNativeTarget "nextBookmarkTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				98CB33662319A8A000DA4763 /* Debug */,
+				98CB33672319A8A000DA4763 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		98CB33682319A8A000DA4763 /* Build configuration list for PBXNativeTarget "nextBookmarkUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				98CB33692319A8A000DA4763 /* Debug */,
+				98CB336A2319A8A000DA4763 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		98CB337A2319AD7100DA4763 /* Build configuration list for PBXNativeTarget "ShareExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				98CB337B2319AD7100DA4763 /* Debug */,
+				98CB337C2319AD7100DA4763 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		98CB33412319A89F00DA4763 /* nextBookmark.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				98CB33422319A89F00DA4763 /* nextBookmark.xcdatamodel */,
+			);
+			currentVersion = 98CB33422319A89F00DA4763 /* nextBookmark.xcdatamodel */;
+			path = nextBookmark.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 98CB332F2319A89F00DA4763 /* Project object */;
+}
