@@ -1,4 +1,4 @@
-framework module Pods_nextBookmark {
+module Pods_nextBookmark {
   umbrella header "Pods-nextBookmark-umbrella.h"
 
   export *

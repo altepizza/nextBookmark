@@ -1,4 +1,4 @@
-framework module Pods_nextBookmark_nextBookmarkUITests {
+module Pods_nextBookmark_nextBookmarkUITests {
   umbrella header "Pods-nextBookmark-nextBookmarkUITests-umbrella.h"
 
   export *
