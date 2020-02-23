@@ -9,6 +9,7 @@
 import Foundation
 import Alamofire
 import SwiftyJSON
+import NotificationBannerSwift
 
 struct CallNextcloud
 {
@@ -59,6 +60,29 @@ struct CallNextcloud
              case .failure(let error):
                 print(error)
              }
+        }
+    }
+    
+    func hello_world() {
+        let banner = NotificationBanner(title: "Testing connection", subtitle: "", style: .warning)
+        banner.autoDismiss = false
+        banner.show()
+        AF.request(urlFromSettings + "/index.php/apps/bookmarks/public/rest/v2/bookmark?page=0", headers: headers)
+        .validate(statusCode: 200..<300)
+        .responseJSON { response in
+            switch response.result {
+            case .success( _):
+                banner.dismiss()
+                let banner = NotificationBanner(title: "Success", subtitle: "Can connect to Nextcloud Bookmarks", style: .success)
+                self.sharedUserDefaults?.set(true, forKey: SharedUserDefaults.Keys.valid)
+                banner.show()
+                debugPrint(response)
+            case .failure( _):
+                debugPrint("ERROR")
+                debugPrint(response)
+                let banner = NotificationBanner(title: "Error", subtitle: "Cannot login to Nextcloud Bookmars", style: .danger)
+                self.sharedUserDefaults?.set(false, forKey: SharedUserDefaults.Keys.valid)
+                banner.show()             }
         }
     }
 }

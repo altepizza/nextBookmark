@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import NotificationBannerSwift
 
 struct SettingsView: View {
     @State var server: String
@@ -49,6 +50,7 @@ struct SettingsView: View {
         sharedUserDefaults?.set(server, forKey: SharedUserDefaults.Keys.url)
         sharedUserDefaults?.set(username, forKey: SharedUserDefaults.Keys.username)
         sharedUserDefaults?.set(password, forKey: SharedUserDefaults.Keys.password)
+        CallNextcloud().hello_world()
     }
 }
 

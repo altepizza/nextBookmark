@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,6 +11,7 @@
 		98239462235CE2A1005A3AC9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98239461235CE2A1005A3AC9 /* SettingsView.swift */; };
 		9874B04C23C51E9D0070C202 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 9874B04B23C51E9D0070C202 /* .gitignore */; };
 		989C17C2236A2A2F00EE273A /* BookmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989C17C1236A2A2F00EE273A /* BookmarksView.swift */; };
+		98AE797C240309C3007C36A9 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98AE797B240309C3007C36A9 /* Launch Screen.storyboard */; };
 		98AED5F52364F5A40009ACA3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98AED5F32364F5A40009ACA3 /* SceneDelegate.swift */; };
 		98AED5FB2364FF1D0009ACA3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98AED5FA2364FF1D0009ACA3 /* Default-568h@2x.png */; };
 		98AF64C623245CE70029F327 /* SharedUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98AF64C523245CE70029F327 /* SharedUserDefaults.swift */; };
@@ -81,6 +82,7 @@
 		98239461235CE2A1005A3AC9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		9874B04B23C51E9D0070C202 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		989C17C1236A2A2F00EE273A /* BookmarksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksView.swift; sourceTree = "<group>"; };
+		98AE797B240309C3007C36A9 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		98AED5F32364F5A40009ACA3 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		98AED5FA2364FF1D0009ACA3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		98AF64C523245CE70029F327 /* SharedUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedUserDefaults.swift; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 				984BD76324021B3300FD0C3C /* Recovered References */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		98CB33382319A89F00DA4763 /* Products */ = {
 			isa = PBXGroup;
@@ -228,6 +231,7 @@
 				98AF64C523245CE70029F327 /* SharedUserDefaults.swift */,
 				98239461235CE2A1005A3AC9 /* SettingsView.swift */,
 				989C17C1236A2A2F00EE273A /* BookmarksView.swift */,
+				98AE797B240309C3007C36A9 /* Launch Screen.storyboard */,
 			);
 			path = nextBookmark;
 			sourceTree = "<group>";
@@ -393,7 +397,7 @@
 				};
 			};
 			buildConfigurationList = 98CB33322319A89F00DA4763 /* Build configuration list for PBXProject "nextBookmark" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 11.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -418,6 +422,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				98AE797C240309C3007C36A9 /* Launch Screen.storyboard in Resources */,
 				9874B04C23C51E9D0070C202 /* .gitignore in Resources */,
 				98C1DA2B2370BCD50006B4BC /* Podfile in Resources */,
 				98B3C3E623DA432500524D07 /* README.md in Resources */,
@@ -740,6 +745,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3K22348YPB;
 				INFOPLIST_FILE = nextBookmark/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -761,6 +767,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3K22348YPB;
 				INFOPLIST_FILE = nextBookmark/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

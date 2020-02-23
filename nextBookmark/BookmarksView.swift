@@ -9,6 +9,7 @@
 import SwiftUI
 import SwiftyJSON
 import SwiftUIRefresh
+import NotificationBannerSwift
 
 let sharedUserDefaults = UserDefaults(suiteName: SharedUserDefaults.suiteName)
 
@@ -16,11 +17,13 @@ struct BookmarksView: View {
     @State private var isShowing = false
     
     @State var bookmarks: [Bookmark] = [
-        .init(id: 0, title: "<Placeholder>", url: "about:blank"),
+        .init(id: 0, title: "<Pull down to load your bookmarks>", url: "about:blank"),
     ]
+    
     let usernameFromSettings = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.username) ?? "Username"
     let passwordFromSettings = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.password) ?? "Password"
     let urlFromSettings = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.url) ?? "https://you-nextcloud.instance"
+    
     
     var body: some View {
         NavigationView{
@@ -30,10 +33,12 @@ struct BookmarksView: View {
                 }
                 .onDelete(perform: delete)
                 
-            }.navigationBarTitle("Bookmarks", displayMode: .inline)
-                .navigationBarItems(trailing: NavigationLink(destination: SettingsView(server: urlFromSettings, username: usernameFromSettings, password: passwordFromSettings)) {
+            }
+            .navigationBarTitle("Bookmarks", displayMode: .inline)
+            .navigationBarItems(trailing: NavigationLink(destination: SettingsView(server: urlFromSettings, username: usernameFromSettings, password: passwordFromSettings)) {
                     Text("Settings")})
-                .pullToRefresh(isShowing: $isShowing) {
+            .pullToRefresh(isShowing: $isShowing) {
+                self.startUpCheck()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         CallNextcloud().get_bookmarks() { bookmarks in
                             if let bookmarks = bookmarks {
@@ -42,9 +47,26 @@ struct BookmarksView: View {
                             }
                         }
                     }
+                }
+            
+        }.onAppear() {
+            CallNextcloud().get_bookmarks() { bookmarks in
+                if let bookmarks = bookmarks {
+                    self.bookmarks = bookmarks
+                }
             }
         }
     }
+    
+    func startUpCheck() {
+        let validConnection = sharedUserDefaults?.bool(forKey: SharedUserDefaults.Keys.valid)
+        debugPrint(validConnection)
+        if !(validConnection ?? false) {
+            let banner = NotificationBanner(title: "Missing Credentials", subtitle: "Please enter valid Nextcloud credentials in 'Settings'", style: .warning)
+            banner.show()
+        }
+    }
+    
     
     func delete(at offsets: IndexSet) {
         for index in offsets {
@@ -59,11 +81,10 @@ struct BookmarkRow: View {
     let book: Bookmark
     var body: some View {
         VStack (alignment: .leading) {
-            Text(book.title).font(.headline)
-            Text(book.url).font(.subheadline).lineLimit(nil)
+            Text(book.title).fontWeight(.bold)
+            Text(book.url).font(.footnote).lineLimit(nil)
         }
         .onTapGesture {
-            debugPrint("TAPTEST")
             debugPrint(self.book.url)
             guard let url = URL(string: self.book.url) else { return }
             UIApplication.shared.open(url)

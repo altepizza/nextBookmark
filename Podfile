@@ -9,6 +9,7 @@ target 'nextBookmark' do
   pod 'Alamofire'
   pod 'SwiftyJSON'
   pod 'SwiftUIRefresh'
+  pod 'NotificationBannerSwift', '~> 3.0.0'
 
   target 'nextBookmarkTests' do
     inherit! :search_paths

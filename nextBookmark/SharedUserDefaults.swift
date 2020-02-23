@@ -15,5 +15,6 @@ struct SharedUserDefaults {
         static let username = "username"
         static let password = "password"
         static let url = "url"
+        static let valid = "valid"
     }
 }
