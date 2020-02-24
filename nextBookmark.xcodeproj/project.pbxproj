@@ -18,6 +18,7 @@
 		98AF64C723245CE70029F327 /* SharedUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98AF64C523245CE70029F327 /* SharedUserDefaults.swift */; };
 		98B3C3E623DA432500524D07 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 98B3C3E523DA432400524D07 /* README.md */; };
 		98C1DA2B2370BCD50006B4BC /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 98C1DA2A2370BCD50006B4BC /* Podfile */; };
+		98C4C40C24046515008EB872 /* ThanksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C4C40B24046515008EB872 /* ThanksView.swift */; };
 		98CB333B2319A89F00DA4763 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CB333A2319A89F00DA4763 /* AppDelegate.swift */; };
 		98CB33432319A89F00DA4763 /* nextBookmark.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 98CB33412319A89F00DA4763 /* nextBookmark.xcdatamodeld */; };
 		98CB33452319A8A000DA4763 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98CB33442319A8A000DA4763 /* Assets.xcassets */; };
@@ -88,6 +89,7 @@
 		98AF64C523245CE70029F327 /* SharedUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedUserDefaults.swift; sourceTree = "<group>"; };
 		98B3C3E523DA432400524D07 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		98C1DA2A2370BCD50006B4BC /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		98C4C40B24046515008EB872 /* ThanksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThanksView.swift; sourceTree = "<group>"; };
 		98CB33372319A89F00DA4763 /* nextBookmark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nextBookmark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98CB333A2319A89F00DA4763 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		98CB33422319A89F00DA4763 /* nextBookmark.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = nextBookmark.xcdatamodel; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 				98239461235CE2A1005A3AC9 /* SettingsView.swift */,
 				989C17C1236A2A2F00EE273A /* BookmarksView.swift */,
 				98AE797B240309C3007C36A9 /* Launch Screen.storyboard */,
+				98C4C40B24046515008EB872 /* ThanksView.swift */,
 			);
 			path = nextBookmark;
 			sourceTree = "<group>";
@@ -556,6 +559,7 @@
 				98AED5F52364F5A40009ACA3 /* SceneDelegate.swift in Sources */,
 				98E12F0023A82F0500E6CDD6 /* Bookmark.swift in Sources */,
 				989C17C2236A2A2F00EE273A /* BookmarksView.swift in Sources */,
+				98C4C40C24046515008EB872 /* ThanksView.swift in Sources */,
 				98AF64C623245CE70029F327 /* SharedUserDefaults.swift in Sources */,
 				98CB333B2319A89F00DA4763 /* AppDelegate.swift in Sources */,
 				98CB33432319A89F00DA4763 /* nextBookmark.xcdatamodeld in Sources */,

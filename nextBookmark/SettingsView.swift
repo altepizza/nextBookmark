@@ -44,6 +44,8 @@ struct SettingsView: View {
                 }
             }.padding(.horizontal, 15)
         }.navigationBarTitle("Settings", displayMode: .inline)
+        .navigationBarItems(trailing: NavigationLink(destination: ThanksView()) {
+                Text("About")})
     }
     
     func saveSettings() {
