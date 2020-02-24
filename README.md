@@ -8,14 +8,17 @@ a very simple iOS client for the
   * Shows all your bookmarks in a list
     * Tap on it --> Opens bookmark in Safari
     * Swipe it to the left --> Delete the bookmark
+    
+## Acknowledgements
 
-## Todo
-  * Create an icon
-  * Download your bookmarks on start of the application
-  * Start to publish this thing in the official iOS Appstore
+[Alamofire](https://github.com/Alamofire/Alamofire)
+[NotificationBanner](https://github.com/Daltron/NotificationBanner)
+[SwiftUI-Refresh](https://github.com/siteline/SwiftUIRefresh)
+[SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON)
+
 
 ## Disclaimer
-This project mostly as a hobby to get familiar with Swift
+This project is mostly a hobby to get familiar with Swift, SwfitUI and iOS development.
 
 ## License
 GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
