@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct ThanksView: View {
+    @State private var show_modal: Bool = false
     var body: some View {
         NavigationView{
             VStack{
@@ -18,6 +19,13 @@ struct ThanksView: View {
                     UIApplication.shared.open(url)
                 }) {
                     Text("Visit me!")
+                }
+                Spacer()
+                Button(action: {
+                    guard let url = URL(string: "https://gitlab.com/altepizza/nextbookmark/-/raw/master/privacy_policy.md") else { return }
+                    UIApplication.shared.open(url)
+                }) {
+                    Text("Privacy Policy")
                 }
                 Spacer()
                 Text("Also thanks to...")
