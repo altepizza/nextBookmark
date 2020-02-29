@@ -11,20 +11,13 @@ import SwiftyJSON
 import SwiftUIRefresh
 import NotificationBannerSwift
 
-let sharedUserDefaults = UserDefaults(suiteName: SharedUserDefaults.suiteName)
-
 struct BookmarksView: View {
     @State private var isShowing = false
     
     @State var bookmarks: [Bookmark] = [
-        .init(id: 0, title: "<Pull down to load your bookmarks>", url: "about:blank"),
+        .init(id: 0, title: "<Pull down to load your bookmarks>", url: "about:blank", tags: ["placeholder tag"]),
     ]
-    
-    let usernameFromSettings = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.username) ?? "Username"
-    let passwordFromSettings = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.password) ?? "Password"
-    let urlFromSettings = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.url) ?? "https://you-nextcloud.instance"
-    
-    
+        
     var body: some View {
         NavigationView{
             List {
@@ -35,7 +28,7 @@ struct BookmarksView: View {
                 
             }
             .navigationBarTitle("Bookmarks", displayMode: .inline)
-            .navigationBarItems(trailing: NavigationLink(destination: SettingsView(server: urlFromSettings, username: usernameFromSettings, password: passwordFromSettings)) {
+            .navigationBarItems(trailing: NavigationLink(destination: SettingsView()) {
                     Text("Settings")})
             .pullToRefresh(isShowing: $isShowing) {
                 self.startUpCheck()
@@ -82,21 +75,30 @@ struct BookmarkRow: View {
     var body: some View {
         VStack (alignment: .leading) {
             Text(book.title).fontWeight(.bold)
-            Text(book.url).font(.footnote).lineLimit(nil)
+            if tagsAvailable(for: book) {
+                Text((book.tags.joined(separator:", "))).font(.footnote).lineLimit(1)
+            }
+            Text(book.url).font(.footnote).lineLimit(1).foregroundColor(Color.gray)
         }
         .onTapGesture {
             debugPrint(self.book.url)
             guard let url = URL(string: self.book.url) else { return }
             UIApplication.shared.open(url)
         }
-        
     }
 }
 
+private func tagsAvailable(for book: Bookmark) -> Bool {
+    if (book.tags.isEmpty) {
+        return false
+    }
+    return true
+}
+
 struct BookmarksView_Previews: PreviewProvider {
-    @State var bookmarks: [Bookmark] = [
-        .init(id: 0, title: "Google", url: "https://google.com"),
-    ]
+//    @State var bookmarks: [Bookmark] = [
+//        .init(id: 0, title: "Google", url: "https://google.com"),
+//    ]
     static var previews: some View {
         BookmarksView()
     }

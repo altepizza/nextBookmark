@@ -39,8 +39,8 @@ struct CallNextcloud
                  let swiftyJsonVar = JSON(value)
                  print(swiftyJsonVar["data"])
                 bookmarks.removeAll()
-                 for (_, mark) in swiftyJsonVar["data"] {
-                    bookmarks.append(Bookmark(id: Int(mark["id"].string!)! , title: mark["title"].string ?? "TITLE" , url: mark["url"].string ?? "URL") )
+                 for (_, mark) in swiftyJsonVar["data"] { //TODO tags
+                    bookmarks.append(Bookmark(id: Int(mark["id"].string!)! , title: mark["title"].string ?? "TITLE" , url: mark["url"].string ?? "URL", tags: mark["tags"].arrayValue.map { $0.stringValue}) )
                     print(bookmarks.count)
                  }
              case .failure(let error):

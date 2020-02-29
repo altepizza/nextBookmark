@@ -11,4 +11,5 @@ import Foundation
 struct Bookmark: Identifiable {
     var id: Int
     let title, url: String
+    let tags: [String]
 }
