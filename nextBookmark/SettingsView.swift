@@ -9,11 +9,13 @@
 import SwiftUI
 import NotificationBannerSwift
 
+let sharedUserDefaults = UserDefaults(suiteName: SharedUserDefaults.suiteName)
+
 struct SettingsView: View {
-    @State var server: String
-    @State var username: String
-    @State var password: String
-    let sharedUserDefaults = UserDefaults(suiteName: SharedUserDefaults.suiteName)
+    
+    @State var server = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.url) ?? "https://you-nextcloud.instance"
+    @State var username = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.username) ?? "Username"
+    @State var password = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.password) ?? "Password"
     
     var body: some View {
         NavigationView{
