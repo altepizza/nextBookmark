@@ -15,35 +15,49 @@ struct BookmarksView: View {
     @State private var isShowing = false
     
     @State var bookmarks: [Bookmark] = [
-        .init(id: 0, title: "<Pull down to load your bookmarks>", url: "about:blank", tags: ["placeholder tag"]),
+        .init(id: 0, title: "<Pull down to load your bookmarks>", url: "about:blank", tags: ["placeholder tag"], folder_ids: [-1]),
     ]
-        
+    
+    @State var folders: [Folder] = [
+        .init(id: -1, title: "/", parent_folder_id: -1),
+    ]
+    
     var body: some View {
         NavigationView{
-            List {
-                ForEach(bookmarks) { book in
-                    BookmarkRow(book: book)
+            VStack{
+                List {
+                    ForEach(folders) { folder in
+                        FolderRow(folder: folder)
+                        ForEach(self.bookmarks) { book in
+                            BookmarkRow(book: book)
+                        }
+                        .onDelete(perform: self.delete)
+                    }
                 }
-                .onDelete(perform: delete)
-                
             }
-            .navigationBarTitle("Bookmarks", displayMode: .inline)
-            .navigationBarItems(trailing: NavigationLink(destination: SettingsView()) {
-                    Text("Settings")})
             .pullToRefresh(isShowing: $isShowing) {
                 self.startUpCheck()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        CallNextcloud().get_bookmarks() { bookmarks in
-                            if let bookmarks = bookmarks {
-                                self.bookmarks = bookmarks
-                                self.isShowing = false
-                            }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.folders = CallNextcloud().getAllFolders()
+                    debugPrint("IN UI AFTER FOLDERS")
+                    debugPrint(self.folders)
+                    CallNextcloud().get_all_bookmarks() { bookmarks in
+                        if let bookmarks = bookmarks {
+                            self.bookmarks = bookmarks
+                            self.isShowing = false
+                        }
+                    }
+                    CallNextcloud().requestFolderHierarchy() { jason in
+                        if let jason = jason {
+                            self.folders =  CallNextcloud().makeFolders(json: jason)
                         }
                     }
                 }
-            
+            }.navigationBarTitle("Bookmarks", displayMode: .inline)
+                .navigationBarItems(trailing: NavigationLink(destination: SettingsView()) {
+                    Text("Settings")})
         }.onAppear() {
-            CallNextcloud().get_bookmarks() { bookmarks in
+            CallNextcloud().get_all_bookmarks() { bookmarks in
                 if let bookmarks = bookmarks {
                     self.bookmarks = bookmarks
                 }
@@ -88,6 +102,13 @@ struct BookmarkRow: View {
     }
 }
 
+struct FolderRow: View {
+    let folder: Folder
+    var body: some View {
+        Text(folder.title).fontWeight(.bold)
+    }
+}
+
 private func tagsAvailable(for book: Bookmark) -> Bool {
     if (book.tags.isEmpty) {
         return false
@@ -96,9 +117,6 @@ private func tagsAvailable(for book: Bookmark) -> Bool {
 }
 
 struct BookmarksView_Previews: PreviewProvider {
-//    @State var bookmarks: [Bookmark] = [
-//        .init(id: 0, title: "Google", url: "https://google.com"),
-//    ]
     static var previews: some View {
         BookmarksView()
     }
