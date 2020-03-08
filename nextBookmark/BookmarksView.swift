@@ -15,37 +15,65 @@ struct BookmarksView: View {
     @State private var isShowing = false
     
     @State var bookmarks: [Bookmark] = [
-        .init(id: 0, title: "<Pull down to load your bookmarks>", url: "about:blank", tags: ["placeholder tag"]),
+        .init(id: 0, title: "<Pull down to load your bookmarks>", url: "about:blank", tags: ["placeholder tag"], folder_ids: [-1]),
     ]
-        
+    
+    @State var folders: [Folder] = [
+    ]
+    
     var body: some View {
         NavigationView{
-            List {
-                ForEach(bookmarks) { book in
-                    BookmarkRow(book: book)
+            VStack{
+                List {
+                    ForEach(folders) { folder in
+                        FolderRow(folder: folder)
+                        ForEach(folder.books) { book in
+                            BookmarkRow(book: book)
+                        }
+                        .onDelete(perform: self.delete)
+                    }
                 }
-                .onDelete(perform: delete)
-                
             }
-            .navigationBarTitle("Bookmarks", displayMode: .inline)
-            .navigationBarItems(trailing: NavigationLink(destination: SettingsView()) {
-                    Text("Settings")})
             .pullToRefresh(isShowing: $isShowing) {
                 self.startUpCheck()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        CallNextcloud().get_bookmarks() { bookmarks in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    //self.folders = CallNextcloud().getAllFolders()
+                    debugPrint("IN UI AFTER FOLDERS")
+                    debugPrint(self.folders)
+                    CallNextcloud().requestFolderHierarchy() { jason in
+                        if let jason = jason {
+                            self.folders =  CallNextcloud().makeFolders(json: jason)
+                            self.folders.append(Folder(id: -1, title: "/", parent_folder_id: -1, books: []))
+                            for i in self.folders.indices {
+                                let fff = self.folders[i] as Folder
+                                CallNextcloud().get_all_bookmarks_for_folder(folder: fff) { bookmarks in
+                                    if let bookmarks = bookmarks {
+                                        self.folders[i].books = bookmarks
+                                        self.isShowing = false
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                }
+            }.navigationBarTitle("Bookmarks", displayMode: .inline)
+                .navigationBarItems(trailing: NavigationLink(destination: SettingsView()) {
+                    Text("Settings")})
+        }.onAppear() {
+            CallNextcloud().requestFolderHierarchy() { jason in
+                if let jason = jason {
+                    self.folders =  CallNextcloud().makeFolders(json: jason)
+                    self.folders.append(Folder(id: -1, title: "/", parent_folder_id: -1, books: []))
+                    for i in self.folders.indices {
+                        let fff = self.folders[i] as Folder
+                        CallNextcloud().get_all_bookmarks_for_folder(folder: fff) { bookmarks in
                             if let bookmarks = bookmarks {
-                                self.bookmarks = bookmarks
+                                self.folders[i].books = bookmarks
                                 self.isShowing = false
                             }
                         }
                     }
-                }
-            
-        }.onAppear() {
-            CallNextcloud().get_bookmarks() { bookmarks in
-                if let bookmarks = bookmarks {
-                    self.bookmarks = bookmarks
                 }
             }
         }
@@ -74,6 +102,7 @@ struct BookmarkRow: View {
     let book: Bookmark
     var body: some View {
         VStack (alignment: .leading) {
+            //Text("DEBUG: BOOKMARK")
             Text(book.title).fontWeight(.bold)
             if tagsAvailable(for: book) {
                 Text((book.tags.joined(separator:", "))).font(.footnote).lineLimit(1)
@@ -88,6 +117,17 @@ struct BookmarkRow: View {
     }
 }
 
+struct FolderRow: View {
+    let folder: Folder
+    var body: some View {
+        VStack(alignment: .leading){
+            //Text("DEBUG: FOLDER")
+            Image(systemName: "folder")
+            Text(folder.title).fontWeight(.bold)
+        }
+    }
+}
+
 private func tagsAvailable(for book: Bookmark) -> Bool {
     if (book.tags.isEmpty) {
         return false
@@ -96,9 +136,6 @@ private func tagsAvailable(for book: Bookmark) -> Bool {
 }
 
 struct BookmarksView_Previews: PreviewProvider {
-//    @State var bookmarks: [Bookmark] = [
-//        .init(id: 0, title: "Google", url: "https://google.com"),
-//    ]
     static var previews: some View {
         BookmarksView()
     }

@@ -29,37 +29,50 @@ struct CallNextcloud
         ]
     }
     
-    func get_bookmarks(completion: @escaping ([Bookmark]?) -> Void) {
+    func get_all_bookmarks(completion: @escaping ([Bookmark]?) -> Void) {
         var bookmarks: [Bookmark] = []
-        debugPrint("DOING AF")
         let response = AF.request(urlFromSettings + "/index.php/apps/bookmarks/public/rest/v2/bookmark?page=-1", headers: headers).responseJSON { response in
             switch response.result {
-             case .success(let value):
-                debugPrint(response)
-                 let swiftyJsonVar = JSON(value)
-                 print(swiftyJsonVar["data"])
+            case .success(let value):
+                let swiftyJsonVar = JSON(value)
                 bookmarks.removeAll()
-                 for (_, mark) in swiftyJsonVar["data"] { //TODO tags
-                    bookmarks.append(Bookmark(id: Int(mark["id"].string!)! , title: mark["title"].string ?? "TITLE" , url: mark["url"].string ?? "URL", tags: mark["tags"].arrayValue.map { $0.stringValue}) )
-                    print(bookmarks.count)
-                 }
-             case .failure(let error):
-                debugPrint("ERROR")
+                for (_, mark) in swiftyJsonVar["data"] {
+                    var newBookmark = Bookmark(id: Int(mark["id"].string!)! , title: mark["title"].string ?? "TITLE" , url: mark["url"].string ?? "URL", tags: mark["tags"].arrayValue.map { $0.stringValue}, folder_ids: mark["folders"].arrayValue.map { $0.intValue})
+                    bookmarks.append(newBookmark)
+                }
+            case .failure(let error):
                 print(error)
-             }
-           completion(bookmarks)
+            }
+            completion(bookmarks)
         }
-        debugPrint(response)
+    }
+    
+    func get_all_bookmarks_for_folder(folder: Folder, completion: @escaping ([Bookmark]?) -> Void) {
+        var bookmarks: [Bookmark] = []
+        let response = AF.request(urlFromSettings + "/index.php/apps/bookmarks/public/rest/v2/bookmark?page=-1&folder="+String(folder.id), headers: headers).responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                let swiftyJsonVar = JSON(value)
+                bookmarks.removeAll()
+                for (_, mark) in swiftyJsonVar["data"] {
+                    var newBookmark = Bookmark(id: Int(mark["id"].string!)! , title: mark["title"].string ?? "TITLE" , url: mark["url"].string ?? "URL", tags: mark["tags"].arrayValue.map { $0.stringValue}, folder_ids: mark["folders"].arrayValue.map { $0.intValue})
+                    bookmarks.append(newBookmark)
+                }
+            case .failure(let error):
+                print(error)
+            }
+            completion(bookmarks)
+        }
     }
     
     func delete(bookId: Int) {
         AF.request(urlFromSettings + "/index.php/apps/bookmarks/public/rest/v2/bookmark/" + String(bookId), method: .delete, headers: headers).responseJSON { response in
             switch response.result {
-             case .success(let value):
-                debugPrint(response)
-             case .failure(let error):
+            case .success(let value):
+                print (value)
+            case .failure(let error):
                 print(error)
-             }
+            }
         }
     }
     
@@ -68,21 +81,72 @@ struct CallNextcloud
         banner.autoDismiss = false
         banner.show()
         AF.request(urlFromSettings + "/index.php/apps/bookmarks/public/rest/v2/bookmark?page=0", headers: headers)
-        .validate(statusCode: 200..<300)
-        .responseJSON { response in
-            switch response.result {
-            case .success( _):
-                banner.dismiss()
-                let banner = NotificationBanner(title: "Success", subtitle: "Can connect to Nextcloud Bookmarks", style: .success)
-                self.sharedUserDefaults?.set(true, forKey: SharedUserDefaults.Keys.valid)
-                banner.show()
-                debugPrint(response)
-            case .failure( _):
-                debugPrint("ERROR")
-                debugPrint(response)
-                let banner = NotificationBanner(title: "Error", subtitle: "Cannot login to Nextcloud Bookmars", style: .danger)
-                self.sharedUserDefaults?.set(false, forKey: SharedUserDefaults.Keys.valid)
-                banner.show()             }
+            .validate(statusCode: 200..<300)
+            .responseJSON { response in
+                switch response.result {
+                case .success( _):
+                    banner.dismiss()
+                    let banner = NotificationBanner(title: "Success", subtitle: "Can connect to Nextcloud Bookmarks", style: .success)
+                    self.sharedUserDefaults?.set(true, forKey: SharedUserDefaults.Keys.valid)
+                    banner.show()
+                case .failure( _):
+                    debugPrint("ERROR")
+                    let banner = NotificationBanner(title: "Error", subtitle: "Cannot login to Nextcloud Bookmars", style: .danger)
+                    self.sharedUserDefaults?.set(false, forKey: SharedUserDefaults.Keys.valid)
+                    banner.show()
+                }
         }
+    }
+    
+    func getAllFolders() -> [Folder] {
+        debugPrint("get all Folders")
+        var fff = [Folder(id: -1, title: "/", parent_folder_id: -1, books: [])]
+        requestFolderHierarchy() { olders in
+            guard let olders = olders else {
+                return
+            }
+            fff =  self.makeFolders(json: olders)
+        }
+        debugPrint("RETURNIN")
+        debugPrint(fff)
+        return fff
+    }
+    
+    func requestFolderHierarchy(completionHandler: @escaping (JSON?) -> Void) {
+        var swiftyJsonVar = JSON("")
+        let response = AF.request(urlFromSettings + "/index.php/apps/bookmarks/public/rest/v2/folder", headers: headers).responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                debugPrint(response)
+                swiftyJsonVar = JSON(value)["data"]
+                print(swiftyJsonVar["data"])
+            case .failure(let error):
+                debugPrint("ERROR")
+                print(error)
+            }
+            completionHandler(swiftyJsonVar)
+        }
+        debugPrint(response)
+    }
+    
+    func makeFolders(json: JSON) -> [Folder] {
+        debugPrint("makeFolders")
+        debugPrint(json)
+        var folders = [Folder]()
+        for (_, folderJSON) in json {
+            debugPrint("adding folder")
+            debugPrint(folderJSON)
+            if (folderJSON["id"].exists()){
+                let newFolder = Folder(id: Int(folderJSON["id"].intValue) , title: folderJSON["title"].stringValue , parent_folder_id: Int(folderJSON["parent_folder"].intValue), books: [])
+                folders.append(newFolder)
+                if !(folderJSON["children"].isEmpty) {
+                    for (_, child) in folderJSON["children"] {
+                        let subfolder = makeFolders(json: child)
+                        if (subfolder.count > 0) {
+                            folders = folders + makeFolders(json: child)}
+                    }
+                }}
+        }
+        return folders
     }
 }
