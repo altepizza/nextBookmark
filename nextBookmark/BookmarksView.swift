@@ -19,7 +19,6 @@ struct BookmarksView: View {
     ]
     
     @State var folders: [Folder] = [
-        .init(id: -1, title: "/", parent_folder_id: -1),
     ]
     
     var body: some View {
@@ -28,7 +27,7 @@ struct BookmarksView: View {
                 List {
                     ForEach(folders) { folder in
                         FolderRow(folder: folder)
-                        ForEach(self.bookmarks) { book in
+                        ForEach(folder.books) { book in
                             BookmarkRow(book: book)
                         }
                         .onDelete(perform: self.delete)
@@ -38,28 +37,43 @@ struct BookmarksView: View {
             .pullToRefresh(isShowing: $isShowing) {
                 self.startUpCheck()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.folders = CallNextcloud().getAllFolders()
+                    //self.folders = CallNextcloud().getAllFolders()
                     debugPrint("IN UI AFTER FOLDERS")
                     debugPrint(self.folders)
-                    CallNextcloud().get_all_bookmarks() { bookmarks in
-                        if let bookmarks = bookmarks {
-                            self.bookmarks = bookmarks
-                            self.isShowing = false
-                        }
-                    }
                     CallNextcloud().requestFolderHierarchy() { jason in
                         if let jason = jason {
                             self.folders =  CallNextcloud().makeFolders(json: jason)
+                            self.folders.append(Folder(id: -1, title: "/", parent_folder_id: -1, books: []))
+                            for i in self.folders.indices {
+                                let fff = self.folders[i] as Folder
+                                CallNextcloud().get_all_bookmarks_for_folder(folder: fff) { bookmarks in
+                                    if let bookmarks = bookmarks {
+                                        self.folders[i].books = bookmarks
+                                        self.isShowing = false
+                                    }
+                                }
+                            }
                         }
                     }
+                    
                 }
             }.navigationBarTitle("Bookmarks", displayMode: .inline)
                 .navigationBarItems(trailing: NavigationLink(destination: SettingsView()) {
                     Text("Settings")})
         }.onAppear() {
-            CallNextcloud().get_all_bookmarks() { bookmarks in
-                if let bookmarks = bookmarks {
-                    self.bookmarks = bookmarks
+            CallNextcloud().requestFolderHierarchy() { jason in
+                if let jason = jason {
+                    self.folders =  CallNextcloud().makeFolders(json: jason)
+                    self.folders.append(Folder(id: -1, title: "/", parent_folder_id: -1, books: []))
+                    for i in self.folders.indices {
+                        let fff = self.folders[i] as Folder
+                        CallNextcloud().get_all_bookmarks_for_folder(folder: fff) { bookmarks in
+                            if let bookmarks = bookmarks {
+                                self.folders[i].books = bookmarks
+                                self.isShowing = false
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -88,6 +102,7 @@ struct BookmarkRow: View {
     let book: Bookmark
     var body: some View {
         VStack (alignment: .leading) {
+            //Text("DEBUG: BOOKMARK")
             Text(book.title).fontWeight(.bold)
             if tagsAvailable(for: book) {
                 Text((book.tags.joined(separator:", "))).font(.footnote).lineLimit(1)
@@ -105,7 +120,11 @@ struct BookmarkRow: View {
 struct FolderRow: View {
     let folder: Folder
     var body: some View {
-        Text(folder.title).fontWeight(.bold)
+        VStack(alignment: .leading){
+            //Text("DEBUG: FOLDER")
+            Image(systemName: "folder")
+            Text(folder.title).fontWeight(.bold)
+        }
     }
 }
 
