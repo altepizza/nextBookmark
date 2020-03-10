@@ -19,6 +19,7 @@ struct BookmarksView: View {
     ]
     
     @State var folders: [Folder] = [
+        .init(id: -20, title: "<Pull down to load your bookmarks>",  parent_folder_id: -10, books: [])
     ]
     
     var body: some View {
@@ -120,7 +121,7 @@ struct BookmarkRow: View {
 struct FolderRow: View {
     let folder: Folder
     var body: some View {
-        VStack(alignment: .leading){
+        HStack(){
             //Text("DEBUG: FOLDER")
             Image(systemName: "folder")
             Text(folder.title).fontWeight(.bold)
