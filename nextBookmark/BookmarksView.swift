@@ -14,10 +14,6 @@ import NotificationBannerSwift
 struct BookmarksView: View {
     @State private var isShowing = false
     
-    @State var bookmarks: [Bookmark] = [
-        .init(id: 0, title: "<Pull down to load your bookmarks>", url: "about:blank", tags: ["placeholder tag"], folder_ids: [-1]),
-    ]
-    
     @State var folders: [Folder] = [
         .init(id: -20, title: "<Pull down to load your bookmarks>",  parent_folder_id: -10, books: [])
     ]
@@ -31,16 +27,15 @@ struct BookmarksView: View {
                         ForEach(folder.books) { book in
                             BookmarkRow(book: book)
                         }
-                        .onDelete(perform: self.delete)
+                        .onDelete(perform: { row in
+                            self.delete(folder: folder, row: row)
+                        })
                     }
                 }
             }
             .pullToRefresh(isShowing: $isShowing) {
                 self.startUpCheck()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    //self.folders = CallNextcloud().getAllFolders()
-                    debugPrint("IN UI AFTER FOLDERS")
-                    debugPrint(self.folders)
                     CallNextcloud().requestFolderHierarchy() { jason in
                         if let jason = jason {
                             self.folders =  CallNextcloud().makeFolders(json: jason)
@@ -56,7 +51,6 @@ struct BookmarksView: View {
                             }
                         }
                     }
-                    
                 }
             }.navigationBarTitle("Bookmarks", displayMode: .inline)
                 .navigationBarItems(trailing: NavigationLink(destination: SettingsView()) {
@@ -82,7 +76,6 @@ struct BookmarksView: View {
     
     func startUpCheck() {
         let validConnection = sharedUserDefaults?.bool(forKey: SharedUserDefaults.Keys.valid)
-        debugPrint(validConnection)
         if !(validConnection ?? false) {
             let banner = NotificationBanner(title: "Missing Credentials", subtitle: "Please enter valid Nextcloud credentials in 'Settings'", style: .warning)
             banner.show()
@@ -90,11 +83,14 @@ struct BookmarksView: View {
     }
     
     
-    func delete(at offsets: IndexSet) {
-        for index in offsets {
-            let book = bookmarks[index]
-            CallNextcloud().delete(bookId: book.id)
-            bookmarks.remove(at: index)
+    func delete(folder: Folder, row: IndexSet) {
+        for index in row {
+            for i in self.folders.indices {
+                if folders[i].id == folder.id {
+                    CallNextcloud().delete(bookId: folders[i].books[index].id)
+                    folders[i].books.remove(at: index)
+                }
+            }
         }
     }
 }
@@ -103,7 +99,6 @@ struct BookmarkRow: View {
     let book: Bookmark
     var body: some View {
         VStack (alignment: .leading) {
-            //Text("DEBUG: BOOKMARK")
             Text(book.title).fontWeight(.bold)
             if tagsAvailable(for: book) {
                 Text((book.tags.joined(separator:", "))).font(.footnote).lineLimit(1)
@@ -122,7 +117,6 @@ struct FolderRow: View {
     let folder: Folder
     var body: some View {
         HStack(){
-            //Text("DEBUG: FOLDER")
             Image(systemName: "folder")
             Text(folder.title).fontWeight(.bold)
         }
