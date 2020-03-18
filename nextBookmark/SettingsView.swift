@@ -42,12 +42,13 @@ struct SettingsView: View {
                 Button(action: {
                     self.saveSettings()
                 }) {
-                    Text("Save Settings")
+                    Text("Save Settings").padding()
                 }
             }.padding(.horizontal, 15)
         }.navigationBarTitle("Settings", displayMode: .inline)
         .navigationBarItems(trailing: NavigationLink(destination: ThanksView()) {
                 Text("About")})
+        .navigationViewStyle(StackNavigationViewStyle())
     }
     
     func saveSettings() {

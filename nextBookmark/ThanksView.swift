@@ -75,13 +75,10 @@ struct ThanksView: View {
                     }) {
                         Text("SwiftyJSON")
                     }
-                }
-                
-                
-                
-                
+                }.padding()
             }
         }.navigationBarTitle("About", displayMode: .inline)
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

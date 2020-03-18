@@ -55,7 +55,8 @@ struct BookmarksView: View {
             }.navigationBarTitle("Bookmarks", displayMode: .inline)
                 .navigationBarItems(trailing: NavigationLink(destination: SettingsView()) {
                     Text("Settings")})
-        }.onAppear() {
+        }.navigationViewStyle(StackNavigationViewStyle())
+        .onAppear() {
             CallNextcloud().requestFolderHierarchy() { jason in
                 if let jason = jason {
                     self.folders =  CallNextcloud().makeFolders(json: jason)
