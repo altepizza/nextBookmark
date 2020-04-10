@@ -19,15 +19,9 @@ struct CallNextcloud
     let headers: HTTPHeaders
     
     init() {
-        debugPrint("init")
         usernameFromSettings = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.username) ?? "NO USER NAME"
-        debugPrint(usernameFromSettings)
-        
         passwordFromSettings = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.password) ?? "NO PASSWORD"
-        urlFromSettings = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.url) ?? "NO URLS"
-        debugPrint(passwordFromSettings)
-        debugPrint(urlFromSettings)
-        
+        urlFromSettings = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.url) ?? "NO URLS"        
         headers = [
             .authorization(username: usernameFromSettings, password: passwordFromSettings),
             .accept("application/json")
@@ -129,7 +123,6 @@ struct CallNextcloud
         let parameters: [String: String] = [
             "url": url
         ]
-        debugPrint(headers)
         var swiftyJsonVar = JSON("")
         let respons = AF.request(urlFromSettings + "/index.php/apps/bookmarks/public/rest/v2/bookmark", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             switch response.result {

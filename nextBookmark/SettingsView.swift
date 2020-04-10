@@ -35,7 +35,6 @@ extension Publishers {
     }
 }
 
-
 struct SettingsView: View {
     @State private var keyboardHeight: CGFloat = 0
     @State var server = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.url) ?? "https://you-nextcloud.instance"
@@ -49,16 +48,19 @@ struct SettingsView: View {
                     Text("Nextcloud URL")
                     TextField("server", text: $server)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .keyboardType(.URL)
                 }.padding(.all)
                 
                 VStack(alignment: .leading, spacing: 0.2 ) {
                 Text("Nextcloud Username")
+                    .font(.headline)
                 TextField("username", text: $username)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                 }.padding(.all)
                 
                 VStack(alignment: .leading, spacing: 0.2 ) {
                 Text("Nextcloud Password")
+                    .font(.headline)
                 SecureField("password", text: $password)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                 }.padding(.all)
@@ -71,7 +73,7 @@ struct SettingsView: View {
                 }
             }//.padding(.horizontal, 15)
             .padding()
-            .padding(.bottom, keyboardHeight)
+            .padding(.bottom, keyboardHeight).animation(.easeInOut(duration:0.5))
             .onReceive(Publishers.keyboardHeight) { self.keyboardHeight = $0 }
         }.navigationBarTitle("Settings", displayMode: .inline)
         .navigationBarItems(trailing: NavigationLink(destination: ThanksView()) {
