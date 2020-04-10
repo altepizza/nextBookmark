@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-platform :ios, '13.2'
+platform :ios, '13.3'
 
 target 'nextBookmark' do
   # Comment the next line if you don't want to use dynamic frameworks
@@ -9,7 +9,7 @@ target 'nextBookmark' do
   pod 'Alamofire'
   pod 'SwiftyJSON'
   pod 'SwiftUIRefresh'
-  pod 'NotificationBannerSwift', '~> 3.0.0'
+  pod 'NotificationBannerSwift'
 
   target 'nextBookmarkTests' do
     inherit! :search_paths

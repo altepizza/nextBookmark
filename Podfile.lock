@@ -1,18 +1,18 @@
 PODS:
-  - Alamofire (5.0.1)
-  - Introspect (0.0.6)
+  - Alamofire (5.1.0)
+  - Introspect (0.1.0)
   - MarqueeLabel (4.0.2)
   - NotificationBannerSwift (3.0.2):
     - MarqueeLabel (~> 4.0.0)
     - SnapKit (~> 5.0.0)
   - SnapKit (5.0.1)
-  - SwiftUIRefresh (0.0.2):
-    - Introspect (~> 0.0.6)
+  - SwiftUIRefresh (0.0.3):
+    - Introspect (~> 0.1.0)
   - SwiftyJSON (5.0.0)
 
 DEPENDENCIES:
   - Alamofire
-  - NotificationBannerSwift (~> 3.0.0)
+  - NotificationBannerSwift
   - SwiftUIRefresh
   - SwiftyJSON
 
@@ -27,14 +27,14 @@ SPEC REPOS:
     - SwiftyJSON
 
 SPEC CHECKSUMS:
-  Alamofire: 41c162d645ba6a78e7fd030fcdaf6aa394ca39a0
-  Introspect: 3575a13dbece038e564e4375eeac2117e64a0242
+  Alamofire: 9d5c5f602928e512395b30950c5984eca840093c
+  Introspect: ad32f2b7b9e7ac2c008b9dfec3d5325fbd3660fa
   MarqueeLabel: f762aa681ae201f66c1d511858b171f75d83013a
   NotificationBannerSwift: 713e20f21b6105f4a36a00e5d9fa414a930d3d8e
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
-  SwiftUIRefresh: 3daa095596b5a624ea67fd0174997026b339a5bc
+  SwiftUIRefresh: ca6ae2718d25aad5dd68bbf5d2ae36ef6ade98bf
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
 
-PODFILE CHECKSUM: c1733e8b63a1c45fb55f3f0bce3702c3dfe744a0
+PODFILE CHECKSUM: 269f2883341ac81c78ce5c39426c16172081871c
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.1

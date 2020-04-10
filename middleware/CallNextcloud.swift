@@ -9,7 +9,6 @@
 import Foundation
 import Alamofire
 import SwiftyJSON
-import NotificationBannerSwift
 
 struct CallNextcloud
 {
@@ -20,9 +19,15 @@ struct CallNextcloud
     let headers: HTTPHeaders
     
     init() {
+        debugPrint("init")
         usernameFromSettings = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.username) ?? "NO USER NAME"
+        debugPrint(usernameFromSettings)
+
         passwordFromSettings = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.password) ?? "NO PASSWORD"
         urlFromSettings = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.url) ?? "NO URLS"
+        debugPrint(passwordFromSettings)
+        debugPrint(urlFromSettings)
+
         headers = [
             .authorization(username: usernameFromSettings, password: passwordFromSettings),
             .accept("application/json")
@@ -76,30 +81,8 @@ struct CallNextcloud
         }
     }
     
-    func hello_world() {
-        let banner = NotificationBanner(title: "Testing connection", subtitle: "", style: .warning)
-        banner.autoDismiss = false
-        banner.show()
-        AF.request(urlFromSettings + "/index.php/apps/bookmarks/public/rest/v2/bookmark?page=0", headers: headers)
-            .validate(statusCode: 200..<300)
-            .responseJSON { response in
-                switch response.result {
-                case .success( _):
-                    banner.dismiss()
-                    let banner = NotificationBanner(title: "Success", subtitle: "Can connect to Nextcloud Bookmarks", style: .success)
-                    self.sharedUserDefaults?.set(true, forKey: SharedUserDefaults.Keys.valid)
-                    banner.show()
-                case .failure( _):
-                    debugPrint("ERROR")
-                    let banner = NotificationBanner(title: "Error", subtitle: "Cannot login to Nextcloud Bookmars", style: .danger)
-                    self.sharedUserDefaults?.set(false, forKey: SharedUserDefaults.Keys.valid)
-                    banner.show()
-                }
-        }
-    }
     
     func getAllFolders() -> [Folder] {
-        debugPrint("get all Folders")
         var fff = [Folder(id: -1, title: "/", parent_folder_id: -1, books: [])]
         requestFolderHierarchy() { olders in
             guard let olders = olders else {
@@ -107,8 +90,6 @@ struct CallNextcloud
             }
             fff =  self.makeFolders(json: olders)
         }
-        debugPrint("RETURNIN")
-        debugPrint(fff)
         return fff
     }
     
@@ -117,11 +98,9 @@ struct CallNextcloud
         let response = AF.request(urlFromSettings + "/index.php/apps/bookmarks/public/rest/v2/folder", headers: headers).responseJSON { response in
             switch response.result {
             case .success(let value):
-                debugPrint(response)
                 swiftyJsonVar = JSON(value)["data"]
                 print(swiftyJsonVar["data"])
             case .failure(let error):
-                debugPrint("ERROR")
                 print(error)
             }
             completionHandler(swiftyJsonVar)
@@ -130,12 +109,8 @@ struct CallNextcloud
     }
     
     func makeFolders(json: JSON) -> [Folder] {
-        debugPrint("makeFolders")
-        debugPrint(json)
         var folders = [Folder]()
         for (_, folderJSON) in json {
-            debugPrint("adding folder")
-            debugPrint(folderJSON)
             if (folderJSON["id"].exists()){
                 let newFolder = Folder(id: Int(folderJSON["id"].intValue) , title: folderJSON["title"].stringValue , parent_folder_id: Int(folderJSON["parent_folder"].intValue), books: [])
                 folders.append(newFolder)
@@ -148,5 +123,17 @@ struct CallNextcloud
                 }}
         }
         return folders
+    }
+    
+    func postURL(url: String) {
+        let parameters: [String: String] = [
+            "url": url
+        ]
+        debugPrint(headers)
+        var swiftyJsonVar = JSON("")
+        AF.request(urlFromSettings + "/index.php/apps/bookmarks/public/rest/v2/bookmark", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
+            debugPrint("insideAF")
+            debugPrint(response)
+        }
     }
 }
