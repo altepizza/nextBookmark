@@ -103,6 +103,8 @@ struct CallNextcloud
     }
     
     func makeFolders(json: JSON) -> [Folder] {
+        debugPrint("iTERATE")
+        debugPrint(json)
         var folders = [Folder]()
         for (_, folderJSON) in json {
             if (folderJSON["id"].exists()){
@@ -110,9 +112,9 @@ struct CallNextcloud
                 folders.append(newFolder)
                 if !(folderJSON["children"].isEmpty) {
                     for (_, child) in folderJSON["children"] {
-                        let subfolder = makeFolders(json: child)
+                        let subfolder = makeFolders(json: [child])
                         if (subfolder.count > 0) {
-                            folders = folders + makeFolders(json: child)}
+                            folders = folders + subfolder}
                     }
                 }}
         }

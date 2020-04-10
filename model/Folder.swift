@@ -13,4 +13,13 @@ struct Folder: Identifiable {
     let title: String
     let parent_folder_id: Int
     var books: [Bookmark]
+    var isExpanded: Bool = true
+    
+//    init(id: Int, title: String, parent_folder_id: Int, books: [Bookmark]){
+//        self.id = id
+//        self.title = title
+//        self.parent_folder_id = parent_folder_id
+//        self.books = books
+//        self.isExpanded = true
+//    }
 }

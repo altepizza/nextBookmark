@@ -21,7 +21,7 @@ struct BookmarksView: View {
     var body: some View {
         NavigationView{
             VStack{
-                SearchBar(text: $searchText, placeholder: "Search bookmarks")
+                SearchBar(text: $searchText, placeholder: "Filter bookmarks")
                 List {
                     ForEach(self.folders) { folder in
                         FolderRow(folder: folder)
@@ -33,6 +33,8 @@ struct BookmarksView: View {
                         .onDelete(perform: { row in
                             self.delete(folder: folder, row: row)
                         })
+                        
+                        
                     }
                 }
             }
@@ -78,6 +80,11 @@ struct BookmarksView: View {
         }
     }
     
+    func hideFolder(folderId: Int) {
+        var f = folders.first(where: {$0.id == folderId})
+        f?.isExpanded = false
+    }
+    
     func startUpCheck() {
         let validConnection = sharedUserDefaults?.bool(forKey: SharedUserDefaults.Keys.valid)
         if !(validConnection ?? false) {
@@ -115,8 +122,8 @@ struct BookmarkRow: View {
             Spacer()
             Divider()
             Button(action: {
-              guard let url = URL(string: self.book.url) else { return }
-              UIApplication.shared.open(url)
+                guard let url = URL(string: self.book.url) else { return }
+                UIApplication.shared.open(url)
             }) {
                 Image(systemName: "safari")
             }
@@ -126,11 +133,14 @@ struct BookmarkRow: View {
 }
 
 struct FolderRow: View {
-    let folder: Folder
+    var folder: Folder
     var body: some View {
         HStack(){
             Image(systemName: "folder")
             Text(folder.title).fontWeight(.bold)
+            //                .onTapGesture {
+            //                    self.folder.isExpanded = false
+            //            }
         }
     }
 }
@@ -151,27 +161,27 @@ struct BookmarksView_Previews: PreviewProvider {
 }
 
 struct SearchBar: UIViewRepresentable {
-
+    
     @Binding var text: String
     var placeholder: String
-
+    
     class Coordinator: NSObject, UISearchBarDelegate {
-
+        
         @Binding var text: String
-
+        
         init(text: Binding<String>) {
             _text = text
         }
-
+        
         func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
             text = searchText
         }
     }
-
+    
     func makeCoordinator() -> SearchBar.Coordinator {
         return Coordinator(text: $text)
     }
-
+    
     func makeUIView(context: UIViewRepresentableContext<SearchBar>) -> UISearchBar {
         let searchBar = UISearchBar(frame: .zero)
         searchBar.delegate = context.coordinator
@@ -180,7 +190,7 @@ struct SearchBar: UIViewRepresentable {
         searchBar.autocapitalizationType = .none
         return searchBar
     }
-
+    
     func updateUIView(_ uiView: UISearchBar, context: UIViewRepresentableContext<SearchBar>) {
         uiView.text = text
     }
