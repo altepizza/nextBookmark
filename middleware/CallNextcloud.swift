@@ -22,12 +22,12 @@ struct CallNextcloud
         debugPrint("init")
         usernameFromSettings = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.username) ?? "NO USER NAME"
         debugPrint(usernameFromSettings)
-
+        
         passwordFromSettings = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.password) ?? "NO PASSWORD"
         urlFromSettings = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.url) ?? "NO URLS"
         debugPrint(passwordFromSettings)
         debugPrint(urlFromSettings)
-
+        
         headers = [
             .authorization(username: usernameFromSettings, password: passwordFromSettings),
             .accept("application/json")
@@ -125,15 +125,21 @@ struct CallNextcloud
         return folders
     }
     
-    func postURL(url: String) {
+    func postURL(url: String, completionHandler: @escaping (JSON?) -> Void) {
         let parameters: [String: String] = [
             "url": url
         ]
         debugPrint(headers)
         var swiftyJsonVar = JSON("")
-        AF.request(urlFromSettings + "/index.php/apps/bookmarks/public/rest/v2/bookmark", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
-            debugPrint("insideAF")
-            debugPrint(response)
+        let respons = AF.request(urlFromSettings + "/index.php/apps/bookmarks/public/rest/v2/bookmark", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                swiftyJsonVar = JSON(value)["data"]
+                print(swiftyJsonVar["data"])
+            case .failure(let error):
+                print(error)
+            }
+            completionHandler(swiftyJsonVar)
         }
     }
 }

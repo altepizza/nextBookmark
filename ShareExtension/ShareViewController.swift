@@ -11,57 +11,76 @@ import Social
 import MobileCoreServices
 
 extension NSItemProvider {
-    var isText: Bool { return hasItemConformingToTypeIdentifier(String(kUTTypeText)) }
-    var isUrl: Bool { return hasItemConformingToTypeIdentifier(String(kUTTypeURL)) }
-    
-    func processText(completion: CompletionHandler?) {
-        loadItem(forTypeIdentifier: String(kUTTypeText), options: nil, completionHandler: completion)
+    var isText: Bool {
+        hasItemConformingToTypeIdentifier(kUTTypePlainText as String)
     }
     
-    func processUrl(completion: CompletionHandler?) {
-        loadItem(forTypeIdentifier: String(kUTTypeURL), options: nil, completionHandler: completion)
+    var isURL: Bool {
+        hasItemConformingToTypeIdentifier(kUTTypeURL as String)
+    }
+    
+    func getUrl(completion: @escaping (String) -> Void) {
+        loadItem(forTypeIdentifier: kUTTypeURL as String, options: nil) { (url, _) -> Void in
+            completion((url as? NSURL)!.absoluteString!)
+        }
+    }
+    
+    // swiftlint:disable force_cast
+    func getText(completion: @escaping (String) -> Void) {
+        loadItem(forTypeIdentifier: kUTTypePlainText as String, options: nil) { (text, _) -> Void in
+            completion(text as! String)
+        }
     }
 }
 
-class ShareViewController: SLComposeServiceViewController {
-    
-    override func isContentValid() -> Bool {
-        // Do validation of contentText and/or NSExtensionContext attachments here
-        return true
-    }
-    
-    override func configurationItems() -> [Any]! {
-        // To add configuration options via table cells at the bottom of the sheet, return an array of SLComposeSheetConfigurationItem here.
-        return []
-    }
+@objc(ShareViewController)
+class ShareViewController: UIViewController {
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let blurEffect = UIBlurEffect(style: .dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = self.view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.insertSubview(blurEffectView, at: 0)
+        
+        let spinner = UIActivityIndicatorView(style: .large)
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        spinner.startAnimating()
+        view.addSubview(spinner)
+        spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    }
+        
+    override func viewWillAppear(_: Bool) {
+        self.getUrl { shareURL in
+            guard let shareURL = shareURL else {
+                return
+            }
+            CallNextcloud().postURL(url: shareURL, completionHandler: { _ in
+                self.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
+            })
+        }
     }
     
-    override func didSelectPost() {
-                
-        let inputItems = (extensionContext?.inputItems as? [NSExtensionItem])!
-        for inputItem in inputItems {
-            guard let attachments = inputItem.attachments else { continue }
-            for attachment in attachments {
-                if attachment.isUrl {
-                    attachment.processUrl { obj, err in
-                        guard err == nil else {
-                            return
-                        }
-                        
-                        guard let url = obj as? URL else {
-                            return
-                        }
-                        CallNextcloud().postURL(url: url.absoluteString)
-                        self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
-                    }
-                }
-                
-                if attachment.isText {
+    private func getUrl(completion: @escaping (String?) -> Void) {
+        guard let item = extensionContext?.inputItems.first as? NSExtensionItem else {
+            completion(nil)
+            return
+        }
+        
+        item.attachments?.forEach { attachment in
+            if attachment.isURL {
+                attachment.getUrl { completion($0) }
+            }
+            if attachment.isText {
+                attachment.getText { text in
+                    if text.hasPrefix("http") {
+                        completion(text)
                     }
                 }
             }
-        extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+        }
     }
 }
