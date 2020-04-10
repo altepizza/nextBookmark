@@ -13,7 +13,7 @@ import NotificationBannerSwift
 
 struct BookmarksView: View {
     @State private var isShowing = false
-    
+    @State private var searchText : String = ""
     @State var folders: [Folder] = [
         .init(id: -20, title: "<Pull down to load your bookmarks>",  parent_folder_id: -10, books: [])
     ]
@@ -21,10 +21,13 @@ struct BookmarksView: View {
     var body: some View {
         NavigationView{
             VStack{
+                SearchBar(text: $searchText, placeholder: "Search bookmarks")
                 List {
-                    ForEach(folders) { folder in
+                    ForEach(self.folders) { folder in
                         FolderRow(folder: folder)
-                        ForEach(folder.books) { book in
+                        ForEach(folder.books.filter {
+                            self.searchText.isEmpty ? true : $0.title.lowercased().contains(self.searchText.lowercased()) || $0.url.lowercased().contains(self.searchText.lowercased())
+                        }) { book in
                             BookmarkRow(book: book)
                         }
                         .onDelete(perform: { row in
@@ -144,5 +147,41 @@ struct BookmarksView_Previews: PreviewProvider {
         BookmarksView(folders : [
             Folder.init(id: -20, title: "<Pull down to load your bookmarks>",  parent_folder_id: -10, books: [Bookmark.init(id: 1, title: "Title", url: "http://localhost", tags: ["tag", "tag"], folder_ids: [-20])])
         ])
+    }
+}
+
+struct SearchBar: UIViewRepresentable {
+
+    @Binding var text: String
+    var placeholder: String
+
+    class Coordinator: NSObject, UISearchBarDelegate {
+
+        @Binding var text: String
+
+        init(text: Binding<String>) {
+            _text = text
+        }
+
+        func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+            text = searchText
+        }
+    }
+
+    func makeCoordinator() -> SearchBar.Coordinator {
+        return Coordinator(text: $text)
+    }
+
+    func makeUIView(context: UIViewRepresentableContext<SearchBar>) -> UISearchBar {
+        let searchBar = UISearchBar(frame: .zero)
+        searchBar.delegate = context.coordinator
+        searchBar.placeholder = placeholder
+        searchBar.searchBarStyle = .minimal
+        searchBar.autocapitalizationType = .none
+        return searchBar
+    }
+
+    func updateUIView(_ uiView: UISearchBar, context: UIViewRepresentableContext<SearchBar>) {
+        uiView.text = text
     }
 }
