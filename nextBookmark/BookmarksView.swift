@@ -56,22 +56,22 @@ struct BookmarksView: View {
                 .navigationBarItems(trailing: NavigationLink(destination: SettingsView()) {
                     Text("Settings")})
         }.navigationViewStyle(StackNavigationViewStyle())
-        .onAppear() {
-            CallNextcloud().requestFolderHierarchy() { jason in
-                if let jason = jason {
-                    self.folders =  CallNextcloud().makeFolders(json: jason)
-                    self.folders.append(Folder(id: -1, title: "/", parent_folder_id: -1, books: []))
-                    for i in self.folders.indices {
-                        let fff = self.folders[i] as Folder
-                        CallNextcloud().get_all_bookmarks_for_folder(folder: fff) { bookmarks in
-                            if let bookmarks = bookmarks {
-                                self.folders[i].books = bookmarks
-                                self.isShowing = false
+            .onAppear() {
+                CallNextcloud().requestFolderHierarchy() { jason in
+                    if let jason = jason {
+                        self.folders =  CallNextcloud().makeFolders(json: jason)
+                        self.folders.append(Folder(id: -1, title: "/", parent_folder_id: -1, books: []))
+                        for i in self.folders.indices {
+                            let fff = self.folders[i] as Folder
+                            CallNextcloud().get_all_bookmarks_for_folder(folder: fff) { bookmarks in
+                                if let bookmarks = bookmarks {
+                                    self.folders[i].books = bookmarks
+                                    self.isShowing = false
+                                }
                             }
                         }
                     }
                 }
-            }
         }
     }
     
@@ -99,17 +99,25 @@ struct BookmarksView: View {
 struct BookmarkRow: View {
     let book: Bookmark
     var body: some View {
-        VStack (alignment: .leading) {
-            Text(book.title).fontWeight(.bold)
-            if tagsAvailable(for: book) {
-                Text((book.tags.joined(separator:", "))).font(.footnote).lineLimit(1)
+        HStack(){
+            VStack (alignment: .leading) {
+                Text(book.title).fontWeight(.bold)
+                if tagsAvailable(for: book) {
+                    Text((book.tags.joined(separator:", "))).font(.footnote).lineLimit(1)
+                }
+                Text(book.url).font(.footnote).lineLimit(1).foregroundColor(Color.gray)
+            }.onTapGesture {
+                debugPrint("TODO EDIT BOOKMARK")
             }
-            Text(book.url).font(.footnote).lineLimit(1).foregroundColor(Color.gray)
-        }
-        .onTapGesture {
-            debugPrint(self.book.url)
-            guard let url = URL(string: self.book.url) else { return }
-            UIApplication.shared.open(url)
+            Spacer()
+            Divider()
+            Button(action: {
+              guard let url = URL(string: self.book.url) else { return }
+              UIApplication.shared.open(url)
+            }) {
+                Image(systemName: "safari")
+            }
+            .padding(.leading)
         }
     }
 }
