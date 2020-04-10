@@ -9,11 +9,35 @@
 import SwiftUI
 import NotificationBannerSwift
 import Alamofire
+import Combine
 
 let sharedUserDefaults = UserDefaults(suiteName: SharedUserDefaults.suiteName)
 
+extension Notification {
+    var keyboardHeight: CGFloat {
+        return (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect)?.height ?? 0
+    }
+}
+
+extension Publishers {
+    // 1.
+    static var keyboardHeight: AnyPublisher<CGFloat, Never> {
+        // 2.
+        let willShow = NotificationCenter.default.publisher(for: UIApplication.keyboardWillShowNotification)
+            .map { $0.keyboardHeight }
+        
+        let willHide = NotificationCenter.default.publisher(for: UIApplication.keyboardWillHideNotification)
+            .map { _ in CGFloat(0) }
+        
+        // 3.
+        return MergeMany(willShow, willHide)
+            .eraseToAnyPublisher()
+    }
+}
+
+
 struct SettingsView: View {
-    
+    @State private var keyboardHeight: CGFloat = 0
     @State var server = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.url) ?? "https://you-nextcloud.instance"
     @State var username = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.username) ?? "Username"
     @State var password = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.password) ?? "Password"
@@ -45,7 +69,10 @@ struct SettingsView: View {
                 }) {
                     Text("Save Settings").padding()
                 }
-            }.padding(.horizontal, 15)
+            }//.padding(.horizontal, 15)
+            .padding()
+            .padding(.bottom, keyboardHeight)
+            .onReceive(Publishers.keyboardHeight) { self.keyboardHeight = $0 }
         }.navigationBarTitle("Settings", displayMode: .inline)
         .navigationBarItems(trailing: NavigationLink(destination: ThanksView()) {
                 Text("About")})
