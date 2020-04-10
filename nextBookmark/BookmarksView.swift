@@ -133,6 +133,8 @@ private func tagsAvailable(for book: Bookmark) -> Bool {
 
 struct BookmarksView_Previews: PreviewProvider {
     static var previews: some View {
-        BookmarksView()
+        BookmarksView(folders : [
+            Folder.init(id: -20, title: "<Pull down to load your bookmarks>",  parent_folder_id: -10, books: [Bookmark.init(id: 1, title: "Title", url: "http://localhost", tags: ["tag", "tag"], folder_ids: [-20])])
+        ])
     }
 }
