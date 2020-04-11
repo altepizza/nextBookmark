@@ -68,7 +68,7 @@ struct BookmarksView: View {
                             }
                         }
                     }
-
+                    
                     
                     ForEach(self.folders.filter {
                         $0.parent_folder_id == self.currentRoot.id && $0.id != self.currentRoot.id
@@ -96,12 +96,12 @@ struct BookmarksView: View {
             .pullToRefresh(isShowing: $isShowing) {
                 self.startUpCheck()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            CallNextcloud().get_all_bookmarks_for_folder(folder: self.currentRoot) { bookmarks in
-                                if let bookmarks = bookmarks {
-                                    self.currentRoot.books = bookmarks
-                                    self.isShowing = false
-                                }
-                            }
+                    CallNextcloud().get_all_bookmarks_for_folder(folder: self.currentRoot) { bookmarks in
+                        if let bookmarks = bookmarks {
+                            self.currentRoot.books = bookmarks
+                            self.isShowing = false
+                        }
+                    }
                 }
             }.navigationBarTitle("Bookmarks", displayMode: .inline)
                 .navigationBarItems(trailing: NavigationLink(destination: SettingsView()) {
