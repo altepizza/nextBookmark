@@ -69,7 +69,7 @@ struct SettingsView: View {
                 Button(action: {
                     self.saveSettings()
                 }) {
-                    Text("Save Settings").padding()
+                    Text("Save And Test Settings").padding()
                 }
             }//.padding(.horizontal, 15)
             .padding()
@@ -79,6 +79,7 @@ struct SettingsView: View {
         .navigationBarItems(trailing: NavigationLink(destination: ThanksView()) {
                 Text("About")})
         .navigationViewStyle(StackNavigationViewStyle())
+        
     }
     
     func saveSettings() {
@@ -89,7 +90,7 @@ struct SettingsView: View {
     }
     
     func hello_world() {
-        let banner = NotificationBanner(title: "Testing connection", subtitle: "", style: .warning)
+        var banner = NotificationBanner(title: "Testing connection", subtitle: "", style: .warning)
         banner.autoDismiss = false
         banner.show()
         var headers: HTTPHeaders
@@ -103,12 +104,17 @@ struct SettingsView: View {
             .responseJSON { response in
                 switch response.result {
                 case .success( _):
+                    debugPrint("AF worked")
                     banner.dismiss()
-                    let banner = NotificationBanner(title: "Success", subtitle: "Can connect to Nextcloud Bookmarks", style: .success)
+                    banner.autoDismiss = true
+                    banner = NotificationBanner(title: "Success", subtitle: "Can connect to Nextcloud Bookmarks", style: .success)
                     sharedUserDefaults?.set(true, forKey: SharedUserDefaults.Keys.valid)
                     banner.show()
                 case .failure( _):
-                    let banner = NotificationBanner(title: "Error", subtitle: "Cannot login to Nextcloud Bookmars", style: .danger)
+                    debugPrint("AF fail")
+                    banner.dismiss()
+                    banner.autoDismiss = true
+                    banner = NotificationBanner(title: "Error", subtitle: "Cannot login to Nextcloud Bookmars", style: .danger)
                     sharedUserDefaults?.set(false, forKey: SharedUserDefaults.Keys.valid)
                     banner.show()
                 }

@@ -108,7 +108,6 @@ struct BookmarksView: View {
                     Text("Settings")})
         }.navigationViewStyle(StackNavigationViewStyle())
             .onAppear() {
-                self.startUpCheck()
                 CallNextcloud().requestFolderHierarchy() { jason in
                     if let jason = jason {
                         self.folders =  CallNextcloud().makeFolders(json: jason)
@@ -126,14 +125,9 @@ struct BookmarksView: View {
         }
     }
     
-    func hideFolder(folderId: Int) {
-        var f = folders.first(where: {$0.id == folderId})
-        f?.isExpanded = false
-    }
-    
     func startUpCheck() {
-        let validConnection = sharedUserDefaults?.bool(forKey: SharedUserDefaults.Keys.valid)
-        if !(validConnection ?? false) {
+        let validConnection = sharedUserDefaults?.bool(forKey: SharedUserDefaults.Keys.valid) ?? false
+        if !validConnection {
             let banner = NotificationBanner(title: "Missing Credentials", subtitle: "Please enter valid Nextcloud credentials in 'Settings'", style: .warning)
             banner.show()
         }
