@@ -20,16 +20,13 @@ extension Notification {
 }
 
 extension Publishers {
-    // 1.
     static var keyboardHeight: AnyPublisher<CGFloat, Never> {
-        // 2.
         let willShow = NotificationCenter.default.publisher(for: UIApplication.keyboardWillShowNotification)
             .map { $0.keyboardHeight }
         
         let willHide = NotificationCenter.default.publisher(for: UIApplication.keyboardWillHideNotification)
             .map { _ in CGFloat(0) }
         
-        // 3.
         return MergeMany(willShow, willHide)
             .eraseToAnyPublisher()
     }
@@ -40,45 +37,57 @@ struct SettingsView: View {
     @State var server = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.url) ?? "https://you-nextcloud.instance"
     @State var username = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.username) ?? "Username"
     @State var password = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.password) ?? "Password"
-
+    
+    struct Setting: View {
+        let headline: String
+        let binding: Binding<String>
+        let key: String
+        let isSecret: Bool
+        let containsURL: Bool
+        
+        var body: some View {
+            VStack(alignment: .leading, spacing: 0.2) {
+                Text(headline)
+                    .font(.headline)
+                if isSecret {
+                    SecureField(key, text: binding)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                }
+                else {
+                    if containsURL {
+                        TextField(key, text: binding)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .keyboardType(.URL)
+                    }
+                    else {
+                        TextField(key, text: binding)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                    }
+                }
+            }.padding(.all)
+        }
+    }
+    
     var body: some View {
         NavigationView{
             VStack() {
-                VStack(alignment: .leading, spacing: 0.2 ) {
-                    Text("Nextcloud URL")
-                    TextField("server", text: $server)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .keyboardType(.URL)
-                }.padding(.all)
-                
-                VStack(alignment: .leading, spacing: 0.2 ) {
-                Text("Nextcloud Username")
-                    .font(.headline)
-                TextField("username", text: $username)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                }.padding(.all)
-                
-                VStack(alignment: .leading, spacing: 0.2 ) {
-                Text("Nextcloud Password")
-                    .font(.headline)
-                SecureField("password", text: $password)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                }.padding(.all)
-                
+                Setting(headline: "Nextcloud URL", binding: $server, key: "server", isSecret: false, containsURL: true)
+                Setting(headline: "Nextcloud Username", binding: $username, key: "username", isSecret: false, containsURL: false)
+                Setting(headline: "Nextcloud Password", binding: $password, key: "password", isSecret: true, containsURL: false)
                 Spacer()
                 Button(action: {
                     self.saveSettings()
                 }) {
                     Text("Save And Test Settings").padding()
                 }
-            }//.padding(.horizontal, 15)
+            }
             .padding()
             .padding(.bottom, keyboardHeight).animation(.easeInOut(duration:0.5))
             .onReceive(Publishers.keyboardHeight) { self.keyboardHeight = $0 }
         }.navigationBarTitle("Settings", displayMode: .inline)
-        .navigationBarItems(trailing: NavigationLink(destination: ThanksView()) {
+            .navigationBarItems(trailing: NavigationLink(destination: ThanksView()) {
                 Text("About")})
-        .navigationViewStyle(StackNavigationViewStyle())
+            .navigationViewStyle(StackNavigationViewStyle())
         
     }
     
@@ -93,31 +102,32 @@ struct SettingsView: View {
         var banner = NotificationBanner(title: "Testing connection", subtitle: "", style: .warning)
         banner.autoDismiss = false
         banner.show()
-        var headers: HTTPHeaders
-
-        headers = [
-            .authorization(username: username, password: password),
-            .accept("application/json")
-        ]
-        AF.request(server + "/index.php/apps/bookmarks/public/rest/v2/bookmark?page=0", headers: headers)
-            .validate(statusCode: 200..<300)
-            .responseJSON { response in
-                switch response.result {
-                case .success( _):
-                    debugPrint("AF worked")
-                    banner.dismiss()
-                    banner.autoDismiss = true
-                    banner = NotificationBanner(title: "Success", subtitle: "Can connect to Nextcloud Bookmarks", style: .success)
-                    sharedUserDefaults?.set(true, forKey: SharedUserDefaults.Keys.valid)
-                    banner.show()
-                case .failure( _):
-                    debugPrint("AF fail")
-                    banner.dismiss()
-                    banner.autoDismiss = true
-                    banner = NotificationBanner(title: "Error", subtitle: "Cannot login to Nextcloud Bookmarks", style: .danger)
-                    sharedUserDefaults?.set(false, forKey: SharedUserDefaults.Keys.valid)
-                    banner.show()
-                }
+        if NSURL(string: server) != nil {
+            var headers: HTTPHeaders
+            headers = [
+                .authorization(username: username, password: password),
+                .accept("application/json")
+            ]
+            AF.request(server + "/index.php/apps/bookmarks/public/rest/v2/bookmark?page=0", headers: headers)
+                .validate(statusCode: 200..<300)
+                .responseJSON { response in
+                    switch response.result {
+                    case .success( _):
+                        debugPrint("AF worked")
+                        banner.dismiss()
+                        banner.autoDismiss = true
+                        banner = NotificationBanner(title: "Success", subtitle: "Can connect to Nextcloud Bookmarks", style: .success)
+                        sharedUserDefaults?.set(true, forKey: SharedUserDefaults.Keys.valid)
+                        banner.show()
+                    case .failure( _):
+                        debugPrint("AF fail")
+                        banner.dismiss()
+                        banner.autoDismiss = true
+                        banner = NotificationBanner(title: "Error", subtitle: "Cannot login to Nextcloud Bookmarks", style: .danger)
+                        sharedUserDefaults?.set(false, forKey: SharedUserDefaults.Keys.valid)
+                        banner.show()
+                    }
+            }
         }
     }
 }
