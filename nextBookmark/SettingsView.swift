@@ -114,7 +114,7 @@ struct SettingsView: View {
                     debugPrint("AF fail")
                     banner.dismiss()
                     banner.autoDismiss = true
-                    banner = NotificationBanner(title: "Error", subtitle: "Cannot login to Nextcloud Bookmars", style: .danger)
+                    banner = NotificationBanner(title: "Error", subtitle: "Cannot login to Nextcloud Bookmarks", style: .danger)
                     sharedUserDefaults?.set(false, forKey: SharedUserDefaults.Keys.valid)
                     banner.show()
                 }
