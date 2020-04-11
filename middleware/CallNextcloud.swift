@@ -36,7 +36,7 @@ struct CallNextcloud
                 let swiftyJsonVar = JSON(value)
                 bookmarks.removeAll()
                 for (_, mark) in swiftyJsonVar["data"] {
-                    var newBookmark = Bookmark(id: Int(mark["id"].string!)! , title: mark["title"].string ?? "TITLE" , url: mark["url"].string ?? "URL", tags: mark["tags"].arrayValue.map { $0.stringValue}, folder_ids: mark["folders"].arrayValue.map { $0.intValue})
+                    var newBookmark = Bookmark(id: mark["id"].intValue, title: mark["title"].stringValue ?? "TITLE" , url: mark["url"].stringValue ?? "URL", tags: mark["tags"].arrayValue.map { $0.stringValue}, folder_ids: mark["folders"].arrayValue.map { $0.intValue})
                     bookmarks.append(newBookmark)
                 }
             case .failure(let error):
@@ -54,7 +54,7 @@ struct CallNextcloud
                 let swiftyJsonVar = JSON(value)
                 bookmarks.removeAll()
                 for (_, mark) in swiftyJsonVar["data"] {
-                    var newBookmark = Bookmark(id: Int(mark["id"].string!)! , title: mark["title"].string ?? "TITLE" , url: mark["url"].string ?? "URL", tags: mark["tags"].arrayValue.map { $0.stringValue}, folder_ids: mark["folders"].arrayValue.map { $0.intValue})
+                    var newBookmark = Bookmark(id: mark["id"].intValue , title: mark["title"].stringValue , url: mark["url"].stringValue, tags: mark["tags"].arrayValue.map { $0.stringValue}, folder_ids: mark["folders"].arrayValue.map { $0.intValue})
                     bookmarks.append(newBookmark)
                 }
             case .failure(let error):
