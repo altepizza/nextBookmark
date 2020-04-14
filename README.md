@@ -10,14 +10,13 @@ a very simple iOS client for the
     * Swipe it to the left --> Delete the bookmark
 
 ## Acknowledgements
-
-[Alamofire](https://github.com/Alamofire/Alamofire)
-[Nextcloud](https://nextcloud.com/)
-[Nextcloud Bookmarks](https://github.com/nextcloud/bookmarks)
-[NotificationBanner](https://github.com/Daltron/NotificationBanner)
-[SwiftUI-Refresh](https://github.com/siteline/SwiftUIRefresh)
-[SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON)
-
+* [Alamofire](https://github.com/Alamofire/Alamofire)
+* [Nextcloud](https://nextcloud.com/)
+* [Nextcloud Bookmarks](https://github.com/nextcloud/bookmarks)
+* [NotificationBanner](https://github.com/Daltron/NotificationBanner)
+* [SwiftUI-Refresh](https://github.com/siteline/SwiftUIRefresh)
+* [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON)
+* [Wallabag](https://github.com/wallabag/ios-app)
 
 ## Disclaimer
 This project is mostly a hobby to get familiar with Swift, SwfitUI and iOS development.
