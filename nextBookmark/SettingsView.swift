@@ -34,7 +34,7 @@ extension Publishers {
 
 struct SettingsView: View {
     @State private var keyboardHeight: CGFloat = 0
-    @State var server = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.url) ?? "https://you-nextcloud.instance"
+    @State var server = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.url) ?? "https://your-nextcloud.instance"
     @State var username = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.username) ?? "Username"
     @State var password = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.password) ?? "Password"
     
