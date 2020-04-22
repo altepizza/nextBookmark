@@ -113,16 +113,16 @@ struct BookmarksView: View {
                 }
             }.navigationBarTitle("Bookmarks", displayMode: .inline)
                 .navigationBarItems(
-                    trailing: NavigationLink(destination: SettingsView()) {
+                    trailing: NavigationLink(destination: SettingsView(vm: self.vm)) {
                         Text("Settings")} )
             
         }.navigationViewStyle(StackNavigationViewStyle())
             .onAppear() {
-                //self.startUpCheck()
-                self.vm.isShowing = true
-                CallNextcloud(data: self.vm).requestFolderHierarchy()
-                //CallNextcloud(data: self.vm).get_all_bookmarks_for_folder(folder: self.vm.currentRoot)
-                CallNextcloud(data: self.vm).get_all_bookmarks()
+                if sharedUserDefaults?.bool(forKey: SharedUserDefaults.Keys.valid) ?? false {
+                    self.vm.isShowing = true
+                    CallNextcloud(data: self.vm).requestFolderHierarchy()
+                    CallNextcloud(data: self.vm).get_all_bookmarks()
+                }
             }}
     }
     

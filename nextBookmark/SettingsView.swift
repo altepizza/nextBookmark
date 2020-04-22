@@ -37,6 +37,7 @@ struct SettingsView: View {
     @State var server = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.url) ?? "https://your-nextcloud.instance"
     @State var username = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.username) ?? "Username"
     @State var password = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.password) ?? "Password"
+    @ObservedObject var vm: Model
     
     struct Setting: View {
         let headline: String
@@ -92,9 +93,6 @@ struct SettingsView: View {
     }
     
     func saveSettings() {
-        sharedUserDefaults?.set(server, forKey: SharedUserDefaults.Keys.url)
-        sharedUserDefaults?.set(username, forKey: SharedUserDefaults.Keys.username)
-        sharedUserDefaults?.set(password, forKey: SharedUserDefaults.Keys.password)
         hello_world()
     }
     
@@ -116,9 +114,14 @@ struct SettingsView: View {
                         debugPrint("AF worked")
                         banner.dismiss()
                         banner.autoDismiss = true
-                        banner = NotificationBanner(title: "Success", subtitle: "Can connect to Nextcloud Bookmarks", style: .success)
+                        banner = NotificationBanner(title: "Connection successful", subtitle: "Credentials saved", style: .success)
                         sharedUserDefaults?.set(true, forKey: SharedUserDefaults.Keys.valid)
+                        sharedUserDefaults?.set(self.server, forKey: SharedUserDefaults.Keys.url)
+                        sharedUserDefaults?.set(self.username, forKey: SharedUserDefaults.Keys.username)
+                        sharedUserDefaults?.set(self.password, forKey: SharedUserDefaults.Keys.password)
                         banner.show()
+                        CallNextcloud(data: self.vm).requestFolderHierarchy()
+                        CallNextcloud(data: self.vm).get_all_bookmarks()
                     case .failure( _):
                         debugPrint("AF fail")
                         banner.dismiss()
@@ -134,6 +137,6 @@ struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(server: "defaultURL", username: "defaultUser", password: "defaultPassword")
+        SettingsView(server: "defaultURL", username: "defaultUser", password: "defaultPassword", vm: Model())
     }
 }
