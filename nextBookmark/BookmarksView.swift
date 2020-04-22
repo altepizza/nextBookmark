@@ -71,43 +71,45 @@ struct BookmarksView: View {
     private let defaultFolder: Folder = .init(id: -20, title: "<Pull down to load your bookmarks>",  parent_folder_id: -10, books: [])
     
     var body: some View {
+        LoadingView(isShowing: $vm.isShowing) {
         NavigationView{
             VStack{
-                SearchBar(text: $searchText, placeholder: "Filter bookmarks")
                 
-                OpenFolderRow(folder: vm.currentRoot)
+                SearchBar(text: self.$searchText, placeholder: "Filter bookmarks")
+                
+                OpenFolderRow(folder: self.vm.currentRoot)
                 
                 // Subfolders
                 List {
-                    if vm.currentRoot.id > -1 {
+                    if self.vm.currentRoot.id > -1 {
                         BackFolderRow().onTapGesture {
                             self.vm.currentRoot = self.vm.folders.first(where: {$0.id == self.vm.currentRoot.parent_folder_id})!
-                            CallNextcloud(data: self.vm).get_all_bookmarks_for_folder(folder: self.vm.currentRoot)
+                            //CallNextcloud(data: self.vm).get_all_bookmarks_for_folder(folder: self.vm.currentRoot)
                         }
                     }
                     
                     ForEach(self.vm.folders.filter {
-                        $0.parent_folder_id == vm.currentRoot.id && $0.id != vm.currentRoot.id
+                        $0.parent_folder_id == self.vm.currentRoot.id && $0.id != self.vm.currentRoot.id
                     }) { folder in
                         FolderRow(folder: folder).onTapGesture {
                             self.vm.currentRoot = folder
-                            CallNextcloud(data: self.vm).get_all_bookmarks_for_folder(folder: self.vm.currentRoot)
+                            //CallNextcloud(data: self.vm).get_all_bookmarks_for_folder(folder: self.vm.currentRoot)
                         }}
-                    ForEach(vm.currentRoot.books.filter {
-                        self.searchText.isEmpty ? true : $0.title.lowercased().contains(self.searchText.lowercased()) || $0.url.lowercased().contains(self.searchText.lowercased())
+                    ForEach(self.vm.bookmarks.filter {
+                        self.searchText.isEmpty ? $0.folder_ids.contains(self.vm.currentRoot.id) : ($0.title.lowercased().contains(self.searchText.lowercased()) || $0.url.lowercased().contains(self.searchText.lowercased())) && $0.folder_ids.contains(self.vm.currentRoot.id)
                     }) { book in
                         BookmarkRow(book: book)
                     }
                     .onDelete(perform: { row in
                         self.delete(folder: self.vm.currentRoot, row: row)
                     })
-                    
                 }
             }
-            .pullToRefresh(isShowing: $vm.isShowing) {
+            .pullToRefresh(isShowing: self.$vm.isShowing) {
                 self.startUpCheck()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    CallNextcloud(data: self.vm).get_all_bookmarks_for_folder(folder: self.vm.currentRoot)
+                    //CallNextcloud(data: self.vm).get_all_bookmarks_for_folder(folder: self.vm.currentRoot)
+                    CallNextcloud(data: self.vm).get_all_bookmarks()
                 }
             }.navigationBarTitle("Bookmarks", displayMode: .inline)
                 .navigationBarItems(
@@ -116,9 +118,12 @@ struct BookmarksView: View {
             
         }.navigationViewStyle(StackNavigationViewStyle())
             .onAppear() {
+                //self.startUpCheck()
+                self.vm.isShowing = true
                 CallNextcloud(data: self.vm).requestFolderHierarchy()
-                CallNextcloud(data: self.vm).get_all_bookmarks_for_folder(folder: self.vm.currentRoot)
-        }
+                //CallNextcloud(data: self.vm).get_all_bookmarks_for_folder(folder: self.vm.currentRoot)
+                CallNextcloud(data: self.vm).get_all_bookmarks()
+            }}
     }
     
     func startUpCheck() {
@@ -198,4 +203,49 @@ struct SearchBar: UIViewRepresentable {
     func updateUIView(_ uiView: UISearchBar, context: UIViewRepresentableContext<SearchBar>) {
         uiView.text = text
     }
+}
+
+
+struct ActivityIndicator: UIViewRepresentable {
+
+    @Binding var isAnimating: Bool
+    let style: UIActivityIndicatorView.Style
+
+    func makeUIView(context: UIViewRepresentableContext<ActivityIndicator>) -> UIActivityIndicatorView {
+        return UIActivityIndicatorView(style: style)
+    }
+
+    func updateUIView(_ uiView: UIActivityIndicatorView, context: UIViewRepresentableContext<ActivityIndicator>) {
+        isAnimating ? uiView.startAnimating() : uiView.stopAnimating()
+    }
+}
+
+struct LoadingView<Content>: View where Content: View {
+
+    @Binding var isShowing: Bool
+    var content: () -> Content
+
+    var body: some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .center) {
+
+                self.content()
+                    .disabled(self.isShowing)
+                    .blur(radius: self.isShowing ? 3 : 0)
+
+                VStack {
+                    Text("Loading...")
+                    ActivityIndicator(isAnimating: .constant(true), style: .large)
+                }
+                .frame(width: geometry.size.width / 2,
+                       height: geometry.size.height / 5)
+                .background(Color.secondary.colorInvert())
+                .foregroundColor(Color.primary)
+                .cornerRadius(20)
+                .opacity(self.isShowing ? 1 : 0)
+
+            }
+        }
+    }
+
 }

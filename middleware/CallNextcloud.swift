@@ -30,10 +30,10 @@ struct CallNextcloud
         ]
         vm = data
     }
-    
-    func get_all_bookmarks_for_folder(folder: Folder) {
+        
+    func get_all_bookmarks() {
         var bookmarks: [Bookmark] = []
-        let response = AF.request(urlFromSettings + "/index.php/apps/bookmarks/public/rest/v2/bookmark?page=-1&folder="+String(folder.id), headers: headers).responseJSON { response in
+        let response = AF.request(urlFromSettings + "/index.php/apps/bookmarks/public/rest/v2/bookmark?page=-1", headers: headers).responseJSON { response in
             switch response.result {
             case .success(let value):
                 let swiftyJsonVar = JSON(value)
@@ -45,8 +45,8 @@ struct CallNextcloud
             case .failure(let error):
                 print(error)
             }
-            self.vm.currentRoot.books = bookmarks
             self.vm.isShowing = false
+            self.vm.bookmarks = bookmarks
         }
     }
     
