@@ -11,42 +11,41 @@ import SwiftyJSON
 import SwiftUIRefresh
 import NotificationBannerSwift
 
+struct OpenFolderRow: View {
+    var folder: Folder
+    var body: some View {
+        HStack(){
+            Image(systemName: "folder")
+            Text(folder.title).fontWeight(.bold)
+        }
+    }
+}
+
+struct FolderRow: View {
+    var folder: Folder
+    var body: some View {
+        HStack(){
+            Image(systemName: "folder.fill")
+            Text(folder.title).fontWeight(.bold)
+        }
+    }
+}
+
+struct BackFolderRow: View {
+    var body: some View {
+        HStack(){
+            Image(systemName: "arrowshape.turn.up.left")
+        }
+    }
+}
+
 struct BookmarksView: View {
-    //@State private var currentFolder = -1
     @State private var isShowing = false
     @State private var searchText : String = ""
     private let defaultFolder: Folder = .init(id: -20, title: "<Pull down to load your bookmarks>",  parent_folder_id: -10, books: [])
     @State var folders: [Folder] = [.init(id: -20, title: "<Pull down to load your bookmarks>",  parent_folder_id: -10, books: [])]
-    
     @State var currentRoot : Folder = Folder(id: -1, title: "/", parent_folder_id: -1, books: [])
-    
-    struct OpenFolderRow: View {
-        var folder: Folder
-        var body: some View {
-            HStack(){
-                Image(systemName: "folder")
-                Text(folder.title).fontWeight(.bold)
-            }
-        }
-    }
-    
-    struct FolderRow: View {
-        var folder: Folder
-        var body: some View {
-            HStack(){
-                Image(systemName: "folder.fill")
-                Text(folder.title).fontWeight(.bold)
-            }
-        }
-    }
-    
-    struct BackFolderRow: View {
-        var body: some View {
-            HStack(){
-                Image(systemName: "arrowshape.turn.up.left")
-            }
-        }
-    }
+    @State private var showPopover: Bool = false
     
     var body: some View {
         NavigationView{
@@ -104,8 +103,18 @@ struct BookmarksView: View {
                     }
                 }
             }.navigationBarTitle("Bookmarks", displayMode: .inline)
-                .navigationBarItems(trailing: NavigationLink(destination: SettingsView()) {
-                    Text("Settings")})
+                .navigationBarItems(
+//                    leading: Button(action: {
+//                        self.showPopover = true
+//                    }) {
+//                        Image(systemName: "plus")
+//                    }.popover(
+//                        isPresented: self.$showPopover,
+//                        arrowEdge: .leading
+//                    ) {HStack{ Text("Popover") }.frame(width: 500, height: 500) },
+                    trailing: NavigationLink(destination: SettingsView()) {
+                        Text("Settings")} )
+            
         }.navigationViewStyle(StackNavigationViewStyle())
             .onAppear() {
                 CallNextcloud().requestFolderHierarchy() { jason in
@@ -118,7 +127,6 @@ struct BookmarksView: View {
                                 self.currentRoot.books = bookmarks
                                 self.isShowing = false
                             }
-                            
                         }
                     }
                 }
@@ -132,7 +140,6 @@ struct BookmarksView: View {
             banner.show()
         }
     }
-    
     
     func delete(folder: Folder, row: IndexSet) {
         for index in row {
