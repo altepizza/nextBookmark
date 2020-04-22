@@ -69,7 +69,7 @@ struct BookmarksView: View {
     @ObservedObject var vm: Model = Model()
     @State private var searchText : String = ""
     private let defaultFolder: Folder = .init(id: -20, title: "<Pull down to load your bookmarks>",  parent_folder_id: -10, books: [])
-
+    
     var body: some View {
         NavigationView{
             VStack{
@@ -85,7 +85,6 @@ struct BookmarksView: View {
                             CallNextcloud(data: self.vm).get_all_bookmarks_for_folder(folder: self.vm.currentRoot)
                         }
                     }
-                    
                     
                     ForEach(self.vm.folders.filter {
                         $0.parent_folder_id == vm.currentRoot.id && $0.id != vm.currentRoot.id
@@ -118,7 +117,7 @@ struct BookmarksView: View {
         }.navigationViewStyle(StackNavigationViewStyle())
             .onAppear() {
                 CallNextcloud(data: self.vm).requestFolderHierarchy()
-                    CallNextcloud(data: self.vm).get_all_bookmarks_for_folder(folder: self.vm.currentRoot)
+                CallNextcloud(data: self.vm).get_all_bookmarks_for_folder(folder: self.vm.currentRoot)
         }
     }
     
