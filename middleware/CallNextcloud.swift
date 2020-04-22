@@ -9,6 +9,7 @@
 import Foundation
 import Alamofire
 import SwiftyJSON
+import SwiftUI
 
 struct CallNextcloud
 {
@@ -17,8 +18,9 @@ struct CallNextcloud
     let passwordFromSettings: String
     let urlFromSettings: String
     let headers: HTTPHeaders
+    @ObservedObject var vm: Model
     
-    init() {
+    init(data: Model) {
         usernameFromSettings = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.username) ?? "NO USER NAME"
         passwordFromSettings = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.password) ?? "NO PASSWORD"
         urlFromSettings = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.url) ?? "NO URLS"        
@@ -26,27 +28,10 @@ struct CallNextcloud
             .authorization(username: usernameFromSettings, password: passwordFromSettings),
             .accept("application/json")
         ]
+        vm = data
     }
     
-    func get_all_bookmarks(completion: @escaping ([Bookmark]?) -> Void) {
-        var bookmarks: [Bookmark] = []
-        let response = AF.request(urlFromSettings + "/index.php/apps/bookmarks/public/rest/v2/bookmark?page=-1", headers: headers).responseJSON { response in
-            switch response.result {
-            case .success(let value):
-                let swiftyJsonVar = JSON(value)
-                bookmarks.removeAll()
-                for (_, mark) in swiftyJsonVar["data"] {
-                    var newBookmark = Bookmark(id: mark["id"].intValue, title: mark["title"].stringValue ?? "TITLE" , url: mark["url"].stringValue ?? "URL", tags: mark["tags"].arrayValue.map { $0.stringValue}, folder_ids: mark["folders"].arrayValue.map { $0.intValue})
-                    bookmarks.append(newBookmark)
-                }
-            case .failure(let error):
-                print(error)
-            }
-            completion(bookmarks)
-        }
-    }
-    
-    func get_all_bookmarks_for_folder(folder: Folder, completion: @escaping ([Bookmark]?) -> Void) {
+    func get_all_bookmarks_for_folder(folder: Folder) {
         var bookmarks: [Bookmark] = []
         let response = AF.request(urlFromSettings + "/index.php/apps/bookmarks/public/rest/v2/bookmark?page=-1&folder="+String(folder.id), headers: headers).responseJSON { response in
             switch response.result {
@@ -60,7 +45,8 @@ struct CallNextcloud
             case .failure(let error):
                 print(error)
             }
-            completion(bookmarks)
+            self.vm.currentRoot.books = bookmarks
+            self.vm.isShowing = false
         }
     }
     
@@ -75,19 +61,7 @@ struct CallNextcloud
         }
     }
     
-    
-    func getAllFolders() -> [Folder] {
-        var fff = [Folder(id: -1, title: "/", parent_folder_id: -1, books: [])]
-        requestFolderHierarchy() { olders in
-            guard let olders = olders else {
-                return
-            }
-            fff =  self.makeFolders(json: olders)
-        }
-        return fff
-    }
-    
-    func requestFolderHierarchy(completionHandler: @escaping (JSON?) -> Void) {
+    func requestFolderHierarchy() {
         var swiftyJsonVar = JSON("")
         let response = AF.request(urlFromSettings + "/index.php/apps/bookmarks/public/rest/v2/folder", headers: headers).responseJSON { response in
             switch response.result {
@@ -97,7 +71,9 @@ struct CallNextcloud
             case .failure(let error):
                 print(error)
             }
-            completionHandler(swiftyJsonVar)
+            self.vm.folders =  self.makeFolders(json: swiftyJsonVar)
+            self.vm.folders.append(Folder(id: -1, title: "/", parent_folder_id: -1, books: []))
+            self.vm.currentRoot = Folder(id: -1, title: "/", parent_folder_id: -1, books: [])
         }
         debugPrint(response)
     }

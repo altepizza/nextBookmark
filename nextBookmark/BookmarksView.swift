@@ -39,116 +39,6 @@ struct BackFolderRow: View {
     }
 }
 
-struct BookmarksView: View {
-    @State private var isShowing = false
-    @State private var searchText : String = ""
-    private let defaultFolder: Folder = .init(id: -20, title: "<Pull down to load your bookmarks>",  parent_folder_id: -10, books: [])
-    @State var folders: [Folder] = [.init(id: -20, title: "<Pull down to load your bookmarks>",  parent_folder_id: -10, books: [])]
-    @State var currentRoot : Folder = Folder(id: -1, title: "/", parent_folder_id: -1, books: [])
-    @State private var showPopover: Bool = false
-    
-    var body: some View {
-        NavigationView{
-            VStack{
-                SearchBar(text: $searchText, placeholder: "Filter bookmarks")
-                OpenFolderRow(folder: self.currentRoot)
-                
-                List {
-                    if self.currentRoot.id > -1 {
-                        BackFolderRow().onTapGesture {
-                            
-                            self.currentRoot = self.folders.first(where: {$0.id == self.currentRoot.parent_folder_id})!
-                            
-                            CallNextcloud().get_all_bookmarks_for_folder(folder: self.currentRoot) { bookmarks in
-                                if let bookmarks = bookmarks {
-                                    self.currentRoot.books = bookmarks
-                                    self.isShowing = false
-                                }
-                            }
-                        }
-                    }
-                    
-                    
-                    ForEach(self.folders.filter {
-                        $0.parent_folder_id == self.currentRoot.id && $0.id != self.currentRoot.id
-                    }) { folder in
-                        FolderRow(folder: folder).onTapGesture {
-                            self.currentRoot = folder
-                            CallNextcloud().get_all_bookmarks_for_folder(folder: self.currentRoot) { bookmarks in
-                                if let bookmarks = bookmarks {
-                                    self.currentRoot.books = bookmarks
-                                    self.isShowing = false
-                                }
-                            }
-                        }}
-                    ForEach(currentRoot.books.filter {
-                        self.searchText.isEmpty ? true : $0.title.lowercased().contains(self.searchText.lowercased()) || $0.url.lowercased().contains(self.searchText.lowercased())
-                    }) { book in
-                        BookmarkRow(book: book)
-                    }
-                    .onDelete(perform: { row in
-                        self.delete(folder: self.currentRoot, row: row)
-                    })
-                    
-                }
-            }
-            .pullToRefresh(isShowing: $isShowing) {
-                self.startUpCheck()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    CallNextcloud().get_all_bookmarks_for_folder(folder: self.currentRoot) { bookmarks in
-                        if let bookmarks = bookmarks {
-                            self.currentRoot.books = bookmarks
-                            self.isShowing = false
-                        }
-                    }
-                }
-            }.navigationBarTitle("Bookmarks", displayMode: .inline)
-                .navigationBarItems(
-//                    leading: Button(action: {
-//                        self.showPopover = true
-//                    }) {
-//                        Image(systemName: "plus")
-//                    }.popover(
-//                        isPresented: self.$showPopover,
-//                        arrowEdge: .leading
-//                    ) {HStack{ Text("Popover") }.frame(width: 500, height: 500) },
-                    trailing: NavigationLink(destination: SettingsView()) {
-                        Text("Settings")} )
-            
-        }.navigationViewStyle(StackNavigationViewStyle())
-            .onAppear() {
-                CallNextcloud().requestFolderHierarchy() { jason in
-                    if let jason = jason {
-                        self.folders =  CallNextcloud().makeFolders(json: jason)
-                        self.folders.append(Folder(id: -1, title: "/", parent_folder_id: -1, books: []))
-                        self.currentRoot = Folder(id: -1, title: "/", parent_folder_id: -1, books: [])
-                        CallNextcloud().get_all_bookmarks_for_folder(folder: self.currentRoot) { bookmarks in
-                            if let bookmarks = bookmarks {
-                                self.currentRoot.books = bookmarks
-                                self.isShowing = false
-                            }
-                        }
-                    }
-                }
-        }
-    }
-    
-    func startUpCheck() {
-        let validConnection = sharedUserDefaults?.bool(forKey: SharedUserDefaults.Keys.valid) ?? false
-        if !validConnection {
-            let banner = NotificationBanner(title: "Missing Credentials", subtitle: "Please enter valid Nextcloud credentials in 'Settings'", style: .warning)
-            banner.show()
-        }
-    }
-    
-    func delete(folder: Folder, row: IndexSet) {
-        for index in row {
-            CallNextcloud().delete(bookId: folder.books[index].id)
-            self.currentRoot.books.remove(at: index)
-        }
-    }
-}
-
 struct BookmarkRow: View {
     let book: Bookmark
     var body: some View {
@@ -175,7 +65,78 @@ struct BookmarkRow: View {
     }
 }
 
+struct BookmarksView: View {
+    @ObservedObject var vm: Model = Model()
+    @State private var searchText : String = ""
+    private let defaultFolder: Folder = .init(id: -20, title: "<Pull down to load your bookmarks>",  parent_folder_id: -10, books: [])
 
+    var body: some View {
+        NavigationView{
+            VStack{
+                SearchBar(text: $searchText, placeholder: "Filter bookmarks")
+                
+                OpenFolderRow(folder: vm.currentRoot)
+                
+                // Subfolders
+                List {
+                    if vm.currentRoot.id > -1 {
+                        BackFolderRow().onTapGesture {
+                            self.vm.currentRoot = self.vm.folders.first(where: {$0.id == self.vm.currentRoot.parent_folder_id})!
+                            CallNextcloud(data: self.vm).get_all_bookmarks_for_folder(folder: self.vm.currentRoot)
+                        }
+                    }
+                    
+                    
+                    ForEach(self.vm.folders.filter {
+                        $0.parent_folder_id == vm.currentRoot.id && $0.id != vm.currentRoot.id
+                    }) { folder in
+                        FolderRow(folder: folder).onTapGesture {
+                            self.vm.currentRoot = folder
+                            CallNextcloud(data: self.vm).get_all_bookmarks_for_folder(folder: self.vm.currentRoot)
+                        }}
+                    ForEach(vm.currentRoot.books.filter {
+                        self.searchText.isEmpty ? true : $0.title.lowercased().contains(self.searchText.lowercased()) || $0.url.lowercased().contains(self.searchText.lowercased())
+                    }) { book in
+                        BookmarkRow(book: book)
+                    }
+                    .onDelete(perform: { row in
+                        self.delete(folder: self.vm.currentRoot, row: row)
+                    })
+                    
+                }
+            }
+            .pullToRefresh(isShowing: $vm.isShowing) {
+                self.startUpCheck()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    CallNextcloud(data: self.vm).get_all_bookmarks_for_folder(folder: self.vm.currentRoot)
+                }
+            }.navigationBarTitle("Bookmarks", displayMode: .inline)
+                .navigationBarItems(
+                    trailing: NavigationLink(destination: SettingsView()) {
+                        Text("Settings")} )
+            
+        }.navigationViewStyle(StackNavigationViewStyle())
+            .onAppear() {
+                CallNextcloud(data: self.vm).requestFolderHierarchy()
+                    CallNextcloud(data: self.vm).get_all_bookmarks_for_folder(folder: self.vm.currentRoot)
+        }
+    }
+    
+    func startUpCheck() {
+        let validConnection = sharedUserDefaults?.bool(forKey: SharedUserDefaults.Keys.valid) ?? false
+        if !validConnection {
+            let banner = NotificationBanner(title: "Missing Credentials", subtitle: "Please enter valid Nextcloud credentials in 'Settings'", style: .warning)
+            banner.show()
+        }
+    }
+    
+    func delete(folder: Folder, row: IndexSet) {
+        for index in row {
+            CallNextcloud(data: self.vm).delete(bookId: folder.books[index].id)
+            vm.currentRoot.books.remove(at: index)
+        }
+    }
+}
 
 private func tagsAvailable(for book: Bookmark) -> Bool {
     if (book.tags.isEmpty) {
@@ -186,9 +147,7 @@ private func tagsAvailable(for book: Bookmark) -> Bool {
 
 struct BookmarksView_Previews: PreviewProvider {
     static var previews: some View {
-        BookmarksView(folders : [
-            Folder.init(id: -20, title: "<Pull down to load your bookmarks>",  parent_folder_id: -10, books: [Bookmark.init(id: 1, title: "Title", url: "http://localhost", tags: ["tag", "tag"], folder_ids: [-20])])
-        ])
+        BookmarksView()
     }
 }
 

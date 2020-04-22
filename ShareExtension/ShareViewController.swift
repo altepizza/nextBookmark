@@ -58,7 +58,7 @@ class ShareViewController: UIViewController {
             guard let shareURL = shareURL else {
                 return
             }
-            CallNextcloud().postURL(url: shareURL, completionHandler: { _ in
+            CallNextcloud(data: Model()).postURL(url: shareURL, completionHandler: { _ in
                 self.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
             })
         }
