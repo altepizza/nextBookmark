@@ -245,7 +245,6 @@
 				98CB33442319A8A000DA4763 /* Assets.xcassets */,
 				98CB33492319A8A000DA4763 /* Info.plist */,
 				98CB33412319A89F00DA4763 /* nextBookmark.xcdatamodeld */,
-				98AF64C523245CE70029F327 /* SharedUserDefaults.swift */,
 				98239461235CE2A1005A3AC9 /* SettingsView.swift */,
 				989C17C1236A2A2F00EE273A /* BookmarksView.swift */,
 				98AE797B240309C3007C36A9 /* Launch Screen.storyboard */,
@@ -294,6 +293,7 @@
 		98E12EFE23A82EE000E6CDD6 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				98AF64C523245CE70029F327 /* SharedUserDefaults.swift */,
 				98E12EFF23A82F0500E6CDD6 /* Bookmark.swift */,
 				98E3112B240B19EC00D6C5C5 /* Folder.swift */,
 				98AAEF7A2450B89500205348 /* Data.swift */,
@@ -781,7 +781,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.6;
+				MARKETING_VERSION = 1.3.7;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -805,7 +805,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.6;
+				MARKETING_VERSION = 1.3.7;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -909,7 +909,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.3.6;
+				MARKETING_VERSION = 1.3.7;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -932,7 +932,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.3.6;
+				MARKETING_VERSION = 1.3.7;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

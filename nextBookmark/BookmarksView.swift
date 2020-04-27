@@ -84,7 +84,6 @@ struct BookmarksView: View {
                     if self.vm.currentRoot.id > -1 {
                         BackFolderRow().onTapGesture {
                             self.vm.currentRoot = self.vm.folders.first(where: {$0.id == self.vm.currentRoot.parent_folder_id})!
-                            //CallNextcloud(data: self.vm).get_all_bookmarks_for_folder(folder: self.vm.currentRoot)
                         }
                     }
                     
@@ -93,7 +92,6 @@ struct BookmarksView: View {
                     }) { folder in
                         FolderRow(folder: folder).onTapGesture {
                             self.vm.currentRoot = folder
-                            //CallNextcloud(data: self.vm).get_all_bookmarks_for_folder(folder: self.vm.currentRoot)
                         }}
                     ForEach(self.vm.bookmarks.filter {
                         self.searchText.isEmpty ? $0.folder_ids.contains(self.vm.currentRoot.id) : ($0.title.lowercased().contains(self.searchText.lowercased()) || $0.url.lowercased().contains(self.searchText.lowercased())) && $0.folder_ids.contains(self.vm.currentRoot.id)
@@ -108,7 +106,6 @@ struct BookmarksView: View {
             .pullToRefresh(isShowing: self.$vm.isShowing) {
                 self.startUpCheck()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    //CallNextcloud(data: self.vm).get_all_bookmarks_for_folder(folder: self.vm.currentRoot)
                     CallNextcloud(data: self.vm).get_all_bookmarks()
                 }
             }.navigationBarTitle("Bookmarks", displayMode: .inline)
