@@ -39,7 +39,7 @@ struct CallNextcloud
                 let swiftyJsonVar = JSON(value)
                 bookmarks.removeAll()
                 for (_, mark) in swiftyJsonVar["data"] {
-                    var newBookmark = Bookmark(id: mark["id"].intValue , title: mark["title"].stringValue , url: mark["url"].stringValue, tags: mark["tags"].arrayValue.map { $0.stringValue}, folder_ids: mark["folders"].arrayValue.map { $0.intValue})
+                    var newBookmark = Bookmark(id: mark["id"].intValue , title: mark["title"].stringValue , url: mark["url"].stringValue, tags: mark["tags"].arrayValue.map { $0.stringValue}, folder_ids: mark["folders"].arrayValue.map { $0.intValue}, description: mark["description"].stringValue)
                     bookmarks.append(newBookmark)
                 }
             case .failure(let error):
@@ -111,6 +111,29 @@ struct CallNextcloud
                 print(error)
             }
             completionHandler(swiftyJsonVar)
+        }
+    }
+    
+    func update_bookmark(bookmark: Bookmark) {
+        self.vm.isShowing = true
+        let parameters: [String : Any] = [
+            "url": bookmark.url,
+            "title": bookmark.title,
+            "description": bookmark.description,
+            "tags": bookmark.tags,
+            "folders": bookmark.folder_ids
+            ]
+        var swiftyJsonVar = JSON("")
+        _ = AF.request(urlFromSettings + "/index.php/apps/bookmarks/public/rest/v2/bookmark/" + String(bookmark.id), method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                swiftyJsonVar = JSON(value)["data"]
+                print(swiftyJsonVar["data"])
+                //TODO: Alter bookmark in model
+                self.get_all_bookmarks()
+            case .failure(let error):
+                print(error)
+            }
         }
     }
 }

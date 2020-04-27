@@ -40,9 +40,11 @@ struct BackFolderRow: View {
 }
 
 struct BookmarkRow: View {
+    @ObservedObject var vm: Model
+    @State private var showModal = false
     let book: Bookmark
     var body: some View {
-        HStack(){
+        HStack{
             VStack (alignment: .leading) {
                 Text(book.title).fontWeight(.bold)
                 if tagsAvailable(for: book) {
@@ -50,7 +52,7 @@ struct BookmarkRow: View {
                 }
                 Text(book.url).font(.footnote).lineLimit(1).foregroundColor(Color.gray)
             }.onTapGesture {
-                debugPrint("TODO EDIT BOOKMARK")
+                self.showModal = true
             }
             Spacer()
             Divider()
@@ -61,6 +63,10 @@ struct BookmarkRow: View {
                 Image(systemName: "safari")
             }
             .padding(.leading)
+        }.sheet(isPresented: $showModal, onDismiss: {
+            print(self.showModal)
+        }) {
+            EditBookmarkView(vm: self.vm, bookmark: self.book)
         }
     }
 }
@@ -96,7 +102,7 @@ struct BookmarksView: View {
                     ForEach(self.vm.bookmarks.filter {
                         self.searchText.isEmpty ? $0.folder_ids.contains(self.vm.currentRoot.id) : ($0.title.lowercased().contains(self.searchText.lowercased()) || $0.url.lowercased().contains(self.searchText.lowercased())) && $0.folder_ids.contains(self.vm.currentRoot.id)
                     }) { book in
-                        BookmarkRow(book: book)
+                        BookmarkRow(vm: self.vm, book: book)
                     }
                     .onDelete(perform: { row in
                         self.delete(folder: self.vm.currentRoot, row: row)
@@ -240,7 +246,6 @@ struct LoadingView<Content>: View where Content: View {
                 .foregroundColor(Color.primary)
                 .cornerRadius(20)
                 .opacity(self.isShowing ? 1 : 0)
-
             }
         }
     }

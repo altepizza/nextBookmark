@@ -18,6 +18,7 @@
 		98AED5FB2364FF1D0009ACA3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98AED5FA2364FF1D0009ACA3 /* Default-568h@2x.png */; };
 		98AF64C623245CE70029F327 /* SharedUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98AF64C523245CE70029F327 /* SharedUserDefaults.swift */; };
 		98AF64C723245CE70029F327 /* SharedUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98AF64C523245CE70029F327 /* SharedUserDefaults.swift */; };
+		98B2BAAC24574693002FD3CB /* EditBookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B2BAAB24574693002FD3CB /* EditBookmarkView.swift */; };
 		98B3C3E623DA432500524D07 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 98B3C3E523DA432400524D07 /* README.md */; };
 		98C1DA2B2370BCD50006B4BC /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 98C1DA2A2370BCD50006B4BC /* Podfile */; };
 		98C4C40C24046515008EB872 /* ThanksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C4C40B24046515008EB872 /* ThanksView.swift */; };
@@ -97,6 +98,7 @@
 		98AED5F32364F5A40009ACA3 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		98AED5FA2364FF1D0009ACA3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		98AF64C523245CE70029F327 /* SharedUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedUserDefaults.swift; sourceTree = "<group>"; };
+		98B2BAAB24574693002FD3CB /* EditBookmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBookmarkView.swift; sourceTree = "<group>"; };
 		98B3C3E523DA432400524D07 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.markdown; };
 		98C1DA2A2370BCD50006B4BC /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		98C4C40B24046515008EB872 /* ThanksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThanksView.swift; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 				989C17C1236A2A2F00EE273A /* BookmarksView.swift */,
 				98AE797B240309C3007C36A9 /* Launch Screen.storyboard */,
 				98C4C40B24046515008EB872 /* ThanksView.swift */,
+				98B2BAAB24574693002FD3CB /* EditBookmarkView.swift */,
 			);
 			path = nextBookmark;
 			sourceTree = "<group>";
@@ -574,6 +577,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				98B2BAAC24574693002FD3CB /* EditBookmarkView.swift in Sources */,
 				98239462235CE2A1005A3AC9 /* SettingsView.swift in Sources */,
 				98E3112C240B19EC00D6C5C5 /* Folder.swift in Sources */,
 				98E12EFD23A82D7600E6CDD6 /* CallNextcloud.swift in Sources */,
@@ -781,7 +785,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.7;
+				MARKETING_VERSION = 1.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -805,7 +809,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.7;
+				MARKETING_VERSION = 1.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -909,7 +913,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.3.7;
+				MARKETING_VERSION = 1.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -932,7 +936,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.3.7;
+				MARKETING_VERSION = 1.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
