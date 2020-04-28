@@ -4,3 +4,5 @@ xcuserdata/
 .DS_Store
 .AppleDouble
 .LSOverride
+fastlane
+nextBookmark.app.dSYM.zip
