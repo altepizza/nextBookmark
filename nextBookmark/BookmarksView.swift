@@ -85,20 +85,23 @@ struct BookmarksView: View {
                 
                 OpenFolderRow(folder: self.vm.currentRoot)
                 
-                // Subfolders
                 List {
+                    // Folder back navigation
                     if self.vm.currentRoot.id > -1 {
                         BackFolderRow().onTapGesture {
                             self.vm.currentRoot = self.vm.folders.first(where: {$0.id == self.vm.currentRoot.parent_folder_id})!
                         }
                     }
                     
+                    // Subfolders
                     ForEach(self.vm.folders.filter {
                         $0.parent_folder_id == self.vm.currentRoot.id && $0.id != self.vm.currentRoot.id
                     }) { folder in
                         FolderRow(folder: folder).onTapGesture {
                             self.vm.currentRoot = folder
                         }}
+                    
+                    // Bookmarks of current filter + folder
                     ForEach(self.vm.bookmarks.filter {
                         self.searchText.isEmpty ? $0.folder_ids.contains(self.vm.currentRoot.id) : ($0.title.lowercased().contains(self.searchText.lowercased()) || $0.url.lowercased().contains(self.searchText.lowercased())) && $0.folder_ids.contains(self.vm.currentRoot.id)
                     }) { book in
@@ -139,8 +142,8 @@ struct BookmarksView: View {
     
     func delete(folder: Folder, row: IndexSet) {
         for index in row {
-            CallNextcloud(data: self.vm).delete(bookId: folder.books[index].id)
-            vm.currentRoot.books.remove(at: index)
+            CallNextcloud(data: self.vm).delete(bookId: vm.bookmarks[index].id)
+            vm.bookmarks.remove(at: index)
         }
     }
 }
