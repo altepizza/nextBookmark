@@ -46,7 +46,7 @@ struct BookmarkRow: View {
     var body: some View {
         HStack{
             VStack (alignment: .leading) {
-                Text(book.title).fontWeight(.bold)
+                Text(book.title).fontWeight(.bold).lineLimit(1)
                 if tagsAvailable(for: book) {
                     Text((book.tags.joined(separator:", "))).font(.footnote).lineLimit(1)
                 }
