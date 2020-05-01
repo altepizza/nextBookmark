@@ -34,10 +34,6 @@ extension Publishers {
 
 struct SettingsView: View {
     @State private var keyboardHeight: CGFloat = 0
-    
-    @State var server = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.url) ?? "https://your-nextcloud.instance"
-    @State var username = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.username) ?? "Your Username"
-    @State var password = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.password) ?? "Your Password"
     let orders = ["newest first", "oldest first"]
     
     @ObservedObject var main_model: Model
@@ -47,10 +43,10 @@ struct SettingsView: View {
             VStack() {
                 Form {
                     Section(header: Text("Nextcloud credentials")) {
-                        TextField("https://your-nextcloud.instance", text: $server)
+                        TextField("https://your-nextcloud.instance", text: $main_model.credentials_url)
                         .keyboardType(.URL)
-                        TextField("Your Username", text: $username)
-                        SecureField("Your Password", text: $password)
+                        TextField("Your Username", text: $main_model.credentials_user)
+                        SecureField("Your Password", text: $main_model.credentials_password)
                     }
                     Section(header: Text("Visuals")) {
                         Text("Altering these settings might take a couple of seconds to load").font(.subheadline)
@@ -84,13 +80,13 @@ struct SettingsView: View {
         var banner = NotificationBanner(title: "Testing connection", subtitle: "", style: .warning)
         banner.autoDismiss = false
         banner.show()
-        if NSURL(string: server) != nil {
+        if NSURL(string: main_model.credentials_url) != nil {
             var headers: HTTPHeaders
             headers = [
-                .authorization(username: username, password: password),
+                .authorization(username: main_model.credentials_user, password: main_model.credentials_password),
                 .accept("application/json")
             ]
-            AF.request(server + "/index.php/apps/bookmarks/public/rest/v2/bookmark?page=0", headers: headers)
+            AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/bookmark?page=0", headers: headers)
                 .validate(statusCode: 200..<300)
                 .responseJSON { response in
                     switch response.result {
@@ -100,9 +96,6 @@ struct SettingsView: View {
                         banner.autoDismiss = true
                         banner = NotificationBanner(title: "Connection successful", subtitle: "Credentials saved", style: .success)
                         sharedUserDefaults?.set(true, forKey: SharedUserDefaults.Keys.valid)
-                        sharedUserDefaults?.set(self.server, forKey: SharedUserDefaults.Keys.url)
-                        sharedUserDefaults?.set(self.username, forKey: SharedUserDefaults.Keys.username)
-                        sharedUserDefaults?.set(self.password, forKey: SharedUserDefaults.Keys.password)
                         banner.show()
                         CallNextcloud(data: self.main_model).requestFolderHierarchy()
                         CallNextcloud(data: self.main_model).get_all_bookmarks()
