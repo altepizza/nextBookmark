@@ -32,26 +32,68 @@ struct Editable_Bookmark: View {
     }
 }
 
+struct ActivityView: UIViewControllerRepresentable {
+
+    let activityItems: [Any]
+    let applicationActivities: [UIActivity]?
+
+    func makeUIViewController(context: UIViewControllerRepresentableContext<ActivityView>) -> UIActivityViewController {
+        return UIActivityViewController(activityItems: activityItems,
+                                        applicationActivities: applicationActivities)
+    }
+
+    func updateUIViewController(_ uiViewController: UIActivityViewController,
+                                context: UIViewControllerRepresentableContext<ActivityView>) {
+
+    }
+}
+
 struct EditBookmarkView: View {
+    @State private var showingSheet = false
     @State private var keyboardHeight: CGFloat = 0
     @ObservedObject var vm: Model
     @State var bookmark: Bookmark
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var body: some View {
         VStack {
-            Text("Edit Bookmark").font(.title)
+            ZStack {
+                HStack {
+                    Spacer()
+                    Text("Edit Bookmark").font(.title)
+                    Spacer()
+                }
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        self.showingSheet = true
+                    }) {
+                        Image(systemName: "square.and.arrow.up")
+                        .resizable()
+                        .scaledToFit()
+                            .frame(width: CGFloat(25), height: CGFloat(25))
+                        .padding()
+                    }
+                    .sheet(isPresented: $showingSheet,
+                    content: {
+                        ActivityView(activityItems: [NSURL(string: self.bookmark.url)!] as [Any], applicationActivities: nil) })
+                }
+            }
             Spacer()
             Editable_Bookmark(headline: "Title", containsURL: false, key: "title", binding: $bookmark.title)
             Editable_Bookmark(headline: "URL", containsURL: true, key: "url", binding: $bookmark.url)
             Editable_Bookmark(headline: "Description", containsURL: true, key: "description", binding: $bookmark.description)
             Spacer()
             Button(action: {
+                self.showingSheet = true
                 self.vm.isShowing = true
                 self.presentationMode.wrappedValue.dismiss()
                 CallNextcloud(data: self.vm).update_bookmark(bookmark: self.bookmark)
             }) {
                 Text("Update bookmark")
             }
+            .sheet(isPresented: $showingSheet,
+            content: {
+                ActivityView(activityItems: [NSURL(string: self.bookmark.url)!] as [Any], applicationActivities: nil) })
             Spacer()
             Button(action: {
                 self.presentationMode.wrappedValue.dismiss()
