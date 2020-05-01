@@ -10,6 +10,7 @@ import Foundation
 
 struct Bookmark: Identifiable {
     let id: Int
+    let added: Int
     var title: String
     var url: String
     var tags: [String]

@@ -34,47 +34,33 @@ extension Publishers {
 
 struct SettingsView: View {
     @State private var keyboardHeight: CGFloat = 0
-    @State var server = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.url) ?? "https://your-nextcloud.instance"
-    @State var username = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.username) ?? "Username"
-    @State var password = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.password) ?? "Password"
-    @ObservedObject var main_model: Model
     
-    struct Setting: View {
-        let headline: String
-        let binding: Binding<String>
-        let key: String
-        let isSecret: Bool
-        let containsURL: Bool
-        
-        var body: some View {
-            VStack(alignment: .leading, spacing: 0.2) {
-                Text(headline)
-                    .font(.headline)
-                if isSecret {
-                    SecureField(key, text: binding)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                }
-                else {
-                    if containsURL {
-                        TextField(key, text: binding)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .keyboardType(.URL)
-                    }
-                    else {
-                        TextField(key, text: binding)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                    }
-                }
-            }.padding(.all)
-        }
-    }
+    @State var server = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.url) ?? "https://your-nextcloud.instance"
+    @State var username = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.username) ?? "Your Username"
+    @State var password = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.password) ?? "Your Password"
+    let orders = ["newest first", "oldest first"]
+    
+    @ObservedObject var main_model: Model
     
     var body: some View {
         NavigationView{
             VStack() {
-                Setting(headline: "Nextcloud URL", binding: $server, key: "server", isSecret: false, containsURL: true)
-                Setting(headline: "Nextcloud Username", binding: $username, key: "username", isSecret: false, containsURL: false)
-                Setting(headline: "Nextcloud Password", binding: $password, key: "password", isSecret: true, containsURL: false)
+                Form {
+                    Section(header: Text("Nextcloud credentials")) {
+                        TextField("https://your-nextcloud.instance", text: $server)
+                        .keyboardType(.URL)
+                        TextField("Your Username", text: $username)
+                        SecureField("Your Password", text: $password)
+                    }
+                    Section(header: Text("Visuals")) {
+                        Text("Altering these settings might take a couple of seconds to load").font(.subheadline)
+                        Picker(selection: $main_model.order_bookmarks, label: Text("Order bookmarks by")){
+                            ForEach(orders, id: \.self) { order in
+                                Text(verbatim: order)
+                            }
+                        }
+                    }
+                }
                 Spacer()
                 Button(action: {
                     self.saveSettings()
@@ -82,16 +68,14 @@ struct SettingsView: View {
                     Text("Save And Test Settings").padding()
                 }
             }
-            .padding()
             .padding(.bottom, keyboardHeight).animation(.easeInOut(duration:0.5))
             .onReceive(Publishers.keyboardHeight) { self.keyboardHeight = $0 }
         }.navigationBarTitle("Settings", displayMode: .inline)
             .navigationBarItems(trailing: NavigationLink(destination: ThanksView()) {
                 Text("About")})
             .navigationViewStyle(StackNavigationViewStyle())
-        
     }
-    
+        
     func saveSettings() {
         hello_world()
     }
@@ -137,6 +121,6 @@ struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(server: "defaultURL", username: "defaultUser", password: "defaultPassword", main_model: Model())
+        SettingsView(main_model: Model())
     }
 }

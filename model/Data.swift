@@ -9,8 +9,22 @@
 import Foundation
 
 class Model: ObservableObject {
-    @Published var currentRoot : Folder = Folder(id: -1, title: "/", parent_folder_id: -1, books: [])
+    let sharedUserDefaults = UserDefaults(suiteName: SharedUserDefaults.suiteName)
+
+    @Published var bookmarks : [Bookmark]
+    @Published var currentRoot : Folder
+    @Published var folders: [Folder]
     @Published var isShowing = false
-    @Published var folders: [Folder] = [.init(id: -20, title: "<Pull down to load your bookmarks>",  parent_folder_id: -10, books: [])]
-    @Published var bookmarks : [Bookmark] = [.init(id: -1, title: "Go to Settings...", url: "...setup your credentials", tags: ["...to..."], folder_ids: [-1], description: "")]
+    @Published var order_bookmarks: String {
+        didSet {
+            sharedUserDefaults?.set(order_bookmarks, forKey: SharedUserDefaults.Keys.order_bookmarks)
+        }
+    }
+    
+    init() {
+        self.bookmarks = [.init(id: -1, added: 1, title: "Go to Settings...", url: "...setup your credentials", tags: ["...to..."], folder_ids: [-1], description: "")]
+        self.currentRoot = Folder(id: -1, title: "/", parent_folder_id: -1, books: [])
+        self.folders = [.init(id: -20, title: "<Pull down to load your bookmarks>",  parent_folder_id: -10, books: [])]
+        self.order_bookmarks = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.order_bookmarks) ?? "newest first"
+    }
 }

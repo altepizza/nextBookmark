@@ -67,6 +67,6 @@ struct EditBookmarkView: View {
 
 struct EditBookmarkView_Previews: PreviewProvider {
     static var previews: some View {
-        EditBookmarkView(vm: Model(), bookmark: Bookmark(id: 1, title: "EDITTITLE", url: "EDITURL", tags: ["EDITTAG"], folder_ids: [1], description: "EDITDES"))
+        EditBookmarkView(vm: Model(), bookmark: Bookmark(id: 1, added: 1, title: "EDITTITLE", url: "EDITURL", tags: ["EDITTAG"], folder_ids: [1], description: "EDITDES"))
     }
 }

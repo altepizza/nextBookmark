@@ -72,62 +72,82 @@ struct BookmarkRow: View {
 }
 
 struct BookmarksView: View {
-    @ObservedObject var vm: Model = Model()
+    @ObservedObject var main_model: Model = Model()
     @State private var searchText : String = ""
     private let defaultFolder: Folder = .init(id: -20, title: "<Pull down to load your bookmarks>",  parent_folder_id: -10, books: [])
+    @State var order_bookmarks = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.order_bookmarks) ?? "newest first"
+
     
     var body: some View {
-        LoadingView(isShowing: $vm.isShowing) {
+        LoadingView(isShowing: $main_model.isShowing) {
         NavigationView{
             VStack{
                 
                 SearchBar(text: self.$searchText, placeholder: "Filter bookmarks")
                 
-                OpenFolderRow(folder: self.vm.currentRoot)
+                OpenFolderRow(folder: self.main_model.currentRoot)
                 
                 List {
                     // Folder back navigation
-                    if self.vm.currentRoot.id > -1 {
+                    if self.main_model.currentRoot.id > -1 {
                         BackFolderRow().onTapGesture {
-                            self.vm.currentRoot = self.vm.folders.first(where: {$0.id == self.vm.currentRoot.parent_folder_id})!
+                            self.main_model.currentRoot = self.main_model.folders.first(where: {$0.id == self.main_model.currentRoot.parent_folder_id})!
                         }
                     }
                     
                     // Subfolders
-                    ForEach(self.vm.folders.filter {
-                        $0.parent_folder_id == self.vm.currentRoot.id && $0.id != self.vm.currentRoot.id
+                    ForEach(self.main_model.folders.filter {
+                        $0.parent_folder_id == self.main_model.currentRoot.id && $0.id != self.main_model.currentRoot.id
                     }) { folder in
                         FolderRow(folder: folder).onTapGesture {
-                            self.vm.currentRoot = folder
+                            self.main_model.currentRoot = folder
                         }}
                     
                     // Bookmarks of current filter + folder
-                    ForEach(self.vm.bookmarks.filter {
-                        self.searchText.isEmpty ? $0.folder_ids.contains(self.vm.currentRoot.id) : ($0.title.lowercased().contains(self.searchText.lowercased()) || $0.url.lowercased().contains(self.searchText.lowercased())) && $0.folder_ids.contains(self.vm.currentRoot.id)
-                    }) { book in
-                        BookmarkRow(vm: self.vm, book: book)
+                    if (self.main_model.order_bookmarks == "newest first") {
+                        ForEach(self.main_model.bookmarks
+                            .filter {
+                            self.searchText.isEmpty ? $0.folder_ids.contains(self.main_model.currentRoot.id) : ($0.title.lowercased().contains(self.searchText.lowercased()) || $0.url.lowercased().contains(self.searchText.lowercased())) && $0.folder_ids.contains(self.main_model.currentRoot.id)}
+                            .sorted(by: {($0.added > $1.added)})
+                            )
+                        { book in
+                            BookmarkRow(vm: self.main_model, book: book)
+                        }
+                        .onDelete(perform: { row in
+                            self.delete(folder: self.main_model.currentRoot, row: row)
+                        })
                     }
-                    .onDelete(perform: { row in
-                        self.delete(folder: self.vm.currentRoot, row: row)
-                    })
+                    if (self.main_model.order_bookmarks == "oldest first") {
+                        ForEach(self.main_model.bookmarks
+                            .filter {
+                            self.searchText.isEmpty ? $0.folder_ids.contains(self.main_model.currentRoot.id) : ($0.title.lowercased().contains(self.searchText.lowercased()) || $0.url.lowercased().contains(self.searchText.lowercased())) && $0.folder_ids.contains(self.main_model.currentRoot.id)}
+                            .sorted(by: {($0.added < $1.added)})
+                            )
+                        { book in
+                            BookmarkRow(vm: self.main_model, book: book)
+                        }
+                        .onDelete(perform: { row in
+                            self.delete(folder: self.main_model.currentRoot, row: row)
+                        })
+                    }
                 }
             }
-            .pullToRefresh(isShowing: self.$vm.isShowing) {
+            .pullToRefresh(isShowing: self.$main_model.isShowing) {
                 self.startUpCheck()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    CallNextcloud(data: self.vm).get_all_bookmarks()
+                    CallNextcloud(data: self.main_model).get_all_bookmarks()
                 }
             }.navigationBarTitle("Bookmarks", displayMode: .inline)
                 .navigationBarItems(
-                    trailing: NavigationLink(destination: SettingsView(main_model: self.vm)) {
+                    trailing: NavigationLink(destination: SettingsView(main_model: self.main_model)) {
                         Text("Settings")} )
             
         }.navigationViewStyle(StackNavigationViewStyle())
             .onAppear() {
                 if sharedUserDefaults?.bool(forKey: SharedUserDefaults.Keys.valid) ?? false {
-                    self.vm.isShowing = true
-                    CallNextcloud(data: self.vm).requestFolderHierarchy()
-                    CallNextcloud(data: self.vm).get_all_bookmarks()
+                    self.main_model.isShowing = true
+                    CallNextcloud(data: self.main_model).requestFolderHierarchy()
+                    CallNextcloud(data: self.main_model).get_all_bookmarks()
                 }
             }}
     }
@@ -142,8 +162,8 @@ struct BookmarksView: View {
     
     func delete(folder: Folder, row: IndexSet) {
         for index in row {
-            CallNextcloud(data: self.vm).delete(bookId: vm.bookmarks[index].id)
-            vm.bookmarks.remove(at: index)
+            CallNextcloud(data: self.main_model).delete(bookId: main_model.bookmarks[index].id)
+            main_model.bookmarks.remove(at: index)
         }
     }
 }
