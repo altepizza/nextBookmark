@@ -102,7 +102,7 @@ struct CallNextcloud
             "url": url
         ]
         var swiftyJsonVar = JSON("")
-        let respons = AF.request(urlFromSettings + "/index.php/apps/bookmarks/public/rest/v2/bookmark", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
+        let _ = AF.request(urlFromSettings + "/index.php/apps/bookmarks/public/rest/v2/bookmark", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             switch response.result {
             case .success(let value):
                 swiftyJsonVar = JSON(value)["data"]
