@@ -33,6 +33,7 @@ struct Editable_Bookmark: View {
 }
 
 struct EditBookmarkView: View {
+    @State private var keyboardHeight: CGFloat = 0
     @ObservedObject var vm: Model
     @State var bookmark: Bookmark
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -58,6 +59,9 @@ struct EditBookmarkView: View {
                 Text("Cancel")
             }
         }
+        .padding()
+        .padding(.bottom, keyboardHeight).animation(.easeInOut(duration:0.5))
+        .onReceive(Publishers.keyboardHeight) { self.keyboardHeight = $0 }
     }
 }
 

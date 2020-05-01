@@ -119,7 +119,7 @@ struct BookmarksView: View {
                 }
             }.navigationBarTitle("Bookmarks", displayMode: .inline)
                 .navigationBarItems(
-                    trailing: NavigationLink(destination: SettingsView(vm: self.vm)) {
+                    trailing: NavigationLink(destination: SettingsView(main_model: self.vm)) {
                         Text("Settings")} )
             
         }.navigationViewStyle(StackNavigationViewStyle())

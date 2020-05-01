@@ -37,7 +37,7 @@ struct SettingsView: View {
     @State var server = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.url) ?? "https://your-nextcloud.instance"
     @State var username = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.username) ?? "Username"
     @State var password = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.password) ?? "Password"
-    @ObservedObject var vm: Model
+    @ObservedObject var main_model: Model
     
     struct Setting: View {
         let headline: String
@@ -120,8 +120,8 @@ struct SettingsView: View {
                         sharedUserDefaults?.set(self.username, forKey: SharedUserDefaults.Keys.username)
                         sharedUserDefaults?.set(self.password, forKey: SharedUserDefaults.Keys.password)
                         banner.show()
-                        CallNextcloud(data: self.vm).requestFolderHierarchy()
-                        CallNextcloud(data: self.vm).get_all_bookmarks()
+                        CallNextcloud(data: self.main_model).requestFolderHierarchy()
+                        CallNextcloud(data: self.main_model).get_all_bookmarks()
                     case .failure( _):
                         debugPrint("AF fail")
                         banner.dismiss()
@@ -137,6 +137,6 @@ struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(server: "defaultURL", username: "defaultUser", password: "defaultPassword", vm: Model())
+        SettingsView(server: "defaultURL", username: "defaultUser", password: "defaultPassword", main_model: Model())
     }
 }
