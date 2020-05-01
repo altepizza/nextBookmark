@@ -17,5 +17,6 @@ struct SharedUserDefaults {
         static let url = "url"
         static let valid = "valid"
         static let order_bookmarks = "order_bookmarks"
+        static let full_title = "full_title"
     }
 }

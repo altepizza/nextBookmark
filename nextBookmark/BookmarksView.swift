@@ -40,13 +40,18 @@ struct BackFolderRow: View {
 }
 
 struct BookmarkRow: View {
-    @ObservedObject var vm: Model
+    @ObservedObject var main_model: Model
     @State private var showModal = false
     let book: Bookmark
     var body: some View {
         HStack{
             VStack (alignment: .leading) {
-                Text(book.title).fontWeight(.bold).lineLimit(1)
+                if (main_model.full_title) {
+                    Text(book.title).fontWeight(.bold)
+                }
+                else {
+                    Text(book.title).fontWeight(.bold).lineLimit(1)
+                }
                 if tagsAvailable(for: book) {
                     Text((book.tags.joined(separator:", "))).font(.footnote).lineLimit(1)
                 }
@@ -66,7 +71,7 @@ struct BookmarkRow: View {
         }.sheet(isPresented: $showModal, onDismiss: {
             print(self.showModal)
         }) {
-            EditBookmarkView(vm: self.vm, bookmark: self.book)
+            EditBookmarkView(vm: self.main_model, bookmark: self.book)
         }
     }
 }
@@ -107,7 +112,7 @@ struct BookmarksView: View {
                    
                     ForEach(self.main_model.sorted_filtered_bookmarks(searchText: self.searchText))
                     { book in
-                        BookmarkRow(vm: self.main_model, book: book)
+                        BookmarkRow(main_model: self.main_model, book: book)
                     }
                     .onDelete(perform: { row in
                         self.delete(row: row)

@@ -28,6 +28,11 @@ class Model: ObservableObject {
             sharedUserDefaults?.set(credentials_user, forKey: SharedUserDefaults.Keys.username)
         }
     }
+    @Published var full_title: Bool {
+        didSet {
+            sharedUserDefaults?.set(full_title, forKey: SharedUserDefaults.Keys.full_title)
+        }
+    }
     @Published var folders: [Folder]
     @Published var isShowing = false
     @Published var order_bookmarks: String {
@@ -43,6 +48,7 @@ class Model: ObservableObject {
         self.credentials_user = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.username) ?? "Your Username"
         self.currentRoot = Folder(id: -1, title: "/", parent_folder_id: -1, books: [])
         self.folders = [.init(id: -20, title: "<Pull down to load your bookmarks>",  parent_folder_id: -10, books: [])]
+        self.full_title = sharedUserDefaults?.bool(forKey: SharedUserDefaults.Keys.username) ?? false
         self.order_bookmarks = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.order_bookmarks) ?? "newest first"
     }
     

@@ -44,7 +44,7 @@ struct SettingsView: View {
                 Form {
                     Section(header: Text("Nextcloud credentials")) {
                         TextField("https://your-nextcloud.instance", text: $main_model.credentials_url)
-                        .keyboardType(.URL)
+                            .keyboardType(.URL)
                         TextField("Your Username", text: $main_model.credentials_user)
                         SecureField("Your Password", text: $main_model.credentials_password)
                     }
@@ -54,6 +54,9 @@ struct SettingsView: View {
                             ForEach(orders, id: \.self) { order in
                                 Text(verbatim: order)
                             }
+                        }
+                        Toggle(isOn: $main_model.full_title) {
+                            Text("Show full bookmark title")
                         }
                     }
                 }
@@ -71,7 +74,7 @@ struct SettingsView: View {
                 Text("About")})
             .navigationViewStyle(StackNavigationViewStyle())
     }
-        
+    
     func saveSettings() {
         hello_world()
     }
