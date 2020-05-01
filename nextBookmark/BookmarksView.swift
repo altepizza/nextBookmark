@@ -77,12 +77,12 @@ struct BookmarksView: View {
     private let defaultFolder: Folder = .init(id: -20, title: "<Pull down to load your bookmarks>",  parent_folder_id: -10, books: [])
     @State var order_bookmarks = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.order_bookmarks) ?? "newest first"
 
-    
     var body: some View {
+        
         LoadingView(isShowing: $main_model.isShowing) {
         NavigationView{
+            
             VStack{
-                
                 SearchBar(text: self.$searchText, placeholder: "Filter bookmarks")
                 
                 OpenFolderRow(folder: self.main_model.currentRoot)
@@ -104,32 +104,14 @@ struct BookmarksView: View {
                         }}
                     
                     // Bookmarks of current filter + folder
-                    if (self.main_model.order_bookmarks == "newest first") {
-                        ForEach(self.main_model.bookmarks
-                            .filter {
-                            self.searchText.isEmpty ? $0.folder_ids.contains(self.main_model.currentRoot.id) : ($0.title.lowercased().contains(self.searchText.lowercased()) || $0.url.lowercased().contains(self.searchText.lowercased())) && $0.folder_ids.contains(self.main_model.currentRoot.id)}
-                            .sorted(by: {($0.added > $1.added)})
-                            )
-                        { book in
-                            BookmarkRow(vm: self.main_model, book: book)
-                        }
-                        .onDelete(perform: { row in
-                            self.delete(folder: self.main_model.currentRoot, row: row)
-                        })
+                   
+                    ForEach(self.main_model.sorted_filtered_bookmarks(searchText: self.searchText))
+                    { book in
+                        BookmarkRow(vm: self.main_model, book: book)
                     }
-                    if (self.main_model.order_bookmarks == "oldest first") {
-                        ForEach(self.main_model.bookmarks
-                            .filter {
-                            self.searchText.isEmpty ? $0.folder_ids.contains(self.main_model.currentRoot.id) : ($0.title.lowercased().contains(self.searchText.lowercased()) || $0.url.lowercased().contains(self.searchText.lowercased())) && $0.folder_ids.contains(self.main_model.currentRoot.id)}
-                            .sorted(by: {($0.added < $1.added)})
-                            )
-                        { book in
-                            BookmarkRow(vm: self.main_model, book: book)
-                        }
-                        .onDelete(perform: { row in
-                            self.delete(folder: self.main_model.currentRoot, row: row)
-                        })
-                    }
+                    .onDelete(perform: { row in
+                        self.delete(row: row)
+                    })
                 }
             }
             .pullToRefresh(isShowing: self.$main_model.isShowing) {
@@ -160,10 +142,13 @@ struct BookmarksView: View {
         }
     }
     
-    func delete(folder: Folder, row: IndexSet) {
+    func delete(row: IndexSet) {
         for index in row {
-            CallNextcloud(data: self.main_model).delete(bookId: main_model.bookmarks[index].id)
-            main_model.bookmarks.remove(at: index)
+            let real_index = main_model.bookmarks.firstIndex{$0.id == self.main_model.sorted_filtered_bookmarks(searchText: self.searchText)[index].id}
+            CallNextcloud(data: self.main_model).delete(bookId: main_model.bookmarks[real_index!].id)
+            debugPrint(self.main_model.sorted_filtered_bookmarks(searchText: self.searchText)[index].title)
+            debugPrint(main_model.bookmarks[real_index!].title)
+            main_model.bookmarks.remove(at: real_index!)
         }
     }
 }
