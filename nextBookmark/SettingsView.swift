@@ -75,42 +75,50 @@ struct SettingsView: View {
             .navigationViewStyle(StackNavigationViewStyle())
     }
     
-    func saveSettings() {
-        hello_world()
+    func show_error_banner(banner: NotificationBanner, subtitle: String) {
+        banner.dismiss()
+        banner.autoDismiss = true
+        let new_banner = NotificationBanner(title: "Error", subtitle: subtitle, style: .danger)
+        new_banner.show()
     }
     
-    func hello_world() {
+    func saveSettings() {
         var banner = NotificationBanner(title: "Testing connection", subtitle: "", style: .warning)
         banner.autoDismiss = false
         banner.show()
+        main_model.credentials_url = main_model.credentials_url.trimmingCharacters(in: .whitespacesAndNewlines)
+        
         if NSURL(string: main_model.credentials_url) != nil {
-            var headers: HTTPHeaders
-            headers = [
-                .authorization(username: main_model.credentials_user, password: main_model.credentials_password),
-                .accept("application/json")
-            ]
-            AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/bookmark?page=0", headers: headers)
-                .validate(statusCode: 200..<300)
-                .responseJSON { response in
-                    switch response.result {
-                    case .success( _):
-                        debugPrint("AF worked")
-                        banner.dismiss()
-                        banner.autoDismiss = true
-                        banner = NotificationBanner(title: "Connection successful", subtitle: "Credentials saved", style: .success)
-                        sharedUserDefaults?.set(true, forKey: SharedUserDefaults.Keys.valid)
-                        banner.show()
-                        CallNextcloud(data: self.main_model).requestFolderHierarchy()
-                        CallNextcloud(data: self.main_model).get_all_bookmarks()
-                    case .failure( _):
-                        debugPrint("AF fail")
-                        banner.dismiss()
-                        banner.autoDismiss = true
-                        banner = NotificationBanner(title: "Error", subtitle: "Cannot login to Nextcloud Bookmarks", style: .danger)
-                        sharedUserDefaults?.set(false, forKey: SharedUserDefaults.Keys.valid)
-                        banner.show()
-                    }
+            if (main_model.credentials_url.starts(with: "https://")) {
+                var headers: HTTPHeaders
+                headers = [
+                    .authorization(username: main_model.credentials_user, password: main_model.credentials_password),
+                    .accept("application/json")
+                ]
+                AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/bookmark?page=0", headers: headers)
+                    .validate(statusCode: 200..<300)
+                    .responseJSON { response in
+                        switch response.result {
+                        case .success( _):
+                            banner.dismiss()
+                            banner.autoDismiss = true
+                            banner = NotificationBanner(title: "Connection successful", style: .success)
+                            sharedUserDefaults?.set(true, forKey: SharedUserDefaults.Keys.valid)
+                            banner.show()
+                            CallNextcloud(data: self.main_model).requestFolderHierarchy()
+                            CallNextcloud(data: self.main_model).get_all_bookmarks()
+                        case .failure( _):
+                            self.show_error_banner(banner: banner, subtitle: "Cannot login to Nextcloud Bookmarks")
+                        }
+                }
             }
+            else {
+                show_error_banner(banner: banner, subtitle: "Your URL dosn't start with 'https://'. Only SSL encrypted connections are supported")
+            }
+            
+        }
+        else {
+            show_error_banner(banner: banner, subtitle: "Invalid URL")
         }
     }
 }
