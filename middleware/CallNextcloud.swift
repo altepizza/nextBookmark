@@ -60,9 +60,10 @@ struct CallNextcloud
         }
     }
     
+    
     func requestFolderHierarchy() {
         var swiftyJsonVar = JSON("")
-        let response = AF.request(urlFromSettings + "/index.php/apps/bookmarks/public/rest/v2/folder", headers: headers).responseJSON { response in
+        let response = AF.request(self.vm.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/folder", headers: headers).responseJSON { response in
             switch response.result {
             case .success(let value):
                 swiftyJsonVar = JSON(value)["data"]
@@ -70,24 +71,24 @@ struct CallNextcloud
             case .failure(let error):
                 print(error)
             }
-            self.vm.folders =  self.makeFolders(json: swiftyJsonVar)
-            self.vm.folders.append(Folder(id: -1, title: "/", parent_folder_id: -1, books: []))
-            self.vm.currentRoot = Folder(id: -1, title: "/", parent_folder_id: -1, books: [])
+            self.vm.folders = self.makeFolders(json: swiftyJsonVar)
+            self.vm.folders.append(Folder(id: -1, title: "/", parent_folder_id: -1))
+            self.vm.currentRoot = Folder(id: -1, title: "/", parent_folder_id: -1)
         }
         debugPrint(response)
     }
     
-    func makeFolders(json: JSON) -> [Folder] {
+    func makeFolders(json: JSON, pfolder_id: Int = -1) -> [Folder] {
         debugPrint("iTERATE")
         debugPrint(json)
         var folders = [Folder]()
         for (_, folderJSON) in json {
             if (folderJSON["id"].exists()){
-                let newFolder = Folder(id: Int(folderJSON["id"].intValue) , title: folderJSON["title"].stringValue , parent_folder_id: Int(folderJSON["parent_folder"].intValue), books: [])
+                let newFolder = Folder(id: Int(folderJSON["id"].intValue), title: folderJSON["title"].stringValue , parent_folder_id: pfolder_id)
                 folders.append(newFolder)
                 if !(folderJSON["children"].isEmpty) {
                     for (_, child) in folderJSON["children"] {
-                        let subfolder = makeFolders(json: [child])
+                        let subfolder = makeFolders(json: [child], pfolder_id: Int(folderJSON["id"].intValue))
                         if (subfolder.count > 0) {
                             folders = folders + subfolder}
                     }

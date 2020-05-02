@@ -12,6 +12,5 @@ struct Folder: Identifiable {
     var id: Int
     let title: String
     let parent_folder_id: Int
-    var books: [Bookmark]
     var isExpanded: Bool = true
 }

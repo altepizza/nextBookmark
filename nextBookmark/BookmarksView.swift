@@ -79,7 +79,7 @@ struct BookmarkRow: View {
 struct BookmarksView: View {
     @ObservedObject var main_model: Model = Model()
     @State private var searchText : String = ""
-    private let defaultFolder: Folder = .init(id: -20, title: "<Pull down to load your bookmarks>",  parent_folder_id: -10, books: [])
+    private let defaultFolder: Folder = .init(id: -20, title: "<Pull down to load your bookmarks>",  parent_folder_id: -10)
     @State var order_bookmarks = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.order_bookmarks) ?? "newest first"
 
     var body: some View {
