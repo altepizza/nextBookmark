@@ -33,14 +33,13 @@ struct CallNextcloud
         
     func get_all_bookmarks() {
         var bookmarks: [Bookmark] = []
-        let response = AF.request(urlFromSettings + "/index.php/apps/bookmarks/public/rest/v2/bookmark?page=-1", headers: headers).responseJSON { response in
+        let _ = AF.request(urlFromSettings + "/index.php/apps/bookmarks/public/rest/v2/bookmark?page=-1", headers: headers).responseJSON { response in
             switch response.result {
             case .success(let value):
                 let swiftyJsonVar = JSON(value)
                 bookmarks.removeAll()
                 for (_, mark) in swiftyJsonVar["data"] {
-                    var newBookmark = Bookmark(id: mark["id"].intValue , added: mark["added"].intValue, title: mark["title"].stringValue , url: mark["url"].stringValue, tags: mark["tags"].arrayValue.map { $0.stringValue}, folder_ids: mark["folders"].arrayValue.map { $0.intValue}, description: mark["description"].stringValue)
-                    bookmarks.append(newBookmark)
+                     bookmarks.append(Bookmark(id: mark["id"].intValue , added: mark["added"].intValue, title: mark["title"].stringValue , url: mark["url"].stringValue, tags: mark["tags"].arrayValue.map { $0.stringValue}, folder_ids: mark["folders"].arrayValue.map { $0.intValue}, description: mark["description"].stringValue))
                 }
             case .failure(let error):
                 print(error)
