@@ -48,9 +48,9 @@ struct CallNextcloud
         AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/bookmark/" + String(bookId), method: .delete, headers: create_headers()).responseJSON { response in
             switch response.result {
             case .success(let value):
-                print (value)
+                debugPrint(value)
             case .failure(let error):
-                print(error)
+                debugPrint(error)
             }
         }
     }
@@ -58,17 +58,17 @@ struct CallNextcloud
     
     func requestFolderHierarchy() {
         var swiftyJsonVar = JSON("")
-        let response = AF.request(self.main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/folder", headers: create_headers()).responseJSON { response in
+        let _ = AF.request(self.main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/folder", headers: create_headers()).responseJSON { response in
             switch response.result {
             case .success(let value):
                 swiftyJsonVar = JSON(value)["data"]
-                print(swiftyJsonVar["data"])
+                debugPrint(swiftyJsonVar["data"])
+                self.main_model.folders = self.makeFolders(json: swiftyJsonVar)
+                self.main_model.folders.append(Folder(id: -1, title: "/", parent_folder_id: -1))
+                self.main_model.currentRoot = Folder(id: -1, title: "/", parent_folder_id: -1)
             case .failure(let error):
-                print(error)
+                debugPrint(error)
             }
-            self.main_model.folders = self.makeFolders(json: swiftyJsonVar)
-            self.main_model.folders.append(Folder(id: -1, title: "/", parent_folder_id: -1))
-            self.main_model.currentRoot = Folder(id: -1, title: "/", parent_folder_id: -1)
         }
     }
     
@@ -84,7 +84,8 @@ struct CallNextcloud
                         if (subfolder.count > 0) {
                             folders = folders + subfolder}
                     }
-                }}
+                }
+            }
         }
         return folders
     }
@@ -120,7 +121,7 @@ struct CallNextcloud
             switch response.result {
             case .success(let value):
                 swiftyJsonVar = JSON(value)["data"]
-                print(swiftyJsonVar["data"])
+                debugPrint(swiftyJsonVar["data"])
                 //TODO: Alter bookmark in model
                 self.get_all_bookmarks()
             case .failure(let error):
