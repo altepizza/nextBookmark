@@ -60,6 +60,8 @@ class ShareViewController: UIViewController {
             }
             CallNextcloud(data: Model()).postURL(url: shareURL, completionHandler: { _ in
                 self.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
+                let generator = UINotificationFeedbackGenerator()
+                generator.notificationOccurred(.success)
             })
         }
     }
