@@ -8,6 +8,12 @@
 
 import SwiftUI
 
+extension UIApplication {
+    static var appVersion: String? {
+        return Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+    }
+}
+
 struct ThanksView: View {
     @State private var show_modal: Bool = false
     var body: some View {
@@ -76,6 +82,12 @@ struct ThanksView: View {
                         Text("SwiftyJSON")
                     }
                 }.padding()
+                
+                Spacer()
+                
+                VStack {
+                    Text(UIApplication.appVersion ?? "")
+                }
             }
         }.navigationBarTitle("About", displayMode: .inline)
         .navigationViewStyle(StackNavigationViewStyle())
