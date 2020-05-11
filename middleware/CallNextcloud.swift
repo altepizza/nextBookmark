@@ -94,8 +94,9 @@ struct CallNextcloud
     }
     
     func postURL(url: String, completionHandler: @escaping (JSON?) -> Void) {
-        let parameters: [String: String] = [
-            "url": url
+        let parameters: [String: Any] = [
+            "url": url,
+            "folders": [main_model.default_upload_folder_id]
         ]
         var swiftyJsonVar = JSON("")
         let _ = AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/bookmark", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: create_headers()).responseJSON { response in
