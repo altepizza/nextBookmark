@@ -51,8 +51,8 @@ struct SettingsView: View {
                     Section(header: Text("Upload")) {
                         Text("Where to upload new bookmarks").font(.subheadline)
                         Picker(selection: $main_model.default_upload_folder, label: Text("Target Folder")){
-                            ForEach(main_model.folders, id: \.self) { order in
-                                Text(verbatim: order.title)
+                            ForEach(main_model.folders, id: \.self) { folder in
+                                Text(verbatim: folder.full_path)
                             }
                         }
                     }

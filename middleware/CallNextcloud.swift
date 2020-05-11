@@ -75,15 +75,15 @@ struct CallNextcloud
         }
     }
     
-    private func makeFolders(json: JSON, pfolder_id: Int = -1) -> [Folder] {
+    private func makeFolders(json: JSON, pfolder_id: Int = -1, fullpath: String = "/") -> [Folder] {
         var folders = [Folder]()
         for (_, folderJSON) in json {
             if (folderJSON["id"].exists()){
-                let newFolder = Folder(id: Int(folderJSON["id"].intValue), title: folderJSON["title"].stringValue , parent_folder_id: pfolder_id)
+                let newFolder = Folder(id: Int(folderJSON["id"].intValue), title: folderJSON["title"].stringValue, parent_folder_id: pfolder_id, full_path: fullpath + folderJSON["title"].stringValue)
                 folders.append(newFolder)
                 if !(folderJSON["children"].isEmpty) {
                     for (_, child) in folderJSON["children"] {
-                        let subfolder = makeFolders(json: [child], pfolder_id: Int(folderJSON["id"].intValue))
+                        let subfolder = makeFolders(json: [child], pfolder_id: Int(folderJSON["id"].intValue), fullpath: newFolder.full_path + "/")
                         if (subfolder.count > 0) {
                             folders = folders + subfolder}
                     }

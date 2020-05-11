@@ -13,6 +13,7 @@ struct Folder: Identifiable, Hashable {
     let title: String
     let parent_folder_id: Int
     var isExpanded: Bool = true
+    var full_path: String = "/"
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
