@@ -66,6 +66,9 @@ struct CallNextcloud
                 self.main_model.folders = self.makeFolders(json: swiftyJsonVar)
                 self.main_model.folders.append(Folder(id: -1, title: "/", parent_folder_id: -1))
                 self.main_model.currentRoot = Folder(id: -1, title: "/", parent_folder_id: -1)
+                if let upload_folder = self.main_model.folders.first(where: {$0.id == self.main_model.default_upload_folder_id}) {
+                    self.main_model.default_upload_folder = upload_folder
+                }
             case .failure(let error):
                 debugPrint(error)
             }

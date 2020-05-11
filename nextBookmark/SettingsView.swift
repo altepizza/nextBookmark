@@ -48,6 +48,14 @@ struct SettingsView: View {
                         TextField("Your Username", text: $main_model.credentials_user)
                         SecureField("Your Password", text: $main_model.credentials_password)
                     }
+                    Section(header: Text("Upload")) {
+                        Text("Where to upload new bookmarks").font(.subheadline)
+                        Picker(selection: $main_model.default_upload_folder, label: Text("Target Folder")){
+                            ForEach(main_model.folders, id: \.self) { order in
+                                Text(verbatim: order.title)
+                            }
+                        }
+                    }
                     Section(header: Text("Visuals")) {
                         Text("Altering these settings might take a couple of seconds to load").font(.subheadline)
                         Picker(selection: $main_model.order_bookmarks, label: Text("Order bookmarks by")){

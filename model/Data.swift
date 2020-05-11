@@ -41,6 +41,23 @@ class Model: ObservableObject {
         }
     }
     
+    @Published var default_upload_folder_id: Int {
+        didSet {
+            sharedUserDefaults?.set(default_upload_folder_id, forKey: SharedUserDefaults.Keys.default_upload_folder_id)
+        }
+    }
+    @Published var default_upload_folder_title: String {
+        didSet {
+            sharedUserDefaults?.set(default_upload_folder_title, forKey: SharedUserDefaults.Keys.default_upload_folder_title)
+        }
+    }
+    @Published var default_upload_folder: Folder {
+        didSet {
+            sharedUserDefaults?.set(default_upload_folder.id, forKey: SharedUserDefaults.Keys.default_upload_folder_id)
+            sharedUserDefaults?.set(default_upload_folder.title, forKey: SharedUserDefaults.Keys.default_upload_folder_title)
+        }
+    }
+    
     init() {
         self.bookmarks = [.init(id: -1, added: 1, title: "Go to Settings...", url: "...setup your credentials", tags: ["...to..."], folder_ids: [-1], description: "")]
         self.credentials_password = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.password) ?? "Your Password"
@@ -50,6 +67,9 @@ class Model: ObservableObject {
         self.folders = [.init(id: -20, title: "<Pull down to load your bookmarks>",  parent_folder_id: -10)]
         self.full_title = sharedUserDefaults?.bool(forKey: SharedUserDefaults.Keys.username) ?? false
         self.order_bookmarks = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.order_bookmarks) ?? "newest first"
+        self.default_upload_folder_id = sharedUserDefaults?.integer(forKey: SharedUserDefaults.Keys.default_upload_folder_id) ?? -1
+        self.default_upload_folder_title = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.default_upload_folder_title) ?? "/"
+        self.default_upload_folder = Folder(id: -1, title: "/", parent_folder_id: -1)
     }
     
     func sorted_filtered_bookmarks(searchText: String) -> [Bookmark] {

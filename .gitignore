@@ -6,3 +6,4 @@ xcuserdata/
 .LSOverride
 fastlane
 nextBookmark.app.dSYM.zip
+.pytest_cache

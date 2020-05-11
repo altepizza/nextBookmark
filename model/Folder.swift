@@ -8,9 +8,13 @@
 
 import Foundation
 
-struct Folder: Identifiable {
+struct Folder: Identifiable, Hashable {
     var id: Int
     let title: String
     let parent_folder_id: Int
     var isExpanded: Bool = true
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }
