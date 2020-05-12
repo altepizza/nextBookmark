@@ -7,3 +7,4 @@ xcuserdata/
 fastlane
 nextBookmark.app.dSYM.zip
 .pytest_cache
+__pycache__

@@ -47,6 +47,7 @@ struct SettingsView: View {
                             .keyboardType(.URL)
                         TextField("Your Username", text: $main_model.credentials_user)
                         SecureField("Your Password", text: $main_model.credentials_password)
+                        Text("Please create and use an 'app password' if you are using Two-Factor Authentication").font(.subheadline)
                     }
                     Section(header: Text("Upload")) {
                         Text("Where to upload new bookmarks").font(.subheadline)
