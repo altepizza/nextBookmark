@@ -117,7 +117,7 @@ struct SettingsView: View {
                             CallNextcloud(data: self.main_model).requestFolderHierarchy()
                             CallNextcloud(data: self.main_model).get_all_bookmarks()
                         case .failure( _):
-                            self.show_error_banner(banner: banner, subtitle: "Cannot login to Nextcloud Bookmarks")
+                            self.show_error_banner(banner: banner, subtitle: "Cannot login to Nextcloud Bookmarks. Please check you credentials")
                         }
                 }
             }

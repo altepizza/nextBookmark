@@ -81,6 +81,7 @@ struct BookmarksView: View {
     @State private var searchText : String = ""
     private let defaultFolder: Folder = .init(id: -20, title: "<Pull down to load your bookmarks>",  parent_folder_id: -10)
     @State var order_bookmarks = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.order_bookmarks) ?? "newest first"
+    @State private var show_new_bookmark_modal = false
 
     var body: some View {
         
@@ -109,7 +110,6 @@ struct BookmarksView: View {
                         }}
                     
                     // Bookmarks of current filter + folder
-                   
                     ForEach(self.main_model.sorted_filtered_bookmarks(searchText: self.searchText))
                     { book in
                         BookmarkRow(main_model: self.main_model, book: book)
@@ -124,10 +124,21 @@ struct BookmarksView: View {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     CallNextcloud(data: self.main_model).get_all_bookmarks()
                 }
-            }.navigationBarTitle("Bookmarks", displayMode: .inline)
+            }
+            .navigationBarTitle("Bookmarks", displayMode: .inline)
                 .navigationBarItems(
+                    leading: Button(action: {
+                        self.show_new_bookmark_modal = true
+                    }) {
+                        Image(systemName: "plus")
+                    },
                     trailing: NavigationLink(destination: SettingsView(main_model: self.main_model)) {
-                        Text("Settings")} )
+                            Text("Settings")})
+                .sheet(isPresented: self.$show_new_bookmark_modal, onDismiss: {
+                print(self.show_new_bookmark_modal)
+            }) {
+                NewBookmarkView(vm: self.main_model)
+            }
             
         }.navigationViewStyle(StackNavigationViewStyle())
             .onAppear() {

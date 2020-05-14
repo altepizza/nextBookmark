@@ -55,7 +55,6 @@ struct CallNextcloud
         }
     }
     
-    
     func requestFolderHierarchy() {
         var swiftyJsonVar = JSON("")
         let _ = AF.request(self.main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/folder", headers: create_headers()).responseJSON { response in
@@ -108,6 +107,26 @@ struct CallNextcloud
                 print(error)
             }
             completionHandler(swiftyJsonVar)
+        }
+    }
+    
+    func post_new_bookmark(bookmark: Bookmark) {
+        let parameters: [String: Any] = [
+            "url": bookmark.url,
+            "title": bookmark.title,
+            "description": bookmark.description,
+            "folders": [main_model.default_upload_folder_id]
+        ]
+        var swiftyJsonVar = JSON("")
+        let _ = AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/bookmark", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: create_headers()).responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                swiftyJsonVar = JSON(value)["data"]
+                print(swiftyJsonVar["data"])
+                self.main_model.isShowing = false
+            case .failure(let error):
+                print(error)
+            }
         }
     }
     
