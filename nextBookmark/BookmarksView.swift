@@ -23,18 +23,28 @@ struct OpenFolderRow: View {
 
 struct FolderRow: View {
     var folder: Folder
+    var main_model: Model
     var body: some View {
-        HStack(){
-            Image(systemName: "folder.fill")
-            Text(folder.title).fontWeight(.bold)
+        Button(action: {
+            self.main_model.currentRoot = self.folder
+        }) {
+            HStack {
+                Image(systemName: "folder.fill")
+                Text(folder.title).fontWeight(.bold)
+            }
         }
     }
 }
 
 struct BackFolderRow: View {
+    var main_model: Model
     var body: some View {
-        HStack(){
-            Image(systemName: "arrowshape.turn.up.left")
+        Button(action: {
+            self.main_model.currentRoot = self.main_model.folders.first(where: {$0.id == self.main_model.currentRoot.parent_folder_id})!
+        }) {
+            HStack {
+                Image(systemName: "arrowshape.turn.up.left")
+            }
         }
     }
 }
@@ -82,50 +92,47 @@ struct BookmarksView: View {
     private let defaultFolder: Folder = .init(id: -20, title: "<Pull down to load your bookmarks>",  parent_folder_id: -10)
     @State var order_bookmarks = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.order_bookmarks) ?? "newest first"
     @State private var show_new_bookmark_modal = false
-
+    
     var body: some View {
         
         LoadingView(isShowing: $main_model.isShowing) {
-        NavigationView{
-            
-            VStack{
-                SearchBar(text: self.$searchText, placeholder: "Filter bookmarks")
+            NavigationView{
                 
-                OpenFolderRow(folder: self.main_model.currentRoot)
-                
-                List {
-                    // Folder back navigation
-                    if self.main_model.currentRoot.id > -1 {
-                        BackFolderRow().onTapGesture {
-                            self.main_model.currentRoot = self.main_model.folders.first(where: {$0.id == self.main_model.currentRoot.parent_folder_id})!
+                VStack{
+                    SearchBar(text: self.$searchText, placeholder: "Filter bookmarks")
+                    
+                    OpenFolderRow(folder: self.main_model.currentRoot)
+                    
+                    List {
+                        // Folder back navigation
+                        if self.main_model.currentRoot.id > -1 {
+                            BackFolderRow(main_model: self.main_model)
                         }
+                        
+                        // Subfolders
+                        ForEach(self.main_model.folders.filter {
+                            $0.parent_folder_id == self.main_model.currentRoot.id && $0.id != self.main_model.currentRoot.id
+                        }) { folder in
+                            FolderRow(folder: folder, main_model: self.main_model)
+                        }
+                        
+                        // Bookmarks of current filter + folder
+                        ForEach(self.main_model.sorted_filtered_bookmarks(searchText: self.searchText))
+                        { book in
+                            BookmarkRow(main_model: self.main_model, book: book)
+                        }
+                        .onDelete(perform: { row in
+                            self.delete(row: row)
+                        })
                     }
-                    
-                    // Subfolders
-                    ForEach(self.main_model.folders.filter {
-                        $0.parent_folder_id == self.main_model.currentRoot.id && $0.id != self.main_model.currentRoot.id
-                    }) { folder in
-                        FolderRow(folder: folder).onTapGesture {
-                            self.main_model.currentRoot = folder
-                        }}
-                    
-                    // Bookmarks of current filter + folder
-                    ForEach(self.main_model.sorted_filtered_bookmarks(searchText: self.searchText))
-                    { book in
-                        BookmarkRow(main_model: self.main_model, book: book)
+                }
+                .pullToRefresh(isShowing: self.$main_model.isShowing) {
+                    self.startUpCheck()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        CallNextcloud(data: self.main_model).get_all_bookmarks()
                     }
-                    .onDelete(perform: { row in
-                        self.delete(row: row)
-                    })
                 }
-            }
-            .pullToRefresh(isShowing: self.$main_model.isShowing) {
-                self.startUpCheck()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    CallNextcloud(data: self.main_model).get_all_bookmarks()
-                }
-            }
-            .navigationBarTitle("Bookmarks", displayMode: .inline)
+                .navigationBarTitle("Bookmarks", displayMode: .inline)
                 .navigationBarItems(
                     leading: Button(action: {
                         self.show_new_bookmark_modal = true
@@ -133,20 +140,20 @@ struct BookmarksView: View {
                         Image(systemName: "plus")
                     },
                     trailing: NavigationLink(destination: SettingsView(main_model: self.main_model)) {
-                            Text("Settings")})
-                .sheet(isPresented: self.$show_new_bookmark_modal, onDismiss: {
-                print(self.show_new_bookmark_modal)
-            }) {
-                NewBookmarkView(vm: self.main_model)
-            }
-            
-        }.navigationViewStyle(StackNavigationViewStyle())
-            .onAppear() {
-                if sharedUserDefaults?.bool(forKey: SharedUserDefaults.Keys.valid) ?? false {
-                    self.main_model.isShowing = true
-                    CallNextcloud(data: self.main_model).requestFolderHierarchy()
-                    CallNextcloud(data: self.main_model).get_all_bookmarks()
+                        Text("Settings")})
+                    .sheet(isPresented: self.$show_new_bookmark_modal, onDismiss: {
+                        print(self.show_new_bookmark_modal)
+                    }) {
+                        NewBookmarkView(vm: self.main_model)
                 }
+                
+            }.navigationViewStyle(StackNavigationViewStyle())
+                .onAppear() {
+                    if sharedUserDefaults?.bool(forKey: SharedUserDefaults.Keys.valid) ?? false {
+                        self.main_model.isShowing = true
+                        CallNextcloud(data: self.main_model).requestFolderHierarchy()
+                        CallNextcloud(data: self.main_model).get_all_bookmarks()
+                    }
             }}
     }
     
@@ -234,44 +241,43 @@ struct SearchBar: UIViewRepresentable {
 
 
 struct ActivityIndicator: UIViewRepresentable {
-
+    
     @Binding var isAnimating: Bool
     let style: UIActivityIndicatorView.Style
-
+    
     func makeUIView(context: UIViewRepresentableContext<ActivityIndicator>) -> UIActivityIndicatorView {
         return UIActivityIndicatorView(style: style)
     }
-
+    
     func updateUIView(_ uiView: UIActivityIndicatorView, context: UIViewRepresentableContext<ActivityIndicator>) {
         isAnimating ? uiView.startAnimating() : uiView.stopAnimating()
     }
 }
 
 struct LoadingView<Content>: View where Content: View {
-
+    
     @Binding var isShowing: Bool
     var content: () -> Content
-
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .center) {
-
+                
                 self.content()
                     .disabled(self.isShowing)
                     .blur(radius: self.isShowing ? 3 : 0)
-
+                
                 VStack {
                     Text("Loading...")
                     ActivityIndicator(isAnimating: .constant(true), style: .large)
                 }
                 .frame(width: geometry.size.width / 2,
                        height: geometry.size.height / 5)
-                .background(Color.secondary.colorInvert())
-                .foregroundColor(Color.primary)
-                .cornerRadius(20)
-                .opacity(self.isShowing ? 1 : 0)
+                    .background(Color.secondary.colorInvert())
+                    .foregroundColor(Color.primary)
+                    .cornerRadius(20)
+                    .opacity(self.isShowing ? 1 : 0)
             }
         }
     }
-
 }
