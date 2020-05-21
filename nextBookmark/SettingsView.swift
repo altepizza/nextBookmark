@@ -40,7 +40,7 @@ struct SettingsView: View {
     
     var body: some View {
         NavigationView{
-            VStack() {
+            VStack {
                 Form {
                     Section(header: Text("Nextcloud credentials")) {
                         TextField("https://your-nextcloud.instance", text: $main_model.credentials_url)
@@ -69,12 +69,17 @@ struct SettingsView: View {
                         }
                     }
                 }
+                
                 Spacer()
+                
                 Button(action: {
                     self.saveSettings()
                 }) {
                     Text("Save And Test Settings").padding()
                 }
+                .foregroundColor(.white)
+                .background(Color.blue)
+                .cornerRadius(40)
             }
             .padding(.bottom, keyboardHeight).animation(.easeInOut(duration:0.5))
             .onReceive(Publishers.keyboardHeight) { self.keyboardHeight = $0 }

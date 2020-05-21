@@ -9,106 +9,90 @@
 import SwiftUI
 import Combine
 
-struct Editable_Bookmark: View {
-    let headline: String
-    let containsURL: Bool
-    let key: String
-    let binding: Binding<String>
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 0.2) {
-            Text(headline)
-                .font(.headline)
-                if containsURL {
-                    TextField(key, text: binding)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .keyboardType(.URL)
-                }
-                else {
-                    TextField(key, text: binding)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                }
-        }.padding(.all)
-    }
-}
-
 struct ActivityView: UIViewControllerRepresentable {
-
     let activityItems: [Any]
     let applicationActivities: [UIActivity]?
-
+    
     func makeUIViewController(context: UIViewControllerRepresentableContext<ActivityView>) -> UIActivityViewController {
         return UIActivityViewController(activityItems: activityItems,
                                         applicationActivities: applicationActivities)
     }
-
+    
     func updateUIViewController(_ uiViewController: UIActivityViewController,
                                 context: UIViewControllerRepresentableContext<ActivityView>) {
-
     }
 }
 
 struct EditBookmarkView: View {
     @State private var showingSheet = false
     @State private var keyboardHeight: CGFloat = 0
-    @ObservedObject var vm: Model
-    @State var bookmark: Bookmark
+    @ObservedObject var model: Model
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var body: some View {
-        VStack {
-            ZStack {
-                HStack {
-                    Spacer()
-                    Text("Edit Bookmark").font(.title)
-                    Spacer()
-                }
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        self.showingSheet = true
-                    }) {
-                        Image(systemName: "square.and.arrow.up")
-                        .resizable()
-                        .scaledToFit()
-                            .frame(width: CGFloat(25), height: CGFloat(25))
-                        .padding()
+        NavigationView {
+            VStack {
+                Form {
+                    Section(header: Text("Title")) {
+                        TextField("title", text: $model.editing_bookmark.title)
                     }
-                    .sheet(isPresented: $showingSheet,
-                    content: {
-                        ActivityView(activityItems: [NSURL(string: self.bookmark.url)!] as [Any], applicationActivities: nil) })
+                    Section(header: Text("URL")) {
+                        TextField("url", text: $model.editing_bookmark.url).keyboardType(.URL)
+                    }
+                    Section(header: Text("Description")) {
+                        TextField("description", text: $model.editing_bookmark.description)
+                    }
+                    Section(header: Text("Tag(s)")) {
+                        NavigationLink(destination: BookmarkTags(model: self.model)) {
+                            Text(model.editing_bookmark.tags.joined(separator: ", ")).lineLimit(1)
+                        }
+                    }
                 }
+                Spacer()
+                Button(action: {
+                    self.showingSheet = true
+                    self.model.isShowing = true
+                    self.presentationMode.wrappedValue.dismiss()
+                    CallNextcloud(data: self.model).update_bookmark(bookmark: self.model.editing_bookmark)
+                }) {
+                    Text("Update bookmark")
+                }
+//                .foregroundColor(.white)
+//                .background(Color.blue)
+//                .cornerRadius(40)
+                .sheet(isPresented: $showingSheet,
+                       content: {
+                        ActivityView(activityItems: [NSURL(string: self.model.editing_bookmark.url)!] as [Any], applicationActivities: nil) })
+                .padding()
+                Button(action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                }) {
+                    Text("Cancel")
+                }
+//                .foregroundColor(.white)
+//                .background(Color.red)
+//                .cornerRadius(40)
             }
-            Spacer()
-            Editable_Bookmark(headline: "Title", containsURL: false, key: "title", binding: $bookmark.title)
-            Editable_Bookmark(headline: "URL", containsURL: true, key: "url", binding: $bookmark.url)
-            Editable_Bookmark(headline: "Description", containsURL: true, key: "description", binding: $bookmark.description)
-            Spacer()
-            Button(action: {
-                self.showingSheet = true
-                self.vm.isShowing = true
-                self.presentationMode.wrappedValue.dismiss()
-                CallNextcloud(data: self.vm).update_bookmark(bookmark: self.bookmark)
-            }) {
-                Text("Update bookmark")
-            }
-            .sheet(isPresented: $showingSheet,
-            content: {
-                ActivityView(activityItems: [NSURL(string: self.bookmark.url)!] as [Any], applicationActivities: nil) })
-            Spacer()
-            Button(action: {
-                self.presentationMode.wrappedValue.dismiss()
-            }) {
-                Text("Cancel")
-            }
+            .padding(.bottom, keyboardHeight).animation(.easeInOut(duration:0.5))
+            .onReceive(Publishers.keyboardHeight) { self.keyboardHeight = $0 }
+            .navigationBarTitle("Edit Bookmark", displayMode: .inline)
+            .navigationBarItems(
+                trailing:
+                    Button(action: {self.showingSheet = true}) {
+                        Image(systemName: "square.and.arrow.up")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: CGFloat(25), height: CGFloat(25))
+                            .padding()
+                    }
+                    .sheet(isPresented: $showingSheet, content: {
+                        ActivityView(activityItems: [NSURL(string: self.model.editing_bookmark.url)!] as [Any], applicationActivities: nil) })
+            )
         }
-        .padding()
-        .padding(.bottom, keyboardHeight).animation(.easeInOut(duration:0.5))
-        .onReceive(Publishers.keyboardHeight) { self.keyboardHeight = $0 }
     }
 }
 
 struct EditBookmarkView_Previews: PreviewProvider {
     static var previews: some View {
-        EditBookmarkView(vm: Model(), bookmark: Bookmark(id: 1, added: 1, title: "EDITTITLE", url: "EDITURL", tags: ["EDITTAG"], folder_ids: [1], description: "EDITDES"))
+        EditBookmarkView(model: Model())
     }
 }

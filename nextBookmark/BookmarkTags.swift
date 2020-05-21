@@ -15,17 +15,21 @@ struct BookmarkTagsRow: View {
 
     var body: some View {
         HStack {
-            Text(tag)
-            Spacer()
-            if (checked_tag) {
-                Image(systemName: "checkmark")
-            }
-        }.onTapGesture {
-            self.checked_tag.toggle()
-            if (self.model.editing_bookmark.tags.contains(self.tag)) {
-                self.model.editing_bookmark.tags.removeAll { $0 == self.tag }
-            } else {
-                self.model.editing_bookmark.tags.append(self.tag)
+            Button(action: {
+                self.checked_tag.toggle()
+                if (self.model.editing_bookmark.tags.contains(self.tag)) {
+                    self.model.editing_bookmark.tags.removeAll { $0 == self.tag }
+                } else {
+                    self.model.editing_bookmark.tags.append(self.tag)
+                }
+            }) {
+                HStack {
+                    Text(tag)
+                    Spacer()
+                    if (checked_tag) {
+                        Image(systemName: "checkmark")
+                    }
+                }
             }
         }.onAppear() {
             self.checked_tag = self.model.editing_bookmark.tags.contains(self.tag)

@@ -146,7 +146,6 @@ struct BookmarksView: View {
                     }) {
                         NewBookmarkView(vm: self.main_model)
                 }
-                
             }.navigationViewStyle(StackNavigationViewStyle())
                 .onAppear() {
                     if sharedUserDefaults?.bool(forKey: SharedUserDefaults.Keys.valid) ?? false {
