@@ -151,7 +151,6 @@ struct BookmarksView: View {
                     if sharedUserDefaults?.bool(forKey: SharedUserDefaults.Keys.valid) ?? false {
                         self.main_model.isShowing = true
                         CallNextcloud(data: self.main_model).requestFolderHierarchy()
-                        CallNextcloud(data: self.main_model).get_all_bookmarks()
                     }
             }}
     }

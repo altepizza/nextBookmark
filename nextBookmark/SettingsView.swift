@@ -57,6 +57,15 @@ struct SettingsView: View {
                             }
                         }
                     }
+                    Section(header: Text("Sync")) {
+                        NavigationLink(destination: FolderToSyncView(model: main_model)) {
+                            if (main_model.folders_not_for_sync.isEmpty) {
+                                Text("All folders will be synced")
+                            } else {
+                                Text(String(main_model.folders_not_for_sync.count) + " folder(s) won't be synced")
+                            }
+                        }
+                    }
                     Section(header: Text("Visuals")) {
                         Text("Altering these settings might take a couple of seconds to load").font(.subheadline)
                         Picker(selection: $main_model.order_bookmarks, label: Text("Order bookmarks by")){
@@ -75,7 +84,7 @@ struct SettingsView: View {
                 Button(action: {
                     self.saveSettings()
                 }) {
-                    Text("Save And Test Settings").padding()
+                    Text("Save And Test Credentials").padding()
                 }
                 .foregroundColor(.white)
                 .background(Color.blue)

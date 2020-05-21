@@ -20,5 +20,6 @@ struct SharedUserDefaults {
         static let full_title = "full_title"
         static let default_upload_folder_id = "default_upload_folder_id"
         static let default_upload_folder_title = "default_upload_folder_name"
+        static let folders_not_for_sync = "folders_for_sync"
     }
 }

@@ -28,20 +28,26 @@ struct CallNextcloud
     
     func get_all_bookmarks() {
         get_tags()
-        var bookmarks: [Bookmark] = []
-        let _ = AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/bookmark?page=-1", headers: create_headers()).responseJSON { response in
-            switch response.result {
-            case .success(let value):
-                let swiftyJsonVar = JSON(value)
-                bookmarks.removeAll()
-                for (_, mark) in swiftyJsonVar["data"] {
-                    bookmarks.append(Bookmark(id: mark["id"].intValue , added: mark["added"].intValue, title: mark["title"].stringValue , url: mark["url"].stringValue, tags: mark["tags"].arrayValue.map { $0.stringValue}, folder_ids: mark["folders"].arrayValue.map { $0.intValue}, description: mark["description"].stringValue))
+        main_model.bookmarks.removeAll()
+        for folder in main_model.folders {
+            if (!main_model.folders_not_for_sync.contains(folder.id)) {
+                let parameters: [String: Any] = [
+                    "folder": folder.id
+                ]
+                
+                let _ = AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/bookmark?page=-1", parameters: parameters, headers: create_headers()).responseJSON { response in
+                    switch response.result {
+                    case .success(let value):
+                        let swiftyJsonVar = JSON(value)
+                        for (_, mark) in swiftyJsonVar["data"] {
+                            self.main_model.bookmarks.append(Bookmark(id: mark["id"].intValue , added: mark["added"].intValue, title: mark["title"].stringValue , url: mark["url"].stringValue, tags: mark["tags"].arrayValue.map { $0.stringValue}, folder_ids: mark["folders"].arrayValue.map { $0.intValue}, description: mark["description"].stringValue))
+                        }
+                    case .failure(let error):
+                        print(error)
+                    }
+                    self.main_model.isShowing = false
                 }
-            case .failure(let error):
-                print(error)
             }
-            self.main_model.isShowing = false
-            self.main_model.bookmarks = bookmarks
         }
     }
     
@@ -69,6 +75,7 @@ struct CallNextcloud
                 if let upload_folder = self.main_model.folders.first(where: {$0.id == self.main_model.default_upload_folder_id}) {
                     self.main_model.default_upload_folder = upload_folder
                 }
+                self.get_all_bookmarks()
             case .failure(let error):
                 debugPrint(error)
             }
@@ -160,9 +167,7 @@ struct CallNextcloud
             switch response.result {
             case .success(let value):
                 let swiftyJsonVar = JSON(value)
-                print(swiftyJsonVar)
                 self.main_model.tags = swiftyJsonVar.arrayValue.map {$0.stringValue}
-                print(self.main_model.tags)
                 self.main_model.isShowing = false
             case .failure(let error):
                 print(error)

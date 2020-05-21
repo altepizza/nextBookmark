@@ -11,6 +11,11 @@ import Foundation
 class Model: ObservableObject {
     let sharedUserDefaults = UserDefaults(suiteName: SharedUserDefaults.suiteName)
     
+    @Published var folders_not_for_sync: [Int] {
+        didSet {
+            sharedUserDefaults?.set(folders_not_for_sync, forKey: SharedUserDefaults.Keys.folders_not_for_sync)
+        }
+    }
     @Published var editing_bookmark = Bookmark(id: -1, added: -1, title: "Title", url: "URL", tags: [], folder_ids: [-1], description: "Description")
     @Published var tags: [String] = []
     @Published var bookmarks : [Bookmark]
@@ -72,6 +77,7 @@ class Model: ObservableObject {
         self.default_upload_folder_id = sharedUserDefaults?.integer(forKey: SharedUserDefaults.Keys.default_upload_folder_id) ?? -1
         self.default_upload_folder_title = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.default_upload_folder_title) ?? "/"
         self.default_upload_folder = Folder(id: -1, title: "/", parent_folder_id: -1)
+        self.folders_not_for_sync = (sharedUserDefaults?.array(forKey: SharedUserDefaults.Keys.folders_not_for_sync) ?? []) as [Int]
     }
     
     func sorted_filtered_bookmarks(searchText: String) -> [Bookmark] {
