@@ -27,6 +27,7 @@ struct CallNextcloud
     }
     
     func get_all_bookmarks() {
+        get_tags()
         var bookmarks: [Bookmark] = []
         let _ = AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/bookmark?page=-1", headers: create_headers()).responseJSON { response in
             switch response.result {
@@ -147,6 +148,22 @@ struct CallNextcloud
                 debugPrint(swiftyJsonVar["data"])
                 //TODO: Alter bookmark in model
                 self.get_all_bookmarks()
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    func get_tags() {
+        self.main_model.isShowing = true
+        let _ = AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/tag", headers: create_headers()).responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                let swiftyJsonVar = JSON(value)
+                print(swiftyJsonVar)
+                self.main_model.tags = swiftyJsonVar.arrayValue.map {$0.stringValue}
+                print(self.main_model.tags)
+                self.main_model.isShowing = false
             case .failure(let error):
                 print(error)
             }

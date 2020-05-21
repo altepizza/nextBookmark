@@ -10,7 +10,9 @@ import Foundation
 
 class Model: ObservableObject {
     let sharedUserDefaults = UserDefaults(suiteName: SharedUserDefaults.suiteName)
-
+    
+    @Published var editing_bookmark = Bookmark(id: -1, added: -1, title: "Title", url: "URL", tags: [], folder_ids: [-1], description: "Description")
+    @Published var tags: [String] = []
     @Published var bookmarks : [Bookmark]
     @Published var currentRoot : Folder
     @Published var credentials_password : String {
@@ -75,7 +77,7 @@ class Model: ObservableObject {
     func sorted_filtered_bookmarks(searchText: String) -> [Bookmark] {
         if(order_bookmarks == "newest first") {
             return bookmarks.filter {
-                searchText.isEmpty ? $0.folder_ids.contains(currentRoot.id) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folder_ids.contains(currentRoot.id)}
+                searchText.isEmpty ? $0.folder_ids.contains(currentRoot.id) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased()) || $0.tags.contains(searchText)) && $0.folder_ids.contains(currentRoot.id)}
             .sorted(by: {($0.added > $1.added)})
         }
         if(order_bookmarks == "oldest first") {

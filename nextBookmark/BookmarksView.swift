@@ -67,6 +67,7 @@ struct BookmarkRow: View {
                 }
                 Text(book.url).font(.footnote).lineLimit(1).foregroundColor(Color.gray)
             }.onTapGesture {
+                self.main_model.editing_bookmark = self.book
                 self.showModal = true
             }
             Spacer()
@@ -81,7 +82,7 @@ struct BookmarkRow: View {
         }.sheet(isPresented: $showModal, onDismiss: {
             print(self.showModal)
         }) {
-            EditBookmarkView(vm: self.main_model, bookmark: self.book)
+            EditBookmarkView(model: self.main_model)
         }
     }
 }
@@ -97,7 +98,6 @@ struct BookmarksView: View {
         
         LoadingView(isShowing: $main_model.isShowing) {
             NavigationView{
-                
                 VStack{
                     SearchBar(text: self.$searchText, placeholder: "Filter bookmarks")
                     
@@ -117,8 +117,8 @@ struct BookmarksView: View {
                         }
                         
                         // Bookmarks of current filter + folder
-                        ForEach(self.main_model.sorted_filtered_bookmarks(searchText: self.searchText))
-                        { book in
+                        ForEach(self.main_model.sorted_filtered_bookmarks(searchText: self.searchText)) {
+                            book in
                             BookmarkRow(main_model: self.main_model, book: book)
                         }
                         .onDelete(perform: { row in
