@@ -87,7 +87,7 @@ struct EditBookmarkView: View {
                     .sheet(isPresented: $showingSheet, content: {
                         ActivityView(activityItems: [NSURL(string: self.model.editing_bookmark.url)!] as [Any], applicationActivities: nil) })
             )
-        }
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

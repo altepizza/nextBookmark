@@ -52,6 +52,7 @@ struct FolderToSyncView: View {
                 }
             }
         }.navigationBarTitle("Synced folders", displayMode: .inline)
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
