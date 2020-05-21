@@ -9,6 +9,29 @@
 import SwiftUI
 import Combine
 
+struct New_Bookmark: View {
+    let headline: String
+    let containsURL: Bool
+    let key: String
+    let binding: Binding<String>
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0.2) {
+            Text(headline)
+            .font(.headline)
+                if containsURL {
+                    TextField(key, text: binding)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .keyboardType(.URL)
+                }
+                else {
+                    TextField(key, text: binding)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                }
+        }.padding(.all)
+    }
+}
+
 struct NewBookmarkView: View {
     @State private var showingSheet = false
     @State private var keyboardHeight: CGFloat = 0
@@ -24,9 +47,9 @@ struct NewBookmarkView: View {
             }
 
             Spacer()
-            Editable_Bookmark(headline: "Title", containsURL: false, key: "title", binding: $bookmark.title)
-            Editable_Bookmark(headline: "URL", containsURL: true, key: "url", binding: $bookmark.url)
-            Editable_Bookmark(headline: "Description", containsURL: true, key: "description", binding: $bookmark.description)
+            New_Bookmark(headline: "Title", containsURL: false, key: "title", binding: $bookmark.title)
+            New_Bookmark(headline: "URL", containsURL: true, key: "url", binding: $bookmark.url)
+            New_Bookmark(headline: "Description", containsURL: true, key: "description", binding: $bookmark.description)
             Spacer()
             Button(action: {
                 self.showingSheet = true
