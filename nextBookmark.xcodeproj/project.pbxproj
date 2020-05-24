@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		50A089DA9E6F4AA4CEC98F88 /* libPods-nextBookmark-nextBookmarkUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AF5D595E7ED01270C7D7760F /* libPods-nextBookmark-nextBookmarkUITests.a */; };
 		98239462235CE2A1005A3AC9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98239461235CE2A1005A3AC9 /* SettingsView.swift */; };
+		986B425F2476D75100D31ABF /* FolderToSyncView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986B425E2476D75100D31ABF /* FolderToSyncView.swift */; };
 		9874B04C23C51E9D0070C202 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 9874B04B23C51E9D0070C202 /* .gitignore */; };
 		989C17C2236A2A2F00EE273A /* BookmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989C17C1236A2A2F00EE273A /* BookmarksView.swift */; };
 		98A630D0246DD7DB00B27D69 /* NewBookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A630CF246DD7DB00B27D69 /* NewBookmarkView.swift */; };
@@ -21,6 +22,7 @@
 		98AF64C723245CE70029F327 /* SharedUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98AF64C523245CE70029F327 /* SharedUserDefaults.swift */; };
 		98B2BAAC24574693002FD3CB /* EditBookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B2BAAB24574693002FD3CB /* EditBookmarkView.swift */; };
 		98B3C3E623DA432500524D07 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 98B3C3E523DA432400524D07 /* README.md */; };
+		98BF94412475BBFB0036272F /* BookmarkTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BF94402475BBFB0036272F /* BookmarkTags.swift */; };
 		98C1DA2B2370BCD50006B4BC /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 98C1DA2A2370BCD50006B4BC /* Podfile */; };
 		98C4C40C24046515008EB872 /* ThanksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C4C40B24046515008EB872 /* ThanksView.swift */; };
 		98C4C40E240476C3008EB872 /* privacy_policy.md in Resources */ = {isa = PBXBuildFile; fileRef = 98C4C40D240476C3008EB872 /* privacy_policy.md */; };
@@ -93,6 +95,7 @@
 		8E89D7EF9ECAC41E5BCE44CD /* Pods-ShareExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareExtension.debug.xcconfig"; path = "Target Support Files/Pods-ShareExtension/Pods-ShareExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		980C219B240219A4008E3856 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		98239461235CE2A1005A3AC9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		986B425E2476D75100D31ABF /* FolderToSyncView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderToSyncView.swift; sourceTree = "<group>"; };
 		9874B04B23C51E9D0070C202 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		989C17C1236A2A2F00EE273A /* BookmarksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksView.swift; sourceTree = "<group>"; };
 		98A630CF246DD7DB00B27D69 /* NewBookmarkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewBookmarkView.swift; sourceTree = "<group>"; };
@@ -103,6 +106,7 @@
 		98AF64C523245CE70029F327 /* SharedUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedUserDefaults.swift; sourceTree = "<group>"; };
 		98B2BAAB24574693002FD3CB /* EditBookmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBookmarkView.swift; sourceTree = "<group>"; };
 		98B3C3E523DA432400524D07 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.markdown; };
+		98BF94402475BBFB0036272F /* BookmarkTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkTags.swift; sourceTree = "<group>"; };
 		98C1DA2A2370BCD50006B4BC /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		98C4C40B24046515008EB872 /* ThanksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThanksView.swift; sourceTree = "<group>"; };
 		98C4C40D240476C3008EB872 /* privacy_policy.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = privacy_policy.md; sourceTree = SOURCE_ROOT; };
@@ -256,6 +260,8 @@
 				98C4C40B24046515008EB872 /* ThanksView.swift */,
 				98B2BAAB24574693002FD3CB /* EditBookmarkView.swift */,
 				98A630CF246DD7DB00B27D69 /* NewBookmarkView.swift */,
+				98BF94402475BBFB0036272F /* BookmarkTags.swift */,
+				986B425E2476D75100D31ABF /* FolderToSyncView.swift */,
 			);
 			path = nextBookmark;
 			sourceTree = "<group>";
@@ -584,9 +590,11 @@
 				98B2BAAC24574693002FD3CB /* EditBookmarkView.swift in Sources */,
 				98239462235CE2A1005A3AC9 /* SettingsView.swift in Sources */,
 				98E3112C240B19EC00D6C5C5 /* Folder.swift in Sources */,
+				986B425F2476D75100D31ABF /* FolderToSyncView.swift in Sources */,
 				98E12EFD23A82D7600E6CDD6 /* CallNextcloud.swift in Sources */,
 				98AED5F52364F5A40009ACA3 /* SceneDelegate.swift in Sources */,
 				98E12F0023A82F0500E6CDD6 /* Bookmark.swift in Sources */,
+				98BF94412475BBFB0036272F /* BookmarkTags.swift in Sources */,
 				989C17C2236A2A2F00EE273A /* BookmarksView.swift in Sources */,
 				98A630D0246DD7DB00B27D69 /* NewBookmarkView.swift in Sources */,
 				98C4C40C24046515008EB872 /* ThanksView.swift in Sources */,
@@ -783,7 +791,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = nextBookmark/nextBookmark.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3K22348YPB;
 				INFOPLIST_FILE = nextBookmark/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.3;
@@ -791,7 +799,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.8.1;
+				MARKETING_VERSION = 1.9.4;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -807,7 +815,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = nextBookmark/nextBookmark.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3K22348YPB;
 				INFOPLIST_FILE = nextBookmark/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.3;
@@ -815,7 +823,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.8.1;
+				MARKETING_VERSION = 1.9.4;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -836,7 +844,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.8.1;
+				MARKETING_VERSION = 1.9.4;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmarkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -858,7 +866,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.8.1;
+				MARKETING_VERSION = 1.9.4;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmarkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -879,7 +887,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.8.1;
+				MARKETING_VERSION = 1.9.4;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmarkUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -900,7 +908,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.8.1;
+				MARKETING_VERSION = 1.9.4;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmarkUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -915,7 +923,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = ShareExtension/ShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3K22348YPB;
 				INFOPLIST_FILE = ShareExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -923,7 +931,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.8.1;
+				MARKETING_VERSION = 1.9.4;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -938,7 +946,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = ShareExtension/ShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3K22348YPB;
 				INFOPLIST_FILE = ShareExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -946,7 +954,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.8.1;
+				MARKETING_VERSION = 1.9.4;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
