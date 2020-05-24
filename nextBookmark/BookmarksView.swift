@@ -129,7 +129,7 @@ struct BookmarksView: View {
                 .pullToRefresh(isShowing: self.$main_model.isShowing) {
                     self.startUpCheck()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        CallNextcloud(data: self.main_model).get_all_bookmarks()
+                        CallNextcloud(data: self.main_model).requestFolderHierarchy()
                     }
                 }
                 .navigationBarTitle("Bookmarks", displayMode: .inline)

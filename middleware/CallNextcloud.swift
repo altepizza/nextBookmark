@@ -32,7 +32,8 @@ struct CallNextcloud
         for folder in main_model.folders {
             if (!main_model.folders_not_for_sync.contains(folder.id)) {
                 let parameters: [String: Any] = [
-                    "folder": folder.id
+                    "folder": folder.id,
+                    "page": -1
                 ]
                 
                 let _ = AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/bookmark?page=-1", parameters: parameters, headers: create_headers()).responseJSON { response in
@@ -42,10 +43,11 @@ struct CallNextcloud
                         for (_, mark) in swiftyJsonVar["data"] {
                             self.main_model.bookmarks.append(Bookmark(id: mark["id"].intValue , added: mark["added"].intValue, title: mark["title"].stringValue , url: mark["url"].stringValue, tags: mark["tags"].arrayValue.map { $0.stringValue}, folder_ids: mark["folders"].arrayValue.map { $0.intValue}, description: mark["description"].stringValue))
                         }
+                        self.main_model.isShowing = false
                     case .failure(let error):
                         print(error)
+                        self.main_model.isShowing = false
                     }
-                    self.main_model.isShowing = false
                 }
             }
         }
@@ -71,7 +73,7 @@ struct CallNextcloud
                 debugPrint(swiftyJsonVar["data"])
                 self.main_model.folders = self.makeFolders(json: swiftyJsonVar)
                 self.main_model.folders.append(Folder(id: -1, title: "/", parent_folder_id: -1))
-                self.main_model.currentRoot = Folder(id: -1, title: "/", parent_folder_id: -1)
+                //self.main_model.currentRoot = Folder(id: -1, title: "/", parent_folder_id: -1)
                 if let upload_folder = self.main_model.folders.first(where: {$0.id == self.main_model.default_upload_folder_id}) {
                     self.main_model.default_upload_folder = upload_folder
                 }
