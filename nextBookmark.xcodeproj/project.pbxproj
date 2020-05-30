@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		50A089DA9E6F4AA4CEC98F88 /* libPods-nextBookmark-nextBookmarkUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AF5D595E7ED01270C7D7760F /* libPods-nextBookmark-nextBookmarkUITests.a */; };
 		980CB54A2482A07D0093AFFC /* BookmarkTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980CB5492482A07D0093AFFC /* BookmarkTags.swift */; };
+		980CB54C2482D4350093AFFC /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980CB54B2482D4350093AFFC /* AppView.swift */; };
+		980CB54E2482D5730093AFFC /* FoldersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980CB54D2482D5730093AFFC /* FoldersView.swift */; };
+		980CB5502482DCF70093AFFC /* TagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980CB54F2482DCF70093AFFC /* TagsView.swift */; };
 		98239462235CE2A1005A3AC9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98239461235CE2A1005A3AC9 /* SettingsView.swift */; };
 		9874B04C23C51E9D0070C202 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 9874B04B23C51E9D0070C202 /* .gitignore */; };
 		989C17C2236A2A2F00EE273A /* BookmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989C17C1236A2A2F00EE273A /* BookmarksView.swift */; };
@@ -94,6 +97,9 @@
 		8E89D7EF9ECAC41E5BCE44CD /* Pods-ShareExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareExtension.debug.xcconfig"; path = "Target Support Files/Pods-ShareExtension/Pods-ShareExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		980C219B240219A4008E3856 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		980CB5492482A07D0093AFFC /* BookmarkTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkTags.swift; sourceTree = "<group>"; };
+		980CB54B2482D4350093AFFC /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
+		980CB54D2482D5730093AFFC /* FoldersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldersView.swift; sourceTree = "<group>"; };
+		980CB54F2482DCF70093AFFC /* TagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsView.swift; sourceTree = "<group>"; };
 		98239461235CE2A1005A3AC9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		9874B04B23C51E9D0070C202 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		989C17C1236A2A2F00EE273A /* BookmarksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksView.swift; sourceTree = "<group>"; };
@@ -259,6 +265,9 @@
 				98B2BAAB24574693002FD3CB /* EditBookmarkView.swift */,
 				98A630CF246DD7DB00B27D69 /* NewBookmarkView.swift */,
 				980CB5492482A07D0093AFFC /* BookmarkTags.swift */,
+				980CB54B2482D4350093AFFC /* AppView.swift */,
+				980CB54D2482D5730093AFFC /* FoldersView.swift */,
+				980CB54F2482DCF70093AFFC /* TagsView.swift */,
 			);
 			path = nextBookmark;
 			sourceTree = "<group>";
@@ -590,8 +599,11 @@
 				98E12EFD23A82D7600E6CDD6 /* CallNextcloud.swift in Sources */,
 				98AED5F52364F5A40009ACA3 /* SceneDelegate.swift in Sources */,
 				98E12F0023A82F0500E6CDD6 /* Bookmark.swift in Sources */,
+				980CB5502482DCF70093AFFC /* TagsView.swift in Sources */,
+				980CB54E2482D5730093AFFC /* FoldersView.swift in Sources */,
 				980CB54A2482A07D0093AFFC /* BookmarkTags.swift in Sources */,
 				989C17C2236A2A2F00EE273A /* BookmarksView.swift in Sources */,
+				980CB54C2482D4350093AFFC /* AppView.swift in Sources */,
 				98A630D0246DD7DB00B27D69 /* NewBookmarkView.swift in Sources */,
 				98C4C40C24046515008EB872 /* ThanksView.swift in Sources */,
 				98AF64C623245CE70029F327 /* SharedUserDefaults.swift in Sources */,

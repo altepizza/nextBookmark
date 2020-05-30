@@ -88,7 +88,7 @@ struct BookmarkRow: View {
 }
 
 struct BookmarksView: View {
-    @ObservedObject var main_model: Model = Model()
+    @ObservedObject var main_model: Model
     @State private var searchText : String = ""
     private let defaultFolder: Folder = .init(id: -20, title: "<Pull down to load your bookmarks>",  parent_folder_id: -10)
     @State var order_bookmarks = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.order_bookmarks) ?? "newest first"
@@ -98,12 +98,9 @@ struct BookmarksView: View {
         
         LoadingView(isShowing: $main_model.isShowing) {
             NavigationView{
-                
                 VStack{
                     SearchBar(text: self.$searchText, placeholder: "Filter bookmarks")
-                    
-                    OpenFolderRow(folder: self.main_model.currentRoot)
-                    
+                                        
                     List {
                         // Folder back navigation
                         if self.main_model.currentRoot.id > -1 {
@@ -134,15 +131,13 @@ struct BookmarksView: View {
                         CallNextcloud(data: self.main_model).get_tags()
                     }
                 }
-                .navigationBarTitle("Bookmarks", displayMode: .inline)
+                .navigationBarTitle(Text(self.main_model.currentRoot.title), displayMode: .inline)
                 .navigationBarItems(
-                    leading: Button(action: {
+                    trailing: Button(action: {
                         self.show_new_bookmark_modal = true
                     }) {
                         Image(systemName: "plus")
-                    },
-                    trailing: NavigationLink(destination: SettingsView(main_model: self.main_model)) {
-                        Text("Settings")})
+                    })
                     .sheet(isPresented: self.$show_new_bookmark_modal, onDismiss: {
                         print(self.show_new_bookmark_modal)
                     }) {
@@ -150,14 +145,7 @@ struct BookmarksView: View {
                 }
                 
             }.navigationViewStyle(StackNavigationViewStyle())
-                .onAppear() {
-                    if sharedUserDefaults?.bool(forKey: SharedUserDefaults.Keys.valid) ?? false {
-                        self.main_model.isShowing = true
-                        CallNextcloud(data: self.main_model).requestFolderHierarchy()
-                        CallNextcloud(data: self.main_model).get_all_bookmarks()
-                        CallNextcloud(data: self.main_model).get_tags()
-                    }
-            }}
+        }
     }
     
     func startUpCheck() {
@@ -281,6 +269,6 @@ struct LoadingView<Content>: View where Content: View {
 
 struct BookmarksView_Previews: PreviewProvider {
     static var previews: some View {
-        BookmarksView()
+        BookmarksView(main_model: Model())
     }
 }
