@@ -67,6 +67,7 @@ struct BookmarkRow: View {
                 }
                 Text(book.url).font(.footnote).lineLimit(1).foregroundColor(Color.gray)
             }.onTapGesture {
+                self.main_model.editing_bookmark = self.book
                 self.showModal = true
             }
             Spacer()
@@ -81,7 +82,7 @@ struct BookmarkRow: View {
         }.sheet(isPresented: $showModal, onDismiss: {
             print(self.showModal)
         }) {
-            EditBookmarkView(vm: self.main_model, bookmark: self.book)
+            EditBookmarkView(model: self.main_model)
         }
     }
 }
@@ -130,6 +131,7 @@ struct BookmarksView: View {
                     self.startUpCheck()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         CallNextcloud(data: self.main_model).get_all_bookmarks()
+                        CallNextcloud(data: self.main_model).get_tags()
                     }
                 }
                 .navigationBarTitle("Bookmarks", displayMode: .inline)
@@ -153,6 +155,7 @@ struct BookmarksView: View {
                         self.main_model.isShowing = true
                         CallNextcloud(data: self.main_model).requestFolderHierarchy()
                         CallNextcloud(data: self.main_model).get_all_bookmarks()
+                        CallNextcloud(data: self.main_model).get_tags()
                     }
             }}
     }
@@ -181,12 +184,6 @@ private func tagsAvailable(for book: Bookmark) -> Bool {
         return false
     }
     return true
-}
-
-struct BookmarksView_Previews: PreviewProvider {
-    static var previews: some View {
-        BookmarksView()
-    }
 }
 
 struct SearchBar: UIViewRepresentable {
@@ -279,5 +276,11 @@ struct LoadingView<Content>: View where Content: View {
                     .opacity(self.isShowing ? 1 : 0)
             }
         }
+    }
+}
+
+struct BookmarksView_Previews: PreviewProvider {
+    static var previews: some View {
+        BookmarksView()
     }
 }

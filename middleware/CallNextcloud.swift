@@ -168,4 +168,17 @@ struct CallNextcloud
             }
         }
     }
+    
+    func get_tags() {
+        self.main_model.isShowing = true
+        let _ = AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/tag", headers: create_headers()).responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                let swiftyJsonVar = JSON(value)
+                self.main_model.tags = swiftyJsonVar.arrayValue.map {$0.stringValue}
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
 }
