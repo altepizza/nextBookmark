@@ -9,29 +9,6 @@
 import SwiftUI
 import Combine
 
-struct Editable_Bookmark: View {
-    let headline: String
-    let containsURL: Bool
-    let key: String
-    let binding: Binding<String>
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 0.2) {
-            Text(headline)
-                .font(.headline)
-                if containsURL {
-                    TextField(key, text: binding)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .keyboardType(.URL)
-                }
-                else {
-                    TextField(key, text: binding)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                }
-        }.padding(.all)
-    }
-}
-
 struct ActivityView: UIViewControllerRepresentable {
 
     let activityItems: [Any]
@@ -48,7 +25,7 @@ struct ActivityView: UIViewControllerRepresentable {
     }
 }
 
-struct EditBookmarkView: View {
+struct BookmarkDetailView: View {
     @State private var showingSheet = false
     @State private var keyboardHeight: CGFloat = 0
     @ObservedObject var model: Model
@@ -84,9 +61,13 @@ struct EditBookmarkView: View {
                     self.showingSheet = true
                     self.model.isShowing = true
                     self.presentationMode.wrappedValue.dismiss()
-                    CallNextcloud(data: self.model).update_bookmark(bookmark: self.model.editing_bookmark)
+                    CallNextcloud(data: self.model).edit_or_create_bookmark(bookmark: self.model.editing_bookmark)
                 }) {
-                    Text("Update bookmark")
+                    if (model.editing_bookmark.id == -1) {
+                        Text("Create Bookmark")
+                    } else {
+                        Text("Update bookmark")
+                    }
                 }
 //                .foregroundColor(.white)
 //                .background(Color.blue)
@@ -125,6 +106,6 @@ struct EditBookmarkView: View {
 
 struct EditBookmarkView_Previews: PreviewProvider {
     static var previews: some View {
-        EditBookmarkView(model: Model())
+        BookmarkDetailView(model: Model())
     }
 }

@@ -117,7 +117,7 @@ struct CallNextcloud
         }
     }
     
-    func post_new_bookmark(bookmark: Bookmark) {
+    private func post_new_bookmark(bookmark: Bookmark) {
         var parameters: [String: Any]
         if main_model.default_upload_folder_id == 0 {
             parameters = [
@@ -146,7 +146,7 @@ struct CallNextcloud
         }
     }
     
-    func update_bookmark(bookmark: Bookmark) {
+    private func update_bookmark(bookmark: Bookmark) {
         self.main_model.isShowing = true
         let parameters: [String : Any] = [
             "url": bookmark.url,
@@ -179,6 +179,14 @@ struct CallNextcloud
             case .failure(let error):
                 print(error)
             }
+        }
+    }
+    
+    func edit_or_create_bookmark(bookmark: Bookmark) {
+        if (bookmark.id == -1) {
+            post_new_bookmark(bookmark: bookmark)
+        } else {
+            update_bookmark(bookmark: bookmark)
         }
     }
 }

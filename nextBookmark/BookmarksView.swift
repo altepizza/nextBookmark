@@ -82,7 +82,7 @@ struct BookmarkRow: View {
         }.sheet(isPresented: $showModal, onDismiss: {
             print(self.showModal)
         }) {
-            EditBookmarkView(model: self.main_model)
+            BookmarkDetailView(model: self.main_model)
         }
     }
 }
@@ -134,6 +134,7 @@ struct BookmarksView: View {
                 .navigationBarTitle(Text(self.main_model.currentRoot.title), displayMode: .inline)
                 .navigationBarItems(
                     trailing: Button(action: {
+                        self.main_model.editing_bookmark = Bookmark(id: -1, added: 0, title: "", url: "", tags: [], folder_ids: [self.main_model.currentRoot.id], description: "")
                         self.show_new_bookmark_modal = true
                     }) {
                         Image(systemName: "plus")
@@ -141,7 +142,7 @@ struct BookmarksView: View {
                     .sheet(isPresented: self.$show_new_bookmark_modal, onDismiss: {
                         print(self.show_new_bookmark_modal)
                     }) {
-                        NewBookmarkView(vm: self.main_model)
+                        BookmarkDetailView(model: self.main_model)
                 }
                 
             }.navigationViewStyle(StackNavigationViewStyle())
