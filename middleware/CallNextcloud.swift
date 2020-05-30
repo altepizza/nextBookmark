@@ -153,7 +153,7 @@ struct CallNextcloud
             "title": bookmark.title,
             "description": bookmark.description,
             "tags": bookmark.tags,
-            "folders": bookmark.folder_ids
+            "folders": [self.main_model.editing_bookmark_folder.id]
         ]
         var swiftyJsonVar = JSON("")
         _ = AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/bookmark/" + String(bookmark.id), method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: create_headers()).responseJSON { response in

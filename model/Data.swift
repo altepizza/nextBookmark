@@ -57,9 +57,19 @@ class Model: ObservableObject {
             sharedUserDefaults?.set(default_upload_folder.title, forKey: SharedUserDefaults.Keys.default_upload_folder_title)
         }
     }
-    @Published var editing_bookmark = Bookmark(id: -1, added: -1, title: "Title", url: "URL", tags: [], folder_ids: [-1], description: "Description")
     @Published var tags: [String] = []
     
+    @Published var editing_bookmark = Bookmark(id: -1, added: -1, title: "Title", url: "URL", tags: [], folder_ids: [-1], description: "Description") {
+        didSet {
+            editing_bookmark_folder = folders.filter({ $0.id == editing_bookmark.folder_ids.first }).first!
+        }
+    }
+    @Published var editing_bookmark_folder = Folder(id: -1, title: "/", parent_folder_id: -1) {
+        didSet {
+            //editing_bookmark.folder_ids[0] = editing_bookmark_folder.id
+        }
+    }
+   
     init() {
         self.bookmarks = [.init(id: -1, added: 1, title: "Go to Settings...", url: "...setup your credentials", tags: ["...to..."], folder_ids: [-1], description: "")]
         self.credentials_password = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.password) ?? "Your Password"

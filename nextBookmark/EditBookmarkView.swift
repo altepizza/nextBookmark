@@ -71,6 +71,13 @@ struct EditBookmarkView: View {
                             Text(model.editing_bookmark.tags.joined(separator: ", ")).lineLimit(1)
                         }
                     }
+                    Section(header: Text("Folder")) {
+                        Picker(selection: $model.editing_bookmark_folder, label: Text("Folder")){
+                            ForEach(model.folders, id: \.self) { folder in
+                                Text(verbatim: folder.full_path)
+                            }
+                        }
+                    }
                 }
                 Spacer()
                 Button(action: {
