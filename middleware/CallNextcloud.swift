@@ -93,10 +93,17 @@ struct CallNextcloud
     }
     
     func postURL(url: String, completionHandler: @escaping (JSON?) -> Void) {
-        let parameters: [String: Any] = [
-            "url": url,
-            "folders": [main_model.default_upload_folder_id]
-        ]
+        var parameters: [String: Any]
+        if main_model.default_upload_folder_id == 0 {
+            parameters = [
+                "url": url
+            ]
+        } else {
+            parameters = [
+                "url": url,
+                "folders": [main_model.default_upload_folder_id]
+            ]
+        }
         var swiftyJsonVar = JSON("")
         let _ = AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/bookmark", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: create_headers()).responseJSON { response in
             switch response.result {
@@ -111,12 +118,21 @@ struct CallNextcloud
     }
     
     func post_new_bookmark(bookmark: Bookmark) {
-        let parameters: [String: Any] = [
-            "url": bookmark.url,
-            "title": bookmark.title,
-            "description": bookmark.description,
-            "folders": [main_model.default_upload_folder_id]
-        ]
+        var parameters: [String: Any]
+        if main_model.default_upload_folder_id == 0 {
+            parameters = [
+                "url": bookmark.url,
+                "title": bookmark.title,
+                "description": bookmark.description,
+            ]
+        } else {
+            parameters = [
+                "url": bookmark.url,
+                "title": bookmark.title,
+                "description": bookmark.description,
+                "folders": [main_model.default_upload_folder_id]
+            ]
+        }
         var swiftyJsonVar = JSON("")
         let _ = AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/bookmark", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: create_headers()).responseJSON { response in
             switch response.result {
