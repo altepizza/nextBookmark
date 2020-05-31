@@ -37,17 +37,17 @@ struct BookmarkDetailView: View {
             VStack {
                 Form {
                     Section(header: Text("Title")) {
-                        TextField("title", text: $bookmark.title)
+                        TextField("title", text: $model.editing_bookmark.title)
                     }
                     Section(header: Text("URL")) {
-                        TextField("url", text: $bookmark.url).keyboardType(.URL)
+                        TextField("url", text: $model.editing_bookmark.url).keyboardType(.URL)
                     }
                     Section(header: Text("Description")) {
-                        TextField("description", text: $bookmark.description)
+                        TextField("description", text: $model.editing_bookmark.description)
                     }
                     Section(header: Text("Tag(s)")) {
                         NavigationLink(destination: BookmarkTags(model: self.model)) {
-                            Text(bookmark.tags.joined(separator: ", ")).lineLimit(1)
+                            Text(model.editing_bookmark.tags.joined(separator: ", ")).lineLimit(1)
                         }
                     }
                     Section(header: Text("Folder")) {
@@ -60,8 +60,8 @@ struct BookmarkDetailView: View {
                     Button(action: {
                         self.model.isShowing = true
                         self.presentationMode.wrappedValue.dismiss()
-                        self.bookmark.folder_ids = [self.bookmark_folder.id]
-                        CallNextcloud(data: self.model).edit_or_create_bookmark(bookmark: self.bookmark)
+                        self.model.editing_bookmark.folder_ids = [self.bookmark_folder.id]
+                        CallNextcloud(data: self.model).edit_or_create_bookmark(bookmark: self.model.editing_bookmark)
                     }) {
                             Text("Save Bookmark")
                     }
