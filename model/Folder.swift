@@ -8,10 +8,10 @@
 
 import Foundation
 
-struct Folder: Identifiable, Hashable {
+struct Folder: Identifiable, Hashable, Codable {
     var id: Int
-    let title: String
-    let parent_folder_id: Int
+    var title: String
+    var parent_folder_id: Int
     var isExpanded: Bool = true
     var full_path: String = "/"
     

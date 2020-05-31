@@ -55,39 +55,31 @@ struct BookmarkDetailView: View {
                             }
                         }
                     }
-                }
-                Spacer()
-                Button(action: {
-                    self.showingSheet = true
-                    self.model.isShowing = true
-                    self.presentationMode.wrappedValue.dismiss()
-                    CallNextcloud(data: self.model).edit_or_create_bookmark(bookmark: self.model.editing_bookmark)
-                }) {
-                    if (model.editing_bookmark.id == -1) {
-                        Text("Create Bookmark")
-                    } else {
-                        Text("Update bookmark")
+                    Button(action: {
+                        self.showingSheet = true
+                        self.model.isShowing = true
+                        self.presentationMode.wrappedValue.dismiss()
+                        CallNextcloud(data: self.model).edit_or_create_bookmark(bookmark: self.model.editing_bookmark)
+                    }) {
+                        if (model.editing_bookmark.id == -1) {
+                            Text("Create Bookmark")
+                        } else {
+                            Text("Update bookmark")
+                        }
                     }
                 }
-//                .foregroundColor(.white)
-//                .background(Color.blue)
-//                .cornerRadius(40)
                 .sheet(isPresented: $showingSheet,
                        content: {
                         ActivityView(activityItems: [NSURL(string: self.model.editing_bookmark.url)!] as [Any], applicationActivities: nil) })
-                .padding()
                 Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
                 }) {
                     Text("Cancel")
                 }
-//                .foregroundColor(.white)
-//                .background(Color.red)
-//                .cornerRadius(40)
             }
             .padding(.bottom, keyboardHeight).animation(.easeInOut(duration:0.5))
             .onReceive(Publishers.keyboardHeight) { self.keyboardHeight = $0 }
-            .navigationBarTitle("Edit Bookmark", displayMode: .inline)
+            .navigationBarTitle("Bookmark", displayMode: .inline)
             .navigationBarItems(
                 trailing:
                     Button(action: {self.showingSheet = true}) {

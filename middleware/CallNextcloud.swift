@@ -189,4 +189,23 @@ struct CallNextcloud
             update_bookmark(bookmark: bookmark)
         }
     }
+    
+    func create_folder(folder: Folder) {
+        self.main_model.isShowing = true
+        let parameters = [
+            "title": folder.title,
+            "parent_folder": folder.parent_folder_id,
+            ] as [String : Any]
+        var swiftyJsonVar = JSON("")
+        let _ = AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/folder", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: create_headers()).responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                swiftyJsonVar = JSON(value)["data"]
+                print(swiftyJsonVar["data"])
+                self.main_model.isShowing = false
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
 }
