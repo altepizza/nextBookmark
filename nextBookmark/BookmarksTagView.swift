@@ -1,5 +1,5 @@
 //
-//  BookmarkFolderView.swift
+//  BookmarksTagView.swift
 //  nextBookmark
 //
 //  Created by Kai Rieger on 31.05.20.
@@ -8,10 +8,10 @@
 
 import SwiftUI
 
-struct BookmarksFolderView: View {
+struct BookmarksTagView: View {
     @ObservedObject var model: Model
     @State private var searchText: String = ""
-    @State var current_root_folder: Folder
+    @State var current_tag: String
     @State var order_bookmarks = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.order_bookmarks) ?? "newest first"
     
     var body: some View {
@@ -22,7 +22,7 @@ struct BookmarksFolderView: View {
                     SearchBar(text: self.$searchText, placeholder: "Filter bookmarks")
                     
                     List {
-                        ForEach(self.model.sorted_filtered_bookmarks_of_folder(searchText: self.searchText, folder: self.current_root_folder), id: \.id)
+                        ForEach(self.model.sorted_filtered_bookmarks_of_tag(searchText: self.searchText, tag: self.current_tag), id: \.id)
                         { book in
                             BookmarkRow(main_model: self.model, book: book)
                         }
@@ -35,24 +35,24 @@ struct BookmarksFolderView: View {
                         CallNextcloud(data: self.model).get_tags()
                     }
                 }
-                .navigationBarTitle(Text(self.current_root_folder.title), displayMode: .inline)
+                .navigationBarTitle(Text(self.current_tag), displayMode: .inline)
             }.navigationViewStyle(StackNavigationViewStyle())
         }
     }
     
     func delete(row: IndexSet) {
         for index in row {
-            let real_index = model.bookmarks.firstIndex{$0.id == self.model.sorted_filtered_bookmarks_of_folder(searchText: self.searchText, folder: self.current_root_folder)[index].id}
+            let real_index = model.bookmarks.firstIndex{$0.id == self.model.sorted_filtered_bookmarks_of_tag(searchText: self.searchText, tag: self.current_tag)[index].id}
             CallNextcloud(data: self.model).delete(bookId: model.bookmarks[real_index!].id)
-            debugPrint(self.model.sorted_filtered_bookmarks(searchText: self.searchText)[index].title)
+            debugPrint(self.model.sorted_filtered_bookmarks_of_tag(searchText: self.searchText, tag: self.current_tag))
             debugPrint(model.bookmarks[real_index!].title)
             model.bookmarks.remove(at: real_index!)
         }
     }
 }
 
-struct BookmarkFolderView_Previews: PreviewProvider {
+struct BookmarksTagView_Previews: PreviewProvider {
     static var previews: some View {
-        BookmarksFolderView(model: Model(), current_root_folder: Folder(id: -1, title: "String", parent_folder_id: -1, isExpanded: false, full_path: "String"))
+        BookmarksTagView(model: Model(), current_tag: "String")
     }
 }

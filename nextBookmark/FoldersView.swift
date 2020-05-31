@@ -15,7 +15,7 @@ struct FoldersView: View {
         NavigationView {
             List {
                 ForEach(self.model.folders) { folder in
-                    NavigationLink(destination: BookmarkFolderView(model: self.model, current_root_folder: folder)) {
+                    NavigationLink(destination: BookmarksFolderView(model: self.model, current_root_folder: folder)) {
                         VStack(alignment: .leading) {
                             HStack {
                                 Image(systemName: "folder.fill")

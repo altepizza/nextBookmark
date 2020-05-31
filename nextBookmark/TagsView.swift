@@ -15,7 +15,13 @@ struct TagsView: View {
         NavigationView {
             List {
                 ForEach(self.model.tags, id: \.self) { tag in
-                    Text(tag)
+                    NavigationLink(destination: BookmarksTagView(model: self.model, current_tag: tag)) {
+                        HStack {
+                            Text(tag)
+                            Spacer()
+                            Text(String(self.model.tag_count[tag] ?? 0))
+                        }
+                    }
                 }
             }
             .navigationBarTitle("Tags", displayMode: .inline)

@@ -10,8 +10,15 @@ import Foundation
 
 class Model: ObservableObject {
     let sharedUserDefaults = UserDefaults(suiteName: SharedUserDefaults.suiteName)
-
-    @Published var bookmarks : [Bookmark]
+    @Published var tag_count : [String:Int] = [:]
+    @Published var bookmarks : [Bookmark] {
+        didSet {
+            tag_count = [:]
+            for tag in tags {
+                tag_count[tag] = sorted_filtered_bookmarks_of_tag(searchText: "", tag: tag).count
+            }
+        }
+    }
     @Published var currentRoot : Folder
     @Published var credentials_password : String {
         didSet {
@@ -64,11 +71,7 @@ class Model: ObservableObject {
             editing_bookmark_folder = folders.filter({ $0.id == editing_bookmark.folder_ids.first }).first!
         }
     }
-    @Published var editing_bookmark_folder = Folder(id: -1, title: "/", parent_folder_id: -1) {
-        didSet {
-            //editing_bookmark.folder_ids[0] = editing_bookmark_folder.id
-        }
-    }
+    @Published var editing_bookmark_folder = Folder(id: -1, title: "/", parent_folder_id: -1)
    
     init() {
         self.bookmarks = [.init(id: -1, added: 1, title: "Go to Settings...", url: "...setup your credentials", tags: ["...to..."], folder_ids: [-1], description: "")]
@@ -107,6 +110,20 @@ class Model: ObservableObject {
         if(order_bookmarks == "oldest first") {
             return bookmarks.filter {
             searchText.isEmpty ? $0.folder_ids.contains(folder.id) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folder_ids.contains(folder.id)}
+            .sorted(by: {($0.added < $1.added)})
+        }
+        return bookmarks
+    }
+    
+    func sorted_filtered_bookmarks_of_tag(searchText: String, tag: String) -> [Bookmark] {
+        if(order_bookmarks == "newest first") {
+            return bookmarks.filter {
+                searchText.isEmpty ? $0.tags.contains(tag) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.tags.contains(tag)}
+            .sorted(by: {($0.added > $1.added)})
+        }
+        if(order_bookmarks == "oldest first") {
+            return bookmarks.filter {
+            searchText.isEmpty ? $0.tags.contains(tag) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.tags.contains(tag)}
             .sorted(by: {($0.added < $1.added)})
         }
         return bookmarks
