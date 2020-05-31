@@ -13,6 +13,7 @@
 		980CB54E2482D5730093AFFC /* FoldersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980CB54D2482D5730093AFFC /* FoldersView.swift */; };
 		980CB5502482DCF70093AFFC /* TagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980CB54F2482DCF70093AFFC /* TagsView.swift */; };
 		980CB5522483AB640093AFFC /* FolderDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980CB5512483AB640093AFFC /* FolderDetailView.swift */; };
+		980CB5542483E5590093AFFC /* BookmarkFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980CB5532483E5590093AFFC /* BookmarkFolderView.swift */; };
 		98239462235CE2A1005A3AC9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98239461235CE2A1005A3AC9 /* SettingsView.swift */; };
 		9874B04C23C51E9D0070C202 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 9874B04B23C51E9D0070C202 /* .gitignore */; };
 		989C17C2236A2A2F00EE273A /* BookmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989C17C1236A2A2F00EE273A /* BookmarksView.swift */; };
@@ -101,6 +102,7 @@
 		980CB54D2482D5730093AFFC /* FoldersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldersView.swift; sourceTree = "<group>"; };
 		980CB54F2482DCF70093AFFC /* TagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsView.swift; sourceTree = "<group>"; };
 		980CB5512483AB640093AFFC /* FolderDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderDetailView.swift; sourceTree = "<group>"; };
+		980CB5532483E5590093AFFC /* BookmarkFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkFolderView.swift; sourceTree = "<group>"; };
 		98239461235CE2A1005A3AC9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		9874B04B23C51E9D0070C202 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		989C17C1236A2A2F00EE273A /* BookmarksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksView.swift; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 				980CB54D2482D5730093AFFC /* FoldersView.swift */,
 				980CB54F2482DCF70093AFFC /* TagsView.swift */,
 				980CB5512483AB640093AFFC /* FolderDetailView.swift */,
+				980CB5532483E5590093AFFC /* BookmarkFolderView.swift */,
 			);
 			path = nextBookmark;
 			sourceTree = "<group>";
@@ -593,6 +596,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				980CB5542483E5590093AFFC /* BookmarkFolderView.swift in Sources */,
 				98B2BAAC24574693002FD3CB /* BookmarkDetailView.swift in Sources */,
 				98239462235CE2A1005A3AC9 /* SettingsView.swift in Sources */,
 				98E3112C240B19EC00D6C5C5 /* Folder.swift in Sources */,

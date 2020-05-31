@@ -97,4 +97,18 @@ class Model: ObservableObject {
         }
         return bookmarks
     }
+    
+    func sorted_filtered_bookmarks_of_folder(searchText: String, folder: Folder) -> [Bookmark] {
+        if(order_bookmarks == "newest first") {
+            return bookmarks.filter {
+                searchText.isEmpty ? $0.folder_ids.contains(folder.id) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folder_ids.contains(folder.id)}
+            .sorted(by: {($0.added > $1.added)})
+        }
+        if(order_bookmarks == "oldest first") {
+            return bookmarks.filter {
+            searchText.isEmpty ? $0.folder_ids.contains(folder.id) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folder_ids.contains(folder.id)}
+            .sorted(by: {($0.added < $1.added)})
+        }
+        return bookmarks
+    }
 }

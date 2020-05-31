@@ -15,13 +15,16 @@ struct FoldersView: View {
         NavigationView {
             List {
                 ForEach(self.model.folders) { folder in
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Image(systemName: "folder.fill")
-                            Text(folder.title).fontWeight(.bold)
+                    NavigationLink(destination: BookmarkFolderView(model: self.model, current_root_folder: folder)) {
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Image(systemName: "folder.fill")
+                                Text(folder.title).fontWeight(.bold)
+                            }
+                            Text(folder.full_path).font(.footnote).lineLimit(1).foregroundColor(Color.gray)
                         }
-                        Text(folder.full_path).font(.footnote).lineLimit(1).foregroundColor(Color.gray)
                     }
+                    
                 }
             }
             .pullToRefresh(isShowing: self.$model.isShowing) {

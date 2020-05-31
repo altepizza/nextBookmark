@@ -56,7 +56,6 @@ struct BookmarkDetailView: View {
                         }
                     }
                     Button(action: {
-                        self.showingSheet = true
                         self.model.isShowing = true
                         self.presentationMode.wrappedValue.dismiss()
                         CallNextcloud(data: self.model).edit_or_create_bookmark(bookmark: self.model.editing_bookmark)
