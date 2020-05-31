@@ -37,9 +37,8 @@ struct FolderDetailView: View {
                 }) {
                     Text("Create Folder")
                 }
-                
             }
-        }
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

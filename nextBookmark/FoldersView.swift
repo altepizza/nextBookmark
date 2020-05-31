@@ -44,7 +44,7 @@ struct FoldersView: View {
             }) {
                 Image(systemName: "plus")
             })
-        }
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

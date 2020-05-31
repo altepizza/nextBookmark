@@ -25,7 +25,7 @@ struct TagsView: View {
                 }
             }
             .navigationBarTitle("Tags", displayMode: .inline)
-        }
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

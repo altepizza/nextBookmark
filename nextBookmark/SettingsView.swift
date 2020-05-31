@@ -81,8 +81,7 @@ struct SettingsView: View {
             .navigationBarTitle("Settings", displayMode: .inline)
             .navigationBarItems(trailing: NavigationLink(destination: ThanksView()) {
             Text("About")})
-            .navigationViewStyle(StackNavigationViewStyle())
-        }
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
     
     func show_error_banner(banner: NotificationBanner, subtitle: String) {
