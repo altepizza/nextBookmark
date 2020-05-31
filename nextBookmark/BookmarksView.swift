@@ -53,6 +53,8 @@ struct BookmarkRow: View {
     @ObservedObject var main_model: Model
     @State private var showModal = false
     let book: Bookmark
+    @State var editing_bookmark_folder = Folder(id: -1, title: "/", parent_folder_id: -1, isExpanded: false, full_path: "/")
+    @State var tapped_bookmark = Bookmark(id: -1, added: -1, title: "", url: "", tags: [], folder_ids: [-1], description: "")
     var body: some View {
         HStack{
             VStack (alignment: .leading) {
@@ -67,7 +69,8 @@ struct BookmarkRow: View {
                 }
                 Text(book.url).font(.footnote).lineLimit(1).foregroundColor(Color.gray)
             }.onTapGesture {
-                self.main_model.editing_bookmark = self.book
+                self.editing_bookmark_folder = self.main_model.folders.filter({ $0.id == self.book.folder_ids.first }).first!
+                self.tapped_bookmark = self.book
                 self.showModal = true
             }
             Spacer()
@@ -82,7 +85,7 @@ struct BookmarkRow: View {
         }.sheet(isPresented: $showModal, onDismiss: {
             print(self.showModal)
         }) {
-            BookmarkDetailView(model: self.main_model)
+            BookmarkDetailView(model: self.main_model, bookmark: self.tapped_bookmark, bookmark_folder: self.editing_bookmark_folder)
         }
     }
 }
@@ -141,7 +144,7 @@ struct BookmarksView: View {
                     .sheet(isPresented: self.$show_new_bookmark_modal, onDismiss: {
                         print(self.show_new_bookmark_modal)
                     }) {
-                        BookmarkDetailView(model: self.main_model)
+                        BookmarkDetailView(model: self.main_model, bookmark: Bookmark(id: -1, added: -1, title: "", url: "", tags: [], folder_ids: [-1], description: ""), bookmark_folder: Folder(id: -1, title: "/", parent_folder_id: -1, isExpanded: false, full_path: "/"))
                 }
                 
             }.navigationViewStyle(StackNavigationViewStyle())

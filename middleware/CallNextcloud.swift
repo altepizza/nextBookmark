@@ -148,6 +148,28 @@ struct CallNextcloud
         }
     }
     
+    private func create_bookmark(bookmark: Bookmark) {
+        let parameters: [String: Any] = [
+                "url": bookmark.url,
+                "title": bookmark.title,
+                "description": bookmark.description,
+                "tags": bookmark.tags,
+                "folders": bookmark.folder_ids
+            ]
+        
+        var swiftyJsonVar = JSON("")
+        let _ = AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/bookmark", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: create_headers()).responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                swiftyJsonVar = JSON(value)["data"]
+                print(swiftyJsonVar["data"])
+                self.main_model.isShowing = false
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
     private func update_bookmark(bookmark: Bookmark) {
         self.main_model.isShowing = true
         let parameters: [String : Any] = [
@@ -155,7 +177,7 @@ struct CallNextcloud
             "title": bookmark.title,
             "description": bookmark.description,
             "tags": bookmark.tags,
-            "folders": [self.main_model.editing_bookmark_folder.id]
+            "folders": bookmark.folder_ids
         ]
         var swiftyJsonVar = JSON("")
         _ = AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/bookmark/" + String(bookmark.id), method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: create_headers()).responseJSON { response in
@@ -190,7 +212,7 @@ struct CallNextcloud
     
     func edit_or_create_bookmark(bookmark: Bookmark) {
         if (bookmark.id == -1) {
-            post_new_bookmark(bookmark: bookmark)
+            create_bookmark(bookmark: bookmark)
         } else {
             update_bookmark(bookmark: bookmark)
         }

@@ -29,27 +29,29 @@ struct BookmarkDetailView: View {
     @State private var showingSheet = false
     @State private var keyboardHeight: CGFloat = 0
     @ObservedObject var model: Model
+    @State var bookmark: Bookmark
+    @State var bookmark_folder : Folder
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var body: some View {
         NavigationView {
             VStack {
                 Form {
                     Section(header: Text("Title")) {
-                        TextField("title", text: $model.editing_bookmark.title)
+                        TextField("title", text: $bookmark.title)
                     }
                     Section(header: Text("URL")) {
-                        TextField("url", text: $model.editing_bookmark.url).keyboardType(.URL)
+                        TextField("url", text: $bookmark.url).keyboardType(.URL)
                     }
                     Section(header: Text("Description")) {
-                        TextField("description", text: $model.editing_bookmark.description)
+                        TextField("description", text: $bookmark.description)
                     }
                     Section(header: Text("Tag(s)")) {
                         NavigationLink(destination: BookmarkTags(model: self.model)) {
-                            Text(model.editing_bookmark.tags.joined(separator: ", ")).lineLimit(1)
+                            Text(bookmark.tags.joined(separator: ", ")).lineLimit(1)
                         }
                     }
                     Section(header: Text("Folder")) {
-                        Picker(selection: $model.editing_bookmark_folder, label: Text("Folder")){
+                        Picker(selection: $bookmark_folder, label: Text("Folder")){
                             ForEach(model.folders, id: \.self) { folder in
                                 Text(verbatim: folder.full_path)
                             }
@@ -58,13 +60,10 @@ struct BookmarkDetailView: View {
                     Button(action: {
                         self.model.isShowing = true
                         self.presentationMode.wrappedValue.dismiss()
-                        CallNextcloud(data: self.model).edit_or_create_bookmark(bookmark: self.model.editing_bookmark)
+                        self.bookmark.folder_ids = [self.bookmark_folder.id]
+                        CallNextcloud(data: self.model).edit_or_create_bookmark(bookmark: self.bookmark)
                     }) {
-                        if (model.editing_bookmark.id == -1) {
-                            Text("Create Bookmark")
-                        } else {
-                            Text("Update bookmark")
-                        }
+                            Text("Save Bookmark")
                     }
                 }
                 .sheet(isPresented: $showingSheet,
@@ -95,8 +94,8 @@ struct BookmarkDetailView: View {
     }
 }
 
-struct EditBookmarkView_Previews: PreviewProvider {
-    static var previews: some View {
-        BookmarkDetailView(model: Model())
-    }
-}
+//struct EditBookmarkView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        BookmarkDetailView(model: Model())
+//    }
+//}
