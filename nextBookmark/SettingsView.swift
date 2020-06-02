@@ -92,10 +92,10 @@ struct SettingsView: View {
             }
             .padding(.bottom, keyboardHeight).animation(.easeInOut(duration:0.5))
             .onReceive(Publishers.keyboardHeight) { self.keyboardHeight = $0 }
-        }.navigationBarTitle("Settings", displayMode: .inline)
+            .navigationBarTitle("Settings", displayMode: .inline)
             .navigationBarItems(trailing: NavigationLink(destination: ThanksView()) {
-                Text("About")})
-            .navigationViewStyle(StackNavigationViewStyle())
+            Text("About")})
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
     
     func show_error_banner(banner: NotificationBanner, subtitle: String) {

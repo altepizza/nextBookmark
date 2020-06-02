@@ -10,23 +10,27 @@ import SwiftUI
 import Combine
 
 struct ActivityView: UIViewControllerRepresentable {
+
     let activityItems: [Any]
     let applicationActivities: [UIActivity]?
-    
+
     func makeUIViewController(context: UIViewControllerRepresentableContext<ActivityView>) -> UIActivityViewController {
         return UIActivityViewController(activityItems: activityItems,
                                         applicationActivities: applicationActivities)
     }
-    
+
     func updateUIViewController(_ uiViewController: UIActivityViewController,
                                 context: UIViewControllerRepresentableContext<ActivityView>) {
+
     }
 }
 
-struct EditBookmarkView: View {
+struct BookmarkDetailView: View {
     @State private var showingSheet = false
     @State private var keyboardHeight: CGFloat = 0
     @ObservedObject var model: Model
+    @State var bookmark: Bookmark
+    @State var bookmark_folder : Folder
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var body: some View {
         NavigationView {
@@ -46,35 +50,34 @@ struct EditBookmarkView: View {
                             Text(model.editing_bookmark.tags.joined(separator: ", ")).lineLimit(1)
                         }
                     }
+                    Section(header: Text("Folder")) {
+                        Picker(selection: $bookmark_folder, label: Text("Folder")){
+                            ForEach(model.folders, id: \.self) { folder in
+                                Text(verbatim: folder.full_path)
+                            }
+                        }
+                    }
+                    Button(action: {
+                        self.model.isShowing = true
+                        self.presentationMode.wrappedValue.dismiss()
+                        self.model.editing_bookmark.folder_ids = [self.bookmark_folder.id]
+                        CallNextcloud(data: self.model).edit_or_create_bookmark(bookmark: self.model.editing_bookmark)
+                    }) {
+                            Text("Save Bookmark")
+                    }
                 }
-                Spacer()
-                Button(action: {
-                    self.showingSheet = true
-                    self.model.isShowing = true
-                    self.presentationMode.wrappedValue.dismiss()
-                    CallNextcloud(data: self.model).update_bookmark(bookmark: self.model.editing_bookmark)
-                }) {
-                    Text("Update bookmark")
-                }
-//                .foregroundColor(.white)
-//                .background(Color.blue)
-//                .cornerRadius(40)
                 .sheet(isPresented: $showingSheet,
                        content: {
                         ActivityView(activityItems: [NSURL(string: self.model.editing_bookmark.url)!] as [Any], applicationActivities: nil) })
-                .padding()
                 Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
                 }) {
                     Text("Cancel")
                 }
-//                .foregroundColor(.white)
-//                .background(Color.red)
-//                .cornerRadius(40)
             }
             .padding(.bottom, keyboardHeight).animation(.easeInOut(duration:0.5))
             .onReceive(Publishers.keyboardHeight) { self.keyboardHeight = $0 }
-            .navigationBarTitle("Edit Bookmark", displayMode: .inline)
+            .navigationBarTitle("Bookmark", displayMode: .inline)
             .navigationBarItems(
                 trailing:
                     Button(action: {self.showingSheet = true}) {
@@ -91,8 +94,8 @@ struct EditBookmarkView: View {
     }
 }
 
-struct EditBookmarkView_Previews: PreviewProvider {
-    static var previews: some View {
-        EditBookmarkView(model: Model())
-    }
-}
+//struct EditBookmarkView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        BookmarkDetailView(model: Model())
+//    }
+//}

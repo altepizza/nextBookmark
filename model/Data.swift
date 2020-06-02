@@ -10,15 +10,15 @@ import Foundation
 
 class Model: ObservableObject {
     let sharedUserDefaults = UserDefaults(suiteName: SharedUserDefaults.suiteName)
-    
-    @Published var folders_not_for_sync: [Int] {
+    @Published var tag_count : [String:Int] = [:]
+    @Published var bookmarks : [Bookmark] {
         didSet {
-            sharedUserDefaults?.set(folders_not_for_sync, forKey: SharedUserDefaults.Keys.folders_not_for_sync)
+            tag_count = [:]
+            for tag in tags {
+                tag_count[tag] = sorted_filtered_bookmarks_of_tag(searchText: "", tag: tag).count
+            }
         }
     }
-    @Published var editing_bookmark = Bookmark(id: -1, added: -1, title: "Title", url: "URL", tags: [], folder_ids: [-1], description: "Description")
-    @Published var tags: [String] = []
-    @Published var bookmarks : [Bookmark]
     @Published var currentRoot : Folder
     @Published var credentials_password : String {
         didSet {
@@ -64,7 +64,15 @@ class Model: ObservableObject {
             sharedUserDefaults?.set(default_upload_folder.title, forKey: SharedUserDefaults.Keys.default_upload_folder_title)
         }
     }
+    @Published var tags: [String] = []
     
+    @Published var editing_bookmark = Bookmark(id: -1, added: -1, title: "Title", url: "URL", tags: [], folder_ids: [-1], description: "Description") {
+        didSet {
+            editing_bookmark_folder = folders.filter({ $0.id == editing_bookmark.folder_ids.first }).first!
+        }
+    }
+    @Published var editing_bookmark_folder = Folder(id: -1, title: "/", parent_folder_id: -1)
+   
     init() {
         self.bookmarks = [.init(id: -1, added: 1, title: "Go to Settings...", url: "...setup your credentials", tags: ["...to..."], folder_ids: [-1], description: "")]
         self.credentials_password = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.password) ?? "Your Password"
@@ -89,6 +97,34 @@ class Model: ObservableObject {
         if(order_bookmarks == "oldest first") {
             return bookmarks.filter {
             searchText.isEmpty ? $0.folder_ids.contains(currentRoot.id) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folder_ids.contains(currentRoot.id)}
+            .sorted(by: {($0.added < $1.added)})
+        }
+        return bookmarks
+    }
+    
+    func sorted_filtered_bookmarks_of_folder(searchText: String, folder: Folder) -> [Bookmark] {
+        if(order_bookmarks == "newest first") {
+            return bookmarks.filter {
+                searchText.isEmpty ? $0.folder_ids.contains(folder.id) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folder_ids.contains(folder.id)}
+            .sorted(by: {($0.added > $1.added)})
+        }
+        if(order_bookmarks == "oldest first") {
+            return bookmarks.filter {
+            searchText.isEmpty ? $0.folder_ids.contains(folder.id) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folder_ids.contains(folder.id)}
+            .sorted(by: {($0.added < $1.added)})
+        }
+        return bookmarks
+    }
+    
+    func sorted_filtered_bookmarks_of_tag(searchText: String, tag: String) -> [Bookmark] {
+        if(order_bookmarks == "newest first") {
+            return bookmarks.filter {
+                searchText.isEmpty ? $0.tags.contains(tag) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.tags.contains(tag)}
+            .sorted(by: {($0.added > $1.added)})
+        }
+        if(order_bookmarks == "oldest first") {
+            return bookmarks.filter {
+            searchText.isEmpty ? $0.tags.contains(tag) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.tags.contains(tag)}
             .sorted(by: {($0.added < $1.added)})
         }
         return bookmarks

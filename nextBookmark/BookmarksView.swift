@@ -53,6 +53,8 @@ struct BookmarkRow: View {
     @ObservedObject var main_model: Model
     @State private var showModal = false
     let book: Bookmark
+    @State var editing_bookmark_folder = Folder(id: -1, title: "/", parent_folder_id: -1, isExpanded: false, full_path: "/")
+    @State var tapped_bookmark = Bookmark(id: -1, added: -1, title: "", url: "", tags: [], folder_ids: [-1], description: "")
     var body: some View {
         HStack{
             VStack (alignment: .leading) {
@@ -67,7 +69,9 @@ struct BookmarkRow: View {
                 }
                 Text(book.url).font(.footnote).lineLimit(1).foregroundColor(Color.gray)
             }.onTapGesture {
+                self.editing_bookmark_folder = self.main_model.folders.filter({ $0.id == self.book.folder_ids.first }).first!
                 self.main_model.editing_bookmark = self.book
+                self.tapped_bookmark = self.book
                 self.showModal = true
             }
             Spacer()
@@ -82,15 +86,14 @@ struct BookmarkRow: View {
         }.sheet(isPresented: $showModal, onDismiss: {
             print(self.showModal)
         }) {
-            EditBookmarkView(model: self.main_model)
+            BookmarkDetailView(model: self.main_model, bookmark: self.tapped_bookmark, bookmark_folder: self.editing_bookmark_folder)
         }
     }
 }
 
 struct BookmarksView: View {
-    @ObservedObject var main_model: Model = Model()
+    @ObservedObject var main_model: Model
     @State private var searchText : String = ""
-    private let defaultFolder: Folder = .init(id: -20, title: "<Pull down to load your bookmarks>",  parent_folder_id: -10)
     @State var order_bookmarks = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.order_bookmarks) ?? "newest first"
     @State private var show_new_bookmark_modal = false
     
@@ -100,9 +103,7 @@ struct BookmarksView: View {
             NavigationView{
                 VStack{
                     SearchBar(text: self.$searchText, placeholder: "Filter bookmarks")
-                    
-                    OpenFolderRow(folder: self.main_model.currentRoot)
-                    
+                                        
                     List {
                         // Folder back navigation
                         if self.main_model.currentRoot.id > -1 {
@@ -129,30 +130,25 @@ struct BookmarksView: View {
                 .pullToRefresh(isShowing: self.$main_model.isShowing) {
                     self.startUpCheck()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        CallNextcloud(data: self.main_model).requestFolderHierarchy()
+                        CallNextcloud(data: self.main_model).get_all_bookmarks()
+                        CallNextcloud(data: self.main_model).get_tags()
                     }
                 }
-                .navigationBarTitle("Bookmarks", displayMode: .inline)
+                .navigationBarTitle(Text(self.main_model.currentRoot.title), displayMode: .inline)
                 .navigationBarItems(
-                    leading: Button(action: {
+                    trailing: Button(action: {
+                        self.main_model.editing_bookmark = Bookmark(id: -1, added: 0, title: "", url: "", tags: [], folder_ids: [self.main_model.currentRoot.id], description: "")
                         self.show_new_bookmark_modal = true
                     }) {
                         Image(systemName: "plus")
-                    },
-                    trailing: NavigationLink(destination: SettingsView(main_model: self.main_model)) {
-                        Text("Settings")})
+                    })
                     .sheet(isPresented: self.$show_new_bookmark_modal, onDismiss: {
                         print(self.show_new_bookmark_modal)
                     }) {
-                        NewBookmarkView(vm: self.main_model)
+                        BookmarkDetailView(model: self.main_model, bookmark: Bookmark(id: -1, added: -1, title: "", url: "", tags: [], folder_ids: [-1], description: ""), bookmark_folder: Folder(id: -1, title: "/", parent_folder_id: -1, isExpanded: false, full_path: "/"))
                 }
             }.navigationViewStyle(StackNavigationViewStyle())
-                .onAppear() {
-                    if sharedUserDefaults?.bool(forKey: SharedUserDefaults.Keys.valid) ?? false {
-                        self.main_model.isShowing = true
-                        CallNextcloud(data: self.main_model).requestFolderHierarchy()
-                    }
-            }}
+        }
     }
     
     func startUpCheck() {
@@ -179,12 +175,6 @@ private func tagsAvailable(for book: Bookmark) -> Bool {
         return false
     }
     return true
-}
-
-struct BookmarksView_Previews: PreviewProvider {
-    static var previews: some View {
-        BookmarksView()
-    }
 }
 
 struct SearchBar: UIViewRepresentable {
@@ -277,5 +267,11 @@ struct LoadingView<Content>: View where Content: View {
                     .opacity(self.isShowing ? 1 : 0)
             }
         }
+    }
+}
+
+struct BookmarksView_Previews: PreviewProvider {
+    static var previews: some View {
+        BookmarksView(main_model: Model())
     }
 }

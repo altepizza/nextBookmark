@@ -28,26 +28,15 @@ struct CallNextcloud
     
     func get_all_bookmarks() {
         get_tags()
-        main_model.bookmarks.removeAll()
-        for folder in main_model.folders {
-            if (!main_model.folders_not_for_sync.contains(folder.id)) {
-                let parameters: [String: Any] = [
-                    "folder": folder.id,
-                    "page": -1
-                ]
-                
-                let _ = AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/bookmark?page=-1", parameters: parameters, headers: create_headers()).responseJSON { response in
-                    switch response.result {
-                    case .success(let value):
-                        let swiftyJsonVar = JSON(value)
-                        for (_, mark) in swiftyJsonVar["data"] {
-                            self.main_model.bookmarks.append(Bookmark(id: mark["id"].intValue , added: mark["added"].intValue, title: mark["title"].stringValue , url: mark["url"].stringValue, tags: mark["tags"].arrayValue.map { $0.stringValue}, folder_ids: mark["folders"].arrayValue.map { $0.intValue}, description: mark["description"].stringValue))
-                        }
-                        self.main_model.isShowing = false
-                    case .failure(let error):
-                        print(error)
-                        self.main_model.isShowing = false
-                    }
+        // TODO: Start below in completion handler from above
+        var bookmarks: [Bookmark] = []
+        let _ = AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/bookmark?page=-1", headers: create_headers()).responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                let swiftyJsonVar = JSON(value)
+                bookmarks.removeAll()
+                for (_, mark) in swiftyJsonVar["data"] {
+                    bookmarks.append(Bookmark(id: mark["id"].intValue , added: mark["added"].intValue, title: mark["title"].stringValue , url: mark["url"].stringValue, tags: mark["tags"].arrayValue.map { $0.stringValue}, folder_ids: mark["folders"].arrayValue.map { $0.intValue}, description: mark["description"].stringValue))
                 }
             }
         }
@@ -103,10 +92,17 @@ struct CallNextcloud
     }
     
     func postURL(url: String, completionHandler: @escaping (JSON?) -> Void) {
-        let parameters: [String: Any] = [
-            "url": url,
-            "folders": [main_model.default_upload_folder_id]
-        ]
+        var parameters: [String: Any]
+        if main_model.default_upload_folder_id == 0 {
+            parameters = [
+                "url": url
+            ]
+        } else {
+            parameters = [
+                "url": url,
+                "folders": [main_model.default_upload_folder_id]
+            ]
+        }
         var swiftyJsonVar = JSON("")
         let _ = AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/bookmark", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: create_headers()).responseJSON { response in
             switch response.result {
@@ -120,13 +116,22 @@ struct CallNextcloud
         }
     }
     
-    func post_new_bookmark(bookmark: Bookmark) {
-        let parameters: [String: Any] = [
-            "url": bookmark.url,
-            "title": bookmark.title,
-            "description": bookmark.description,
-            "folders": [main_model.default_upload_folder_id]
-        ]
+    private func post_new_bookmark(bookmark: Bookmark) {
+        var parameters: [String: Any]
+        if main_model.default_upload_folder_id == 0 {
+            parameters = [
+                "url": bookmark.url,
+                "title": bookmark.title,
+                "description": bookmark.description,
+            ]
+        } else {
+            parameters = [
+                "url": bookmark.url,
+                "title": bookmark.title,
+                "description": bookmark.description,
+                "folders": [main_model.default_upload_folder_id]
+            ]
+        }
         var swiftyJsonVar = JSON("")
         let _ = AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/bookmark", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: create_headers()).responseJSON { response in
             switch response.result {
@@ -140,7 +145,29 @@ struct CallNextcloud
         }
     }
     
-    func update_bookmark(bookmark: Bookmark) {
+    private func create_bookmark(bookmark: Bookmark) {
+        let parameters: [String: Any] = [
+                "url": bookmark.url,
+                "title": bookmark.title,
+                "description": bookmark.description,
+                "tags": bookmark.tags,
+                "folders": bookmark.folder_ids
+            ]
+        
+        var swiftyJsonVar = JSON("")
+        let _ = AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/bookmark", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: create_headers()).responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                swiftyJsonVar = JSON(value)["data"]
+                print(swiftyJsonVar["data"])
+                self.main_model.isShowing = false
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    private func update_bookmark(bookmark: Bookmark) {
         self.main_model.isShowing = true
         let parameters: [String : Any] = [
             "url": bookmark.url,
@@ -169,7 +196,37 @@ struct CallNextcloud
             switch response.result {
             case .success(let value):
                 let swiftyJsonVar = JSON(value)
+//                self.main_model.tags = [:]
+//                for (_, tag) in swiftyJsonVar {
+//                    self.main_model.tags[tag.stringValue] = 0
+//                }
                 self.main_model.tags = swiftyJsonVar.arrayValue.map {$0.stringValue}
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    func edit_or_create_bookmark(bookmark: Bookmark) {
+        if (bookmark.id == -1) {
+            create_bookmark(bookmark: bookmark)
+        } else {
+            update_bookmark(bookmark: bookmark)
+        }
+    }
+    
+    func create_folder(folder: Folder) {
+        self.main_model.isShowing = true
+        let parameters = [
+            "title": folder.title,
+            "parent_folder": folder.parent_folder_id,
+            ] as [String : Any]
+        var swiftyJsonVar = JSON("")
+        let _ = AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/folder", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: create_headers()).responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                swiftyJsonVar = JSON(value)["data"]
+                print(swiftyJsonVar["data"])
                 self.main_model.isShowing = false
             case .failure(let error):
                 print(error)
