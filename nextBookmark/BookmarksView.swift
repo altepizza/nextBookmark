@@ -23,27 +23,14 @@ struct OpenFolderRow: View {
 
 struct FolderRow: View {
     var folder: Folder
-    var main_model: Model
+    var model: Model
     var body: some View {
-        Button(action: {
-            self.main_model.currentRoot = self.folder
-        }) {
-            HStack {
-                Image(systemName: "folder.fill")
-                Text(folder.title).fontWeight(.bold)
-            }
-        }
-    }
-}
-
-struct BackFolderRow: View {
-    var main_model: Model
-    var body: some View {
-        Button(action: {
-            self.main_model.currentRoot = self.main_model.folders.first(where: {$0.id == self.main_model.currentRoot.parent_folder_id})!
-        }) {
-            HStack {
-                Image(systemName: "arrowshape.turn.up.left")
+        NavigationLink(destination: BookmarksFolderView(model: self.model, current_root_folder: folder)) {
+            VStack(alignment: .leading) {
+                HStack {
+                    Image(systemName: "folder.fill")
+                    Text(folder.title).fontWeight(.bold)
+                }
             }
         }
     }
@@ -103,18 +90,13 @@ struct BookmarksView: View {
             NavigationView{
                 VStack{
                     SearchBar(text: self.$searchText, placeholder: "Filter bookmarks")
-                                        
+
                     List {
-                        // Folder back navigation
-                        if self.main_model.currentRoot.id > -1 {
-                            BackFolderRow(main_model: self.main_model)
-                        }
-                        
                         // Subfolders
                         ForEach(self.main_model.folders.filter {
                             $0.parent_folder_id == self.main_model.currentRoot.id && $0.id != self.main_model.currentRoot.id
                         }) { folder in
-                            FolderRow(folder: folder, main_model: self.main_model)
+                            FolderRow(folder: folder, model: self.main_model)
                         }
                         
                         // Bookmarks of current filter + folder

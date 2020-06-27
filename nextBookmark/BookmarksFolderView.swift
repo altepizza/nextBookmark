@@ -15,29 +15,29 @@ struct BookmarksFolderView: View {
     @State var order_bookmarks = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.order_bookmarks) ?? "newest first"
     
     var body: some View {
-        
-        LoadingView(isShowing: $model.isShowing) {
-            NavigationView{
-                VStack{
-                    SearchBar(text: self.$searchText, placeholder: "Filter bookmarks")
-                    
-                    List {
-                        ForEach(self.model.sorted_filtered_bookmarks_of_folder(searchText: self.searchText, folder: self.current_root_folder), id: \.id)
-                        { book in
-                            BookmarkRow(main_model: self.model, book: book)
-                        }
-                        .onDelete(perform: self.delete)
-                    }
+        VStack{
+            SearchBar(text: self.$searchText, placeholder: "Filter bookmarks")
+            List {
+                ForEach(self.model.folders.filter {
+                    $0.parent_folder_id == self.current_root_folder.id && $0.id != self.current_root_folder.id
+                }) { folder in
+                    FolderRow(folder: folder, model: self.model)
                 }
-                .pullToRefresh(isShowing: self.$model.isShowing) {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        CallNextcloud(data: self.model).get_all_bookmarks()
-                        CallNextcloud(data: self.model).get_tags()
-                    }
+                
+                ForEach(self.model.sorted_filtered_bookmarks_of_folder(searchText: self.searchText, folder: self.current_root_folder), id: \.id)
+                { book in
+                    BookmarkRow(main_model: self.model, book: book)
                 }
-                .navigationBarTitle(Text(self.current_root_folder.title), displayMode: .inline)
-            }.navigationViewStyle(StackNavigationViewStyle())
+                .onDelete(perform: self.delete)
+            }
         }
+        .pullToRefresh(isShowing: self.$model.isShowing) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                CallNextcloud(data: self.model).get_all_bookmarks()
+                CallNextcloud(data: self.model).get_tags()
+            }
+        }
+        .navigationBarTitle(Text(self.current_root_folder.title), displayMode: .inline)
     }
     
     func delete(row: IndexSet) {

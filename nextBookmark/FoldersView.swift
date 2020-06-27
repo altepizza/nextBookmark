@@ -24,7 +24,6 @@ struct FoldersView: View {
                             Text(folder.full_path).font(.footnote).lineLimit(1).foregroundColor(Color.gray)
                         }
                     }
-                    
                 }
             }
             .pullToRefresh(isShowing: self.$model.isShowing) {
