@@ -7,12 +7,13 @@
 //
 
 import SwiftUI
+import Combine
 
 struct BookmarkTagsRow: View {
     var model: Model
     let tag: String
     @State var checked_tag = false
-
+    
     var body: some View {
         HStack {
             Button(action: {
@@ -31,6 +32,7 @@ struct BookmarkTagsRow: View {
                     }
                 }
             }
+            .buttonStyle(PlainButtonStyle())
         }.onAppear() {
             self.checked_tag = self.model.editing_bookmark.tags.contains(self.tag)
         }
@@ -38,16 +40,33 @@ struct BookmarkTagsRow: View {
 }
 
 struct BookmarkTags: View {
-    var model: Model
+    @ObservedObject var model: Model
+    @State private var keyboardHeight: CGFloat = 0
+    
+    @State private var new_tag: String = ""
+    
     var body: some View {
-        VStack {
-            List {
-                ForEach(self.model.tags, id: \.self) {
-                    tag in
-                    BookmarkTagsRow(model: self.model, tag: tag)
+        Form {
+            Section (header: Text("Tag(s)")) {
+                List {
+                    ForEach(self.model.tags, id: \.self) {
+                        tag in
+                        BookmarkTagsRow(model: self.model, tag: tag)
+                    }
+                }
+            }
+            Section (header: Text("New Tag")) {
+                TextField("Enter your new tag", text: $new_tag)
+                Button(action: {
+                    self.model.tags.append(self.new_tag)
+                }) {
+                    Text("Add this tag")
                 }
             }
         }
+        .padding(.bottom, keyboardHeight).animation(.easeInOut(duration:0.1))
+        .onReceive(Publishers.keyboardHeight) { self.keyboardHeight = $0 }
+        .navigationBarTitle(Text("Tags"), displayMode: .inline)
     }
 }
 
