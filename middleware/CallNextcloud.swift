@@ -210,6 +210,19 @@ struct CallNextcloud
         }
     }
     
+    func delete_tag(tag: String) {
+        self.main_model.isShowing = true
+        let _ = AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/tag/" + tag, method: .delete, headers: create_headers()).responseJSON { response in
+            switch response.result {
+            case .success(_):
+                self.get_tags()
+                self.main_model.isShowing = false
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
     func edit_or_create_bookmark(bookmark: Bookmark) {
         if (bookmark.id == -1) {
             create_bookmark(bookmark: bookmark)
