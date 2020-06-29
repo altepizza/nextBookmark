@@ -13,24 +13,24 @@ struct BookmarksFolderView: View {
     @State private var searchText: String = ""
     @State var current_root_folder: Folder
     @State var order_bookmarks = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.order_bookmarks) ?? "newest first"
+    @State private var show_new_bookmark_modal = false
     
     var body: some View {
         LoadingView(isShowing: $model.isShowing) {
-                VStack{
-                    SearchBar(text: self.$searchText, placeholder: "Filter bookmarks")
-                    List {
-                        ForEach(self.model.folders.filter {
-                            $0.parent_folder_id == self.current_root_folder.id && $0.id != self.current_root_folder.id
-                        }) { folder in
-                            FolderRow(folder: folder, model: self.model)
-                        }
-                        
-                        ForEach(self.model.sorted_filtered_bookmarks_of_folder(searchText: self.searchText, folder: self.current_root_folder), id: \.id)
-                        { book in
-                            BookmarkRow(main_model: self.model, book: book)
-                        }
-                        .onDelete(perform: self.delete)
+            VStack{
+                SearchBar(text: self.$searchText, placeholder: "Filter bookmarks")
+                List {
+                    ForEach(self.model.folders.filter {
+                        $0.parent_folder_id == self.current_root_folder.id && $0.id != self.current_root_folder.id
+                    }) { folder in
+                        FolderRow(folder: folder, model: self.model)
                     }
+                    
+                    ForEach(self.model.sorted_filtered_bookmarks_of_folder(searchText: self.searchText, folder: self.current_root_folder), id: \.id)
+                    { book in
+                        BookmarkRow(main_model: self.model, book: book)
+                    }
+                    .onDelete(perform: self.delete)
                 }
                 .pullToRefresh(isShowing: self.$model.isShowing) {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -38,7 +38,19 @@ struct BookmarksFolderView: View {
                         CallNextcloud(data: self.model).get_tags()
                     }
                 }
-                .navigationBarTitle(Text(self.current_root_folder.title), displayMode: .inline)
+            }
+            .navigationBarTitle(Text(self.current_root_folder.title), displayMode: .inline)
+            .navigationBarItems(
+                trailing: Button(action: {
+                    self.model.editing_bookmark = Bookmark(id: -1, added: 0, title: "", url: "", tags: [], folder_ids: [self.model.currentRoot.id], description: "")
+                    self.show_new_bookmark_modal = true
+                }) {
+                    Image(systemName: "plus")
+            })
+                .sheet(isPresented: self.$show_new_bookmark_modal, onDismiss: {
+                }) {
+                    BookmarkDetailView(model: self.model, bookmark: create_empty_bookmark(), bookmark_folder: self.current_root_folder)
+            }
         }
     }
     

@@ -17,3 +17,7 @@ struct Folder: Identifiable, Hashable, Codable {
         hasher.combine(id)
     }
 }
+
+func create_root_folder() -> Folder {
+    return Folder(id: -1, title: "/", parent_folder_id: -1, full_path: "/")
+}

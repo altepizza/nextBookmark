@@ -260,6 +260,7 @@
 				98CB33492319A8A000DA4763 /* Info.plist */,
 				98239461235CE2A1005A3AC9 /* SettingsView.swift */,
 				989C17C1236A2A2F00EE273A /* BookmarksView.swift */,
+				980CB5532483E5590093AFFC /* BookmarksFolderView.swift */,
 				98AE797B240309C3007C36A9 /* Launch Screen.storyboard */,
 				98C4C40B24046515008EB872 /* ThanksView.swift */,
 				98B2BAAB24574693002FD3CB /* BookmarkDetailView.swift */,
@@ -268,7 +269,6 @@
 				980CB54D2482D5730093AFFC /* FoldersView.swift */,
 				980CB54F2482DCF70093AFFC /* TagsView.swift */,
 				980CB5512483AB640093AFFC /* FolderDetailView.swift */,
-				980CB5532483E5590093AFFC /* BookmarksFolderView.swift */,
 				980CB5552483F5130093AFFC /* BookmarksTagView.swift */,
 			);
 			path = nextBookmark;

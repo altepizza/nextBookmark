@@ -40,8 +40,8 @@ struct BookmarkRow: View {
     @ObservedObject var main_model: Model
     @State private var showModal = false
     let book: Bookmark
-    @State var editing_bookmark_folder = Folder(id: -1, title: "/", parent_folder_id: -1, full_path: "/")
-    @State var tapped_bookmark = Bookmark(id: -1, added: -1, title: "", url: "", tags: [], folder_ids: [-1], description: "")
+    @State var editing_bookmark_folder = create_root_folder()
+    @State var tapped_bookmark = create_empty_bookmark()
     var body: some View {
         HStack{
             VStack (alignment: .leading) {
@@ -82,25 +82,12 @@ struct BookmarksView: View {
     @ObservedObject var main_model: Model
     @State private var searchText : String = ""
     @State var order_bookmarks = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.order_bookmarks) ?? "newest first"
-    @State private var show_new_bookmark_modal = false
     
     var body: some View {
         NavigationView{
-            LoadingView(isShowing: $main_model.isShowing) {
+
                 BookmarksFolderView(model: self.main_model, current_root_folder: self.main_model.currentRoot)
-                    .navigationBarTitle(Text(self.main_model.currentRoot.title), displayMode: .inline)
-                    .navigationBarItems(
-                        trailing: Button(action: {
-                            self.main_model.editing_bookmark = Bookmark(id: -1, added: 0, title: "", url: "", tags: [], folder_ids: [self.main_model.currentRoot.id], description: "")
-                            self.show_new_bookmark_modal = true
-                        }) {
-                            Image(systemName: "plus")
-                    })
-                    .sheet(isPresented: self.$show_new_bookmark_modal, onDismiss: {
-                    }) {
-                        BookmarkDetailView(model: self.main_model, bookmark: Bookmark(id: -1, added: -1, title: "", url: "", tags: [], folder_ids: [-1], description: ""), bookmark_folder: Folder(id: -1, title: "/", parent_folder_id: -1, full_path: "/"))
-                }
-            }.navigationViewStyle(StackNavigationViewStyle())
+            .navigationViewStyle(StackNavigationViewStyle())
         }
     }
     

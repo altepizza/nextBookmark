@@ -11,38 +11,36 @@ import SwiftUI
 struct AppView: View {
     @State var model = Model()
     var body: some View {
-        LoadingView(isShowing: $model.isShowing) {
-            TabView {
-                BookmarksView(main_model: self.model)
-                    .tabItem {
-                        Image(systemName: "bookmark.fill")
-                        Text("Bookmarks")
-                }
-                
-                FoldersView(model: self.model)
-                    .tabItem {
-                        Image(systemName: "folder.fill")
-                        Text("Folders")
-                }
-                
-                TagsView(model: self.model)
-                    .tabItem {
-                        Image(systemName: "tag.fill")
-                        Text("Tags")
-                }
-                
-                SettingsView(main_model: self.model)
-                    .tabItem {
-                        Image(systemName: "gear")
-                        Text("Settings")
-                }
-            }.onAppear() {
-                if sharedUserDefaults?.bool(forKey: SharedUserDefaults.Keys.valid) ?? false {
-                    self.model.isShowing = true
-                    CallNextcloud(data: self.model).requestFolderHierarchy()
-                    CallNextcloud(data: self.model).get_all_bookmarks()
-                    CallNextcloud(data: self.model).get_tags()
-                }
+        TabView {
+            BookmarksView(main_model: self.model)
+                .tabItem {
+                    Image(systemName: "bookmark.fill")
+                    Text("Bookmarks")
+            }
+            
+            FoldersView(model: self.model)
+                .tabItem {
+                    Image(systemName: "folder.fill")
+                    Text("Folders")
+            }
+            
+            TagsView(model: self.model)
+                .tabItem {
+                    Image(systemName: "tag.fill")
+                    Text("Tags")
+            }
+            
+            SettingsView(main_model: self.model)
+                .tabItem {
+                    Image(systemName: "gear")
+                    Text("Settings")
+            }
+        }.onAppear() {
+            if sharedUserDefaults?.bool(forKey: SharedUserDefaults.Keys.valid) ?? false {
+                self.model.isShowing = true
+                CallNextcloud(data: self.model).requestFolderHierarchy()
+                CallNextcloud(data: self.model).get_all_bookmarks()
+                CallNextcloud(data: self.model).get_tags()
             }
         }
     }
