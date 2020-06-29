@@ -15,29 +15,29 @@ struct BookmarkTagsRow: View {
     @State var checked_tag = false
     
     var body: some View {
-        HStack {
-            Button(action: {
-                self.checked_tag.toggle()
-                if (self.model.editing_bookmark.tags.contains(self.tag)) {
-                    self.model.editing_bookmark.tags.removeAll { $0 == self.tag }
-                } else {
-                    self.model.editing_bookmark.tags.append(self.tag)
-                }
-            }) {
-                HStack {
-                    Text(tag)
-                    Spacer()
-                    if (checked_tag) {
-                        Image(systemName: "checkmark")
-                    }
-                }
+        Button(action: {
+            self.checked_tag.toggle()
+            if (self.model.editing_bookmark.tags.contains(self.tag)) {
+                self.model.editing_bookmark.tags.removeAll { $0 == self.tag }
+            } else {
+                self.model.editing_bookmark.tags.append(self.tag)
             }
-            .buttonStyle(PlainButtonStyle())
-        }.onAppear() {
+        }) {
+            HStack {
+                Text(tag)
+                Spacer()
+                if (checked_tag) {
+                    Image(systemName: "checkmark")
+                }
+            }.contentShape(Rectangle())
+        }
+        .buttonStyle(PlainButtonStyle())
+        .onAppear() {
             self.checked_tag = self.model.editing_bookmark.tags.contains(self.tag)
         }
     }
 }
+
 
 struct BookmarkTags: View {
     @ObservedObject var model: Model

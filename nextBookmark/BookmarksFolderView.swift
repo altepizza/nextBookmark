@@ -45,11 +45,11 @@ struct BookmarksFolderView: View {
                     self.model.editing_bookmark = create_empty_bookmark(folder_id: self.model.currentRoot.id)
                     self.show_new_bookmark_modal = true
                 }) {
-                    Image(systemName: "plus")
-            })
-                .sheet(isPresented: self.$show_new_bookmark_modal, onDismiss: {
-                }) {
-                    BookmarkDetailView(model: self.model, bookmark: create_empty_bookmark(), bookmark_folder: self.current_root_folder)
+                    Image(systemName: "plus").imageScale(.large).padding([.leading, .top, .bottom])
+                }
+            )
+            .sheet(isPresented: self.$show_new_bookmark_modal, onDismiss: {}) {
+                BookmarkDetailView(model: self.model, bookmark: create_empty_bookmark(), bookmark_folder: self.current_root_folder)
             }
         }
     }

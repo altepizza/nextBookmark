@@ -41,7 +41,7 @@ struct FoldersView: View {
             trailing: Button(action: {
                 self.show_folder_detail_modal = true
             }) {
-                Image(systemName: "plus")
+                Image(systemName: "plus").imageScale(.large).padding([.leading, .top, .bottom])
             })
         }.navigationViewStyle(StackNavigationViewStyle())
     }
