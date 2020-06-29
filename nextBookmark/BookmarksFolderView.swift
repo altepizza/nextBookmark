@@ -42,7 +42,7 @@ struct BookmarksFolderView: View {
             .navigationBarTitle(Text(self.current_root_folder.title), displayMode: .inline)
             .navigationBarItems(
                 trailing: Button(action: {
-                    self.model.editing_bookmark = Bookmark(id: -1, added: 0, title: "", url: "", tags: [], folder_ids: [self.model.currentRoot.id], description: "")
+                    self.model.editing_bookmark = create_empty_bookmark(folder_id: self.model.currentRoot.id)
                     self.show_new_bookmark_modal = true
                 }) {
                     Image(systemName: "plus")

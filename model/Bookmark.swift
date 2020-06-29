@@ -18,6 +18,6 @@ struct Bookmark: Identifiable, Codable {
     var description: String
 }
 
-func create_empty_bookmark() -> Bookmark {
-    return Bookmark(id: -1, added: -1, title: "", url: "", tags: [], folder_ids: [-1], description: "")
+func create_empty_bookmark(folder_id: Int = -1) -> Bookmark {
+    return Bookmark(id: -1, added: -1, title: "", url: "", tags: [], folder_ids: [folder_id], description: "")
 }
