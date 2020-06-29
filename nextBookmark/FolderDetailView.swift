@@ -11,8 +11,8 @@ import SwiftUI
 struct FolderDetailView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var model: Model
-    @State var parent_folder = Folder(id: -1, title: "/", parent_folder_id: -1, isExpanded: false, full_path: "/")
-    @State var new_folder = Folder(id: -1, title: "", parent_folder_id: -1, isExpanded: false, full_path: "")
+    @State var parent_folder = Folder(id: -1, title: "/", parent_folder_id: -1, full_path: "/")
+    @State var new_folder = Folder(id: -1, title: "", parent_folder_id: -1, full_path: "")
     var parent_folder_full_path = "/"
     
     var body: some View {

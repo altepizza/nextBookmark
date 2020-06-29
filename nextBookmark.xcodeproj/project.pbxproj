@@ -36,7 +36,6 @@
 		98C774B92440C3A700B357B8 /* Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E3112B240B19EC00D6C5C5 /* Folder.swift */; };
 		98C774BA2440DD6000B357B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98CB33442319A8A000DA4763 /* Assets.xcassets */; };
 		98CB333B2319A89F00DA4763 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CB333A2319A89F00DA4763 /* AppDelegate.swift */; };
-		98CB33432319A89F00DA4763 /* nextBookmark.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 98CB33412319A89F00DA4763 /* nextBookmark.xcdatamodeld */; };
 		98CB33452319A8A000DA4763 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98CB33442319A8A000DA4763 /* Assets.xcassets */; };
 		98CB33532319A8A000DA4763 /* nextBookmarkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CB33522319A8A000DA4763 /* nextBookmarkTests.swift */; };
 		98CB335E2319A8A000DA4763 /* nextBookmarkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CB335D2319A8A000DA4763 /* nextBookmarkUITests.swift */; };
@@ -46,7 +45,6 @@
 		98E12EFD23A82D7600E6CDD6 /* CallNextcloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E12EFC23A82D7600E6CDD6 /* CallNextcloud.swift */; };
 		98E12F0023A82F0500E6CDD6 /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E12EFF23A82F0500E6CDD6 /* Bookmark.swift */; };
 		98E3112C240B19EC00D6C5C5 /* Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E3112B240B19EC00D6C5C5 /* Folder.swift */; };
-		98F9B8C1245CEBE8000F135A /* nextBookmark.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 98CB33412319A89F00DA4763 /* nextBookmark.xcdatamodeld */; };
 		99B2BFC412E0716D4B47ECDE /* libPods-nextBookmark.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E211FCF9F243F0DD4C6D257C /* libPods-nextBookmark.a */; };
 		BA8907466B3AE9794D867691 /* libPods-nextBookmarkTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 172951938C4D48049EB98C40 /* libPods-nextBookmarkTests.a */; };
 		F11B009B3B13DB5CF79F7850 /* libPods-ShareExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC94AEBB5A7D99889DF30E41 /* libPods-ShareExtension.a */; };
@@ -121,7 +119,6 @@
 		98C4C40F24047BAB008EB872 /* privacy_policy.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = privacy_policy.txt; sourceTree = "<group>"; };
 		98CB33372319A89F00DA4763 /* nextBookmark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nextBookmark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98CB333A2319A89F00DA4763 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		98CB33422319A89F00DA4763 /* nextBookmark.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = nextBookmark.xcdatamodel; sourceTree = "<group>"; };
 		98CB33442319A8A000DA4763 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		98CB33492319A8A000DA4763 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		98CB334E2319A8A000DA4763 /* nextBookmarkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = nextBookmarkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -261,7 +258,6 @@
 				98CB333A2319A89F00DA4763 /* AppDelegate.swift */,
 				98CB33442319A8A000DA4763 /* Assets.xcassets */,
 				98CB33492319A8A000DA4763 /* Info.plist */,
-				98CB33412319A89F00DA4763 /* nextBookmark.xcdatamodeld */,
 				98239461235CE2A1005A3AC9 /* SettingsView.swift */,
 				989C17C1236A2A2F00EE273A /* BookmarksView.swift */,
 				98AE797B240309C3007C36A9 /* Launch Screen.storyboard */,
@@ -617,7 +613,6 @@
 				98AF64C623245CE70029F327 /* SharedUserDefaults.swift in Sources */,
 				98CB333B2319A89F00DA4763 /* AppDelegate.swift in Sources */,
 				98AAEF7B2450B89500205348 /* Data.swift in Sources */,
-				98CB33432319A89F00DA4763 /* nextBookmark.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -642,7 +637,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				98CB33722319AD7100DA4763 /* ShareViewController.swift in Sources */,
-				98F9B8C1245CEBE8000F135A /* nextBookmark.xcdatamodeld in Sources */,
 				98AAEF7C2450B8BB00205348 /* Data.swift in Sources */,
 				98C774B92440C3A700B357B8 /* Folder.swift in Sources */,
 				98C774B72440C39900B357B8 /* CallNextcloud.swift in Sources */,
@@ -815,7 +809,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.10.2;
+				MARKETING_VERSION = 1.10.4;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -839,7 +833,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.10.2;
+				MARKETING_VERSION = 1.10.4;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -860,7 +854,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.10.2;
+				MARKETING_VERSION = 1.10.4;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmarkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -882,7 +876,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.10.2;
+				MARKETING_VERSION = 1.10.4;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmarkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -903,7 +897,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.10.2;
+				MARKETING_VERSION = 1.10.4;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmarkUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -924,7 +918,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.10.2;
+				MARKETING_VERSION = 1.10.4;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmarkUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -947,7 +941,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.10.2;
+				MARKETING_VERSION = 1.10.4;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -970,7 +964,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.10.2;
+				MARKETING_VERSION = 1.10.4;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1028,19 +1022,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		98CB33412319A89F00DA4763 /* nextBookmark.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				98CB33422319A89F00DA4763 /* nextBookmark.xcdatamodel */,
-			);
-			currentVersion = 98CB33422319A89F00DA4763 /* nextBookmark.xcdatamodel */;
-			path = nextBookmark.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 98CB332F2319A89F00DA4763 /* Project object */;
 }

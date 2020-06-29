@@ -40,7 +40,7 @@ struct BookmarkRow: View {
     @ObservedObject var main_model: Model
     @State private var showModal = false
     let book: Bookmark
-    @State var editing_bookmark_folder = Folder(id: -1, title: "/", parent_folder_id: -1, isExpanded: false, full_path: "/")
+    @State var editing_bookmark_folder = Folder(id: -1, title: "/", parent_folder_id: -1, full_path: "/")
     @State var tapped_bookmark = Bookmark(id: -1, added: -1, title: "", url: "", tags: [], folder_ids: [-1], description: "")
     var body: some View {
         HStack{
@@ -85,51 +85,21 @@ struct BookmarksView: View {
     @State private var show_new_bookmark_modal = false
     
     var body: some View {
-        
-        LoadingView(isShowing: $main_model.isShowing) {
-            NavigationView{
-                VStack{
-                    SearchBar(text: self.$searchText, placeholder: "Filter bookmarks")
-
-                    List {
-                        // Subfolders
-                        ForEach(self.main_model.folders.filter {
-                            $0.parent_folder_id == self.main_model.currentRoot.id && $0.id != self.main_model.currentRoot.id
-                        }) { folder in
-                            FolderRow(folder: folder, model: self.main_model)
-                        }
-                        
-                        // Bookmarks of current filter + folder
-                        ForEach(self.main_model.sorted_filtered_bookmarks(searchText: self.searchText))
-                        { book in
-                            BookmarkRow(main_model: self.main_model, book: book)
-                        }
-                        .onDelete(perform: { row in
-                            self.delete(row: row)
-                        })
-                    }
-                }
-                .pullToRefresh(isShowing: self.$main_model.isShowing) {
-                    self.startUpCheck()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        CallNextcloud(data: self.main_model).get_all_bookmarks()
-                        CallNextcloud(data: self.main_model).get_tags()
-                    }
-                }
-                .navigationBarTitle(Text(self.main_model.currentRoot.title), displayMode: .inline)
-                .navigationBarItems(
-                    trailing: Button(action: {
-                        self.main_model.editing_bookmark = Bookmark(id: -1, added: 0, title: "", url: "", tags: [], folder_ids: [self.main_model.currentRoot.id], description: "")
-                        self.show_new_bookmark_modal = true
-                    }) {
-                        Image(systemName: "plus")
+        NavigationView{
+            LoadingView(isShowing: $main_model.isShowing) {
+                BookmarksFolderView(model: self.main_model, current_root_folder: self.main_model.currentRoot)
+                    .navigationBarTitle(Text(self.main_model.currentRoot.title), displayMode: .inline)
+                    .navigationBarItems(
+                        trailing: Button(action: {
+                            self.main_model.editing_bookmark = Bookmark(id: -1, added: 0, title: "", url: "", tags: [], folder_ids: [self.main_model.currentRoot.id], description: "")
+                            self.show_new_bookmark_modal = true
+                        }) {
+                            Image(systemName: "plus")
                     })
                     .sheet(isPresented: self.$show_new_bookmark_modal, onDismiss: {
-                        print(self.show_new_bookmark_modal)
                     }) {
-                        BookmarkDetailView(model: self.main_model, bookmark: Bookmark(id: -1, added: -1, title: "", url: "", tags: [], folder_ids: [-1], description: ""), bookmark_folder: Folder(id: -1, title: "/", parent_folder_id: -1, isExpanded: false, full_path: "/"))
+                        BookmarkDetailView(model: self.main_model, bookmark: Bookmark(id: -1, added: -1, title: "", url: "", tags: [], folder_ids: [-1], description: ""), bookmark_folder: Folder(id: -1, title: "/", parent_folder_id: -1, full_path: "/"))
                 }
-                
             }.navigationViewStyle(StackNavigationViewStyle())
         }
     }

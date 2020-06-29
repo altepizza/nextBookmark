@@ -38,6 +38,7 @@ struct CallNextcloud
                 for (_, mark) in swiftyJsonVar["data"] {
                     bookmarks.append(Bookmark(id: mark["id"].intValue , added: mark["added"].intValue, title: mark["title"].stringValue , url: mark["url"].stringValue, tags: mark["tags"].arrayValue.map { $0.stringValue}, folder_ids: mark["folders"].arrayValue.map { $0.intValue}, description: mark["description"].stringValue))
                 }
+                self.main_model.isShowing = false
             case .failure(let error):
                 print(error)
             }
@@ -199,10 +200,6 @@ struct CallNextcloud
             switch response.result {
             case .success(let value):
                 let swiftyJsonVar = JSON(value)
-//                self.main_model.tags = [:]
-//                for (_, tag) in swiftyJsonVar {
-//                    self.main_model.tags[tag.stringValue] = 0
-//                }
                 self.main_model.tags = swiftyJsonVar.arrayValue.map {$0.stringValue}
             case .failure(let error):
                 print(error)
