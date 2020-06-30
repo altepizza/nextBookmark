@@ -15,7 +15,7 @@ a very simple iOS client for the
 here
 2. Run ```fastlane release```
 
-## Acknowledgements
+## acknowledgments
 * [Alamofire](https://github.com/Alamofire/Alamofire)
 * [Nextcloud](https://nextcloud.com/)
 * [Nextcloud Bookmarks](https://github.com/nextcloud/bookmarks)
