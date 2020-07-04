@@ -36,35 +36,35 @@ struct SettingsView: View {
     @State private var keyboardHeight: CGFloat = 0
     let orders = ["newest first", "oldest first"]
     
-    @ObservedObject var main_model: Model
+    @EnvironmentObject var model: Model
     
     var body: some View {
         NavigationView{
             VStack() {
                 Form {
                     Section(header: Text("Nextcloud credentials")) {
-                        TextField("https://your-nextcloud.instance", text: $main_model.credentials_url)
+                        TextField("https://your-nextcloud.instance", text: $model.credentials_url)
                             .keyboardType(.URL)
-                        TextField("Your Username", text: $main_model.credentials_user)
-                        SecureField("Your Password", text: $main_model.credentials_password)
+                        TextField("Your Username", text: $model.credentials_user)
+                        SecureField("Your Password", text: $model.credentials_password)
                         Text("Please create and use an 'app password' if you are using Two-Factor Authentication").font(.subheadline)
                     }
                     Section(header: Text("Upload")) {
                         Text("Where to upload new bookmarks").font(.subheadline)
-                        Picker(selection: $main_model.default_upload_folder, label: Text("Target Folder")){
-                            ForEach(main_model.folders, id: \.self) { folder in
+                        Picker(selection: $model.default_upload_folder, label: Text("Target Folder")){
+                            ForEach(model.folders, id: \.self) { folder in
                                 Text(verbatim: folder.full_path)
                             }
                         }
                     }
                     Section(header: Text("Visuals")) {
                         Text("Altering these settings might take a couple of seconds to load").font(.subheadline)
-                        Picker(selection: $main_model.order_bookmarks, label: Text("Order bookmarks by")){
+                        Picker(selection: $model.order_bookmarks, label: Text("Order bookmarks by")){
                             ForEach(orders, id: \.self) { order in
                                 Text(verbatim: order)
                             }
                         }
-                        Toggle(isOn: $main_model.full_title) {
+                        Toggle(isOn: $model.full_title) {
                             Text("Show full bookmark title")
                         }
                     }
@@ -95,16 +95,16 @@ struct SettingsView: View {
         var banner = NotificationBanner(title: "Testing connection", subtitle: "", style: .warning)
         banner.autoDismiss = false
         banner.show()
-        main_model.credentials_url = main_model.credentials_url.trimmingCharacters(in: .whitespacesAndNewlines)
+        model.credentials_url = model.credentials_url.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        if NSURL(string: main_model.credentials_url) != nil {
-            if (main_model.credentials_url.starts(with: "https://")) {
+        if NSURL(string: model.credentials_url) != nil {
+            if (model.credentials_url.starts(with: "https://")) {
                 var headers: HTTPHeaders
                 headers = [
-                    .authorization(username: main_model.credentials_user, password: main_model.credentials_password),
+                    .authorization(username: model.credentials_user, password: model.credentials_password),
                     .accept("application/json")
                 ]
-                AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/bookmark?page=0", headers: headers)
+                AF.request(model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/bookmark?page=0", headers: headers)
                     .validate(statusCode: 200..<300)
                     .responseJSON { response in
                         switch response.result {
@@ -114,8 +114,8 @@ struct SettingsView: View {
                             banner = NotificationBanner(title: "Connection successful", style: .success)
                             sharedUserDefaults?.set(true, forKey: SharedUserDefaults.Keys.valid)
                             banner.show()
-                            CallNextcloud(data: self.main_model).requestFolderHierarchy()
-                            CallNextcloud(data: self.main_model).get_all_bookmarks()
+                            CallNextcloud(data: self.model).requestFolderHierarchy()
+                            CallNextcloud(data: self.model).get_all_bookmarks()
                         case .failure( _):
                             self.show_error_banner(banner: banner, subtitle: "Cannot login to Nextcloud Bookmarks. Please check you credentials")
                         }
@@ -134,6 +134,6 @@ struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(main_model: Model())
+        SettingsView()
     }
 }

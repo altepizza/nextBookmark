@@ -12,6 +12,7 @@ import SwiftUI
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    var model = Model()
 
     let sharedUserDefaults = UserDefaults(suiteName: SharedUserDefaults.suiteName)
     
@@ -28,7 +29,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            window.rootViewController = UIHostingController(rootView: AppView())
+            window.rootViewController = UIHostingController(rootView: AppView().environmentObject(model))
             self.window = window
             window.makeKeyAndVisible()
         }

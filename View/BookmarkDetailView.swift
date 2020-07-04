@@ -15,20 +15,17 @@ struct ActivityView: UIViewControllerRepresentable {
     let applicationActivities: [UIActivity]?
 
     func makeUIViewController(context: UIViewControllerRepresentableContext<ActivityView>) -> UIActivityViewController {
-        return UIActivityViewController(activityItems: activityItems,
-                                        applicationActivities: applicationActivities)
+        return UIActivityViewController(activityItems: activityItems, applicationActivities: applicationActivities)
     }
 
-    func updateUIViewController(_ uiViewController: UIActivityViewController,
-                                context: UIViewControllerRepresentableContext<ActivityView>) {
-
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: UIViewControllerRepresentableContext<ActivityView>) {
     }
 }
 
 struct BookmarkDetailView: View {
     @State private var showingSheet = false
     @State private var keyboardHeight: CGFloat = 0
-    @ObservedObject var model: Model
+    @EnvironmentObject var model: Model
     @State var bookmark: Bookmark
     @State var bookmark_folder : Folder
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -46,7 +43,7 @@ struct BookmarkDetailView: View {
                         TextField("description", text: $model.editing_bookmark.description)
                     }
                     Section(header: Text("Tag(s)")) {
-                        NavigationLink(destination: BookmarkTags(model: self.model)) {
+                        NavigationLink(destination: BookmarkTags()) {
                             Text(model.editing_bookmark.tags.joined(separator: ", ")).lineLimit(1)
                         }
                     }
@@ -94,8 +91,8 @@ struct BookmarkDetailView: View {
     }
 }
 
-//struct EditBookmarkView_Previews: PreviewProvider {
+//struct BookmarkDetailView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        BookmarkDetailView(model: Model())
+//        BookmarkDetailView()
 //    }
 //}

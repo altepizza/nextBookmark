@@ -9,13 +9,13 @@
 import SwiftUI
 
 struct FoldersView: View {
-    @ObservedObject var model: Model
+    @EnvironmentObject var model: Model
     @State private var show_folder_detail_modal = false
     var body: some View {
         NavigationView {
             List {
                 ForEach(self.model.folders) { folder in
-                    NavigationLink(destination: BookmarksFolderView(model: self.model, current_root_folder: folder)) {
+                    NavigationLink(destination: BookmarksFolderView(current_root_folder: folder)) {
                         VStack(alignment: .leading) {
                             HStack {
                                 Image(systemName: "folder.fill")
@@ -34,7 +34,7 @@ struct FoldersView: View {
                 }
             }
             .sheet(isPresented: self.$show_folder_detail_modal) {
-                FolderDetailView(model: self.model)
+                FolderDetailView().environmentObject(self.model)
             }
             .navigationBarTitle("Folders", displayMode: .inline)
             .navigationBarItems(
@@ -49,6 +49,6 @@ struct FoldersView: View {
 
 struct FoldersView_Previews: PreviewProvider {
     static var previews: some View {
-        FoldersView(model: Model())
+        FoldersView()
     }
 }

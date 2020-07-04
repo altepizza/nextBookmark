@@ -216,15 +216,34 @@
 			name = "Recovered References";
 			sourceTree = "<group>";
 		};
+		9880AE1B24B0BF700055CDEC /* View */ = {
+			isa = PBXGroup;
+			children = (
+				980CB54B2482D4350093AFFC /* AppView.swift */,
+				98B2BAAB24574693002FD3CB /* BookmarkDetailView.swift */,
+				980CB5492482A07D0093AFFC /* BookmarkTags.swift */,
+				989C17C1236A2A2F00EE273A /* BookmarksView.swift */,
+				980CB5532483E5590093AFFC /* BookmarksFolderView.swift */,
+				980CB5552483F5130093AFFC /* BookmarksTagView.swift */,
+				980CB5512483AB640093AFFC /* FolderDetailView.swift */,
+				980CB54D2482D5730093AFFC /* FoldersView.swift */,
+				98239461235CE2A1005A3AC9 /* SettingsView.swift */,
+				980CB54F2482DCF70093AFFC /* TagsView.swift */,
+				98C4C40B24046515008EB872 /* ThanksView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		98CB332E2319A89F00DA4763 = {
 			isa = PBXGroup;
 			children = (
+				9880AE1B24B0BF700055CDEC /* View */,
 				98B3C3E523DA432400524D07 /* README.md */,
 				9874B04B23C51E9D0070C202 /* .gitignore */,
 				98C4C40D240476C3008EB872 /* privacy_policy.md */,
 				98C4C40F24047BAB008EB872 /* privacy_policy.txt */,
-				98E12EFE23A82EE000E6CDD6 /* model */,
-				98E12EFB23A82D4000E6CDD6 /* middleware */,
+				98E12EFE23A82EE000E6CDD6 /* Model */,
+				98E12EFB23A82D4000E6CDD6 /* Helper */,
 				98AED5FA2364FF1D0009ACA3 /* Default-568h@2x.png */,
 				98C1DA2A2370BCD50006B4BC /* Podfile */,
 				98CB33392319A89F00DA4763 /* nextBookmark */,
@@ -258,18 +277,7 @@
 				98CB333A2319A89F00DA4763 /* AppDelegate.swift */,
 				98CB33442319A8A000DA4763 /* Assets.xcassets */,
 				98CB33492319A8A000DA4763 /* Info.plist */,
-				98239461235CE2A1005A3AC9 /* SettingsView.swift */,
-				989C17C1236A2A2F00EE273A /* BookmarksView.swift */,
-				980CB5532483E5590093AFFC /* BookmarksFolderView.swift */,
 				98AE797B240309C3007C36A9 /* Launch Screen.storyboard */,
-				98C4C40B24046515008EB872 /* ThanksView.swift */,
-				98B2BAAB24574693002FD3CB /* BookmarkDetailView.swift */,
-				980CB5492482A07D0093AFFC /* BookmarkTags.swift */,
-				980CB54B2482D4350093AFFC /* AppView.swift */,
-				980CB54D2482D5730093AFFC /* FoldersView.swift */,
-				980CB5512483AB640093AFFC /* FolderDetailView.swift */,
-				980CB54F2482DCF70093AFFC /* TagsView.swift */,
-				980CB5552483F5130093AFFC /* BookmarksTagView.swift */,
 			);
 			path = nextBookmark;
 			sourceTree = "<group>";
@@ -303,15 +311,15 @@
 			path = ShareExtension;
 			sourceTree = "<group>";
 		};
-		98E12EFB23A82D4000E6CDD6 /* middleware */ = {
+		98E12EFB23A82D4000E6CDD6 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
 				98E12EFC23A82D7600E6CDD6 /* CallNextcloud.swift */,
 			);
-			path = middleware;
+			path = Helper;
 			sourceTree = "<group>";
 		};
-		98E12EFE23A82EE000E6CDD6 /* model */ = {
+		98E12EFE23A82EE000E6CDD6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				98AF64C523245CE70029F327 /* SharedUserDefaults.swift */,
@@ -319,7 +327,7 @@
 				98E3112B240B19EC00D6C5C5 /* Folder.swift */,
 				98AAEF7A2450B89500205348 /* Data.swift */,
 			);
-			path = model;
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -809,7 +817,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.10.4;
+				MARKETING_VERSION = 1.10.5;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -833,7 +841,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.10.4;
+				MARKETING_VERSION = 1.10.5;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -854,7 +862,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.10.4;
+				MARKETING_VERSION = 1.10.5;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmarkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -876,7 +884,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.10.4;
+				MARKETING_VERSION = 1.10.5;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmarkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -897,7 +905,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.10.4;
+				MARKETING_VERSION = 1.10.5;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmarkUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -918,7 +926,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.10.4;
+				MARKETING_VERSION = 1.10.5;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmarkUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -941,7 +949,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.10.4;
+				MARKETING_VERSION = 1.10.5;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -964,7 +972,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.10.4;
+				MARKETING_VERSION = 1.10.5;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

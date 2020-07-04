@@ -9,28 +9,28 @@
 import SwiftUI
 
 struct AppView: View {
-    @State var model = Model()
+    @EnvironmentObject var model: Model
     var body: some View {
         TabView {
-            BookmarksView(main_model: self.model)
+            BookmarksView()
                 .tabItem {
                     Image(systemName: "bookmark.fill")
                     Text("Bookmarks")
             }
             
-            FoldersView(model: self.model)
+            FoldersView()
                 .tabItem {
                     Image(systemName: "folder.fill")
                     Text("Folders")
             }
             
-            TagsView(model: self.model)
+            TagsView()
                 .tabItem {
                     Image(systemName: "tag.fill")
                     Text("Tags")
             }
             
-            SettingsView(main_model: self.model)
+            SettingsView()
                 .tabItem {
                     Image(systemName: "gear")
                     Text("Settings")

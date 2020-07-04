@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct BookmarksTagView: View {
-    @ObservedObject var model: Model
+    @EnvironmentObject var model: Model
     @State private var searchText: String = ""
     @State var current_tag: String
     @State var order_bookmarks = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.order_bookmarks) ?? "newest first"
@@ -24,7 +24,7 @@ struct BookmarksTagView: View {
                     List {
                         ForEach(self.model.sorted_filtered_bookmarks_of_tag(searchText: self.searchText, tag: self.current_tag), id: \.id)
                         { book in
-                            BookmarkRow(main_model: self.model, book: book)
+                            BookmarkRow(book: book)
                         }
                         .onDelete(perform: self.delete)
                     }
@@ -53,6 +53,6 @@ struct BookmarksTagView: View {
 
 struct BookmarksTagView_Previews: PreviewProvider {
     static var previews: some View {
-        BookmarksTagView(model: Model(), current_tag: "String")
+        BookmarksTagView(current_tag: "String")
     }
 }

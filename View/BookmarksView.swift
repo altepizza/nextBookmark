@@ -23,9 +23,8 @@ struct OpenFolderRow: View {
 
 struct FolderRow: View {
     var folder: Folder
-    var model: Model
     var body: some View {
-        NavigationLink(destination: BookmarksFolderView(model: self.model, current_root_folder: folder)) {
+        NavigationLink(destination: BookmarksFolderView(current_root_folder: folder)) {
             VStack(alignment: .leading) {
                 HStack {
                     Image(systemName: "folder.fill")
@@ -37,7 +36,7 @@ struct FolderRow: View {
 }
 
 struct BookmarkRow: View {
-    @ObservedObject var main_model: Model
+    @EnvironmentObject var model: Model
     @State private var showModal = false
     let book: Bookmark
     @State var editing_bookmark_folder = create_root_folder()
@@ -45,7 +44,7 @@ struct BookmarkRow: View {
     var body: some View {
         HStack{
             VStack (alignment: .leading) {
-                if (main_model.full_title) {
+                if (model.full_title) {
                     Text(book.title).fontWeight(.bold)
                 }
                 else {
@@ -56,8 +55,8 @@ struct BookmarkRow: View {
                 }
                 Text(book.url).font(.footnote).lineLimit(1).foregroundColor(Color.gray)
             }.onTapGesture {
-                self.editing_bookmark_folder = self.main_model.folders.filter({ $0.id == self.book.folder_ids.first }).first!
-                self.main_model.editing_bookmark = self.book
+                self.editing_bookmark_folder = self.model.folders.filter({ $0.id == self.book.folder_ids.first }).first!
+                self.model.editing_bookmark = self.book
                 self.tapped_bookmark = self.book
                 self.showModal = true
             }
@@ -73,20 +72,19 @@ struct BookmarkRow: View {
         }.sheet(isPresented: $showModal, onDismiss: {
             print(self.showModal)
         }) {
-            BookmarkDetailView(model: self.main_model, bookmark: self.tapped_bookmark, bookmark_folder: self.editing_bookmark_folder)
+            BookmarkDetailView(bookmark: self.tapped_bookmark, bookmark_folder: self.editing_bookmark_folder).environmentObject(self.model)
         }
     }
 }
 
 struct BookmarksView: View {
-    @ObservedObject var main_model: Model
+    @EnvironmentObject var model: Model
     @State private var searchText : String = ""
     @State var order_bookmarks = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.order_bookmarks) ?? "newest first"
     
     var body: some View {
         NavigationView{
-
-                BookmarksFolderView(model: self.main_model, current_root_folder: self.main_model.currentRoot)
+            BookmarksFolderView(current_root_folder: self.model.currentRoot)
             .navigationViewStyle(StackNavigationViewStyle())
         }
     }
@@ -101,11 +99,11 @@ struct BookmarksView: View {
     
     func delete(row: IndexSet) {
         for index in row {
-            let real_index = main_model.bookmarks.firstIndex{$0.id == self.main_model.sorted_filtered_bookmarks(searchText: self.searchText)[index].id}
-            CallNextcloud(data: self.main_model).delete(bookId: main_model.bookmarks[real_index!].id)
-            debugPrint(self.main_model.sorted_filtered_bookmarks(searchText: self.searchText)[index].title)
-            debugPrint(main_model.bookmarks[real_index!].title)
-            main_model.bookmarks.remove(at: real_index!)
+            let real_index = model.bookmarks.firstIndex{$0.id == self.model.sorted_filtered_bookmarks(searchText: self.searchText)[index].id}
+            CallNextcloud(data: self.model).delete(bookId: model.bookmarks[real_index!].id)
+            debugPrint(self.model.sorted_filtered_bookmarks(searchText: self.searchText)[index].title)
+            debugPrint(model.bookmarks[real_index!].title)
+            model.bookmarks.remove(at: real_index!)
         }
     }
 }
@@ -212,6 +210,6 @@ struct LoadingView<Content>: View where Content: View {
 
 struct BookmarksView_Previews: PreviewProvider {
     static var previews: some View {
-        BookmarksView(main_model: Model())
+        BookmarksView()
     }
 }

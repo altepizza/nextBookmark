@@ -86,8 +86,8 @@ struct ThanksView: View {
                 Spacer()
                 
                 VStack {
-                    Text(UIApplication.appVersion ?? "")
-                }
+                    Text(UIApplication.appVersion ?? "X.X.X")
+                }.padding()
             }
         }.navigationBarTitle("About", displayMode: .inline)
         .navigationViewStyle(StackNavigationViewStyle())

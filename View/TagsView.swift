@@ -9,13 +9,13 @@
 import SwiftUI
 
 struct TagsView: View {
-    @ObservedObject var model: Model
+    @EnvironmentObject var model: Model
 
     var body: some View {
         NavigationView {
             List {
                 ForEach(self.model.tags, id: \.self) { tag in
-                    NavigationLink(destination: BookmarksTagView(model: self.model, current_tag: tag)) {
+                    NavigationLink(destination: BookmarksTagView(current_tag: tag)) {
                         HStack {
                             Text(tag)
                             Spacer()
@@ -31,6 +31,6 @@ struct TagsView: View {
 
 struct TagsView_Previews: PreviewProvider {
     static var previews: some View {
-        TagsView(model: Model())
+        TagsView()
     }
 }

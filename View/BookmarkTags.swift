@@ -10,7 +10,7 @@ import SwiftUI
 import Combine
 
 struct BookmarkTagsRow: View {
-    var model: Model
+    @EnvironmentObject var model: Model
     let tag: String
     @State var checked_tag = false
     
@@ -40,7 +40,7 @@ struct BookmarkTagsRow: View {
 
 
 struct BookmarkTags: View {
-    @ObservedObject var model: Model
+    @EnvironmentObject var model: Model
     @State private var keyboardHeight: CGFloat = 0
     
     @State private var new_tag: String = ""
@@ -51,7 +51,7 @@ struct BookmarkTags: View {
                 List {
                     ForEach(self.model.tags, id: \.self) {
                         tag in
-                        BookmarkTagsRow(model: self.model, tag: tag)
+                        BookmarkTagsRow(tag: tag)
                     }
                 }
             }
@@ -72,6 +72,6 @@ struct BookmarkTags: View {
 
 struct BookmarkTags_Previews: PreviewProvider {
     static var previews: some View {
-        BookmarkTags(model: Model())
+        BookmarkTags()
     }
 }

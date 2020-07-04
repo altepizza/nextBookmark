@@ -9,10 +9,9 @@
 import SwiftUI
 
 struct BookmarksFolderView: View {
-    @ObservedObject var model: Model
+    @EnvironmentObject var model: Model
     @State private var searchText: String = ""
     @State var current_root_folder: Folder
-    @State var order_bookmarks = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.order_bookmarks) ?? "newest first"
     @State private var show_new_bookmark_modal = false
     
     var body: some View {
@@ -23,12 +22,12 @@ struct BookmarksFolderView: View {
                     ForEach(self.model.folders.filter {
                         $0.parent_folder_id == self.current_root_folder.id && $0.id != self.current_root_folder.id
                     }) { folder in
-                        FolderRow(folder: folder, model: self.model)
+                        FolderRow(folder: folder)
                     }
                     
                     ForEach(self.model.sorted_filtered_bookmarks_of_folder(searchText: self.searchText, folder: self.current_root_folder), id: \.id)
                     { book in
-                        BookmarkRow(main_model: self.model, book: book)
+                        BookmarkRow(book: book)
                     }
                     .onDelete(perform: self.delete)
                 }
@@ -49,7 +48,7 @@ struct BookmarksFolderView: View {
                 }
             )
             .sheet(isPresented: self.$show_new_bookmark_modal, onDismiss: {}) {
-                BookmarkDetailView(model: self.model, bookmark: create_empty_bookmark(), bookmark_folder: self.current_root_folder)
+                BookmarkDetailView(bookmark: create_empty_bookmark(), bookmark_folder: self.current_root_folder).environmentObject(self.model)
             }
         }
     }
@@ -67,6 +66,6 @@ struct BookmarksFolderView: View {
 
 struct BookmarkFolderView_Previews: PreviewProvider {
     static var previews: some View {
-        BookmarksFolderView(model: Model(), current_root_folder: Folder(id: -1, title: "String", parent_folder_id: -1, full_path: "String"))
+        BookmarksFolderView(current_root_folder: Folder(id: -1, title: "String", parent_folder_id: -1, full_path: "String"))
     }
 }
