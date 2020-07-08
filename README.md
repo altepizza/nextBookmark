@@ -18,6 +18,7 @@ here
 ## Acknowledgments
 * [Alamofire](https://github.com/Alamofire/Alamofire)
 * [JGProgressHUD](https://github.com/JonasGessner/JGProgressHUD)
+* [KeychainSwift](https://github.com/evgenyneu/keychain-swift)
 * [Nextcloud](https://nextcloud.com/)
 * [Nextcloud Bookmarks](https://github.com/nextcloud/bookmarks)
 * [NotificationBanner](https://github.com/Daltron/NotificationBanner)

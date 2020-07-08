@@ -7,8 +7,11 @@
 //
 
 import Foundation
+import KeychainSwift
 
 class Model: ObservableObject {
+    let keychain = KeychainSwift()
+    
     let sharedUserDefaults = UserDefaults(suiteName: SharedUserDefaults.suiteName)
     @Published var tag_count : [String:Int] = [:]
     @Published var bookmarks : [Bookmark] {
@@ -22,7 +25,9 @@ class Model: ObservableObject {
     @Published var currentRoot : Folder
     @Published var credentials_password : String {
         didSet {
+            //TODO Switch to Keychain
             sharedUserDefaults?.set(credentials_password, forKey: SharedUserDefaults.Keys.password)
+            keychain.set(credentials_password, forKey: "ncPW")
         }
     }
     @Published var credentials_url : String {
@@ -75,7 +80,11 @@ class Model: ObservableObject {
    
     init() {
         self.bookmarks = [.init(id: -1, added: 1, title: "Go to Settings...", url: "...setup your credentials", tags: ["...to..."], folder_ids: [-1], description: "")]
+        
+        //TODO Switch to keychain
         self.credentials_password = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.password) ?? "Your Password"
+        //self.credentials_password = keychain.get("ncPW") ?? "xxx"
+        
         self.credentials_url = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.url) ?? "https://your-nextcloud.instance"
         self.credentials_user = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.username) ?? "Your Username"
         self.currentRoot = Folder(id: -1, title: "/", parent_folder_id: -1)

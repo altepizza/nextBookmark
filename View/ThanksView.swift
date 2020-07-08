@@ -56,6 +56,13 @@ struct ThanksView: View {
                     }
                     
                     Button(action: {
+                        let url = URL(string: "https://github.com/evgenyneu/keychain-swift")
+                        UIApplication.shared.open(url!)
+                    }) {
+                        Text("KeychainSwift")
+                    }
+                    
+                    Button(action: {
                         guard let url = URL(string: "https://nextcloud.com/") else { return }
                         UIApplication.shared.open(url)
                     }) {

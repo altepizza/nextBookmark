@@ -11,7 +11,7 @@ target 'nextBookmark' do
   pod 'SwiftUIRefresh'
   pod 'NotificationBannerSwift'
   pod 'JGProgressHUD'
-
+  pod 'KeychainSwift'
 
   target 'nextBookmarkTests' do
     inherit! :search_paths
@@ -32,4 +32,5 @@ target 'ShareExtension' do
   pod 'Alamofire'
   pod 'SwiftyJSON'
   pod 'JGProgressHUD'
+  pod 'KeychainSwift'
 end

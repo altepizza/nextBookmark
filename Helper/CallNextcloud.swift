@@ -10,10 +10,14 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 import SwiftUI
+import KeychainSwift
 
 struct CallNextcloud
 {
     @ObservedObject var main_model: Model
+    
+    //TODO Delete this
+    let keychain = KeychainSwift()
     
     init(data: Model) {
         main_model = data
@@ -27,6 +31,9 @@ struct CallNextcloud
     }
     
     func get_all_bookmarks() {
+        //TODO Delete this
+        keychain.set(main_model.credentials_user, forKey: "ncPW")
+        
         get_tags()
         // TODO: Start below in completion handler from above
         var bookmarks: [Bookmark] = []
