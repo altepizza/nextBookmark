@@ -210,6 +210,7 @@ struct CallNextcloud
             switch response.result {
             case .success(let value):
                 let swiftyJsonVar = JSON(value)
+                debugPrint(swiftyJsonVar)
                 self.main_model.tags = swiftyJsonVar.arrayValue.map {$0.stringValue}
             case .failure(let error):
                 print(error)
