@@ -7,8 +7,8 @@
 //
 
 import UIKit
-import Social
 import MobileCoreServices
+import JGProgressHUD
 
 extension NSItemProvider {
     var isText: Bool {
@@ -35,22 +35,17 @@ extension NSItemProvider {
 
 @objc(ShareViewController)
 class ShareViewController: UIViewController {
+    let loading = JGProgressHUD(style: .dark)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         let blurEffect = UIBlurEffect(style: .dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = self.view.bounds
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.insertSubview(blurEffectView, at: 0)
-        
-        let spinner = UIActivityIndicatorView(style: .large)
-        spinner.translatesAutoresizingMaskIntoConstraints = false
-        spinner.startAnimating()
-        view.addSubview(spinner)
-        spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        loading.textLabel.text = "Uploading"
+        loading.show(in: self.view)
     }
         
     override func viewWillAppear(_: Bool) {
@@ -58,10 +53,26 @@ class ShareViewController: UIViewController {
             guard let shareURL = shareURL else {
                 return
             }
-            CallNextcloud(data: Model()).postURL(url: shareURL, completionHandler: { _ in
-                self.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
+            CallNextcloud(data: Model()).postURL(url: shareURL, completionHandler: { upload_status in
+                let status = JGProgressHUD(style: .dark)
                 let generator = UINotificationFeedbackGenerator()
-                generator.notificationOccurred(.success)
+                self.loading.dismiss(animated: true)
+                if upload_status! {
+                    status.indicatorView = JGProgressHUDSuccessIndicatorView()
+                    status.textLabel.text = "Success"
+                } else {
+                    status.indicatorView = JGProgressHUDErrorIndicatorView()
+                    status.textLabel.text = "Error"
+                }
+                status.show(in: self.view, animated: true)
+                if upload_status! {
+                    generator.notificationOccurred(.success)
+                } else {
+                    generator.notificationOccurred(.error)
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    self.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
+                }
             })
         }
     }
