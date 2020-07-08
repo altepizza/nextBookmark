@@ -1,4 +1,4 @@
-module Introspect {
+framework module Introspect {
   umbrella header "Introspect-umbrella.h"
 
   export *

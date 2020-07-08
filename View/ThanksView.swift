@@ -40,11 +40,19 @@ struct ThanksView: View {
                 
                 VStack {
                     Text("Also thanks to...")
+                    
                     Button(action: {
                         guard let url = URL(string: "https://github.com/Alamofire/Alamofire") else { return }
                         UIApplication.shared.open(url)
                     }) {
                         Text("Alamofire")
+                    }
+                    
+                    Button(action: {
+                        let url = URL(string: "https://github.com/JonasGessner/JGProgressHUD")
+                        UIApplication.shared.open(url!)
+                    }) {
+                        Text("JGProgressHUD")
                     }
                     
                     Button(action: {

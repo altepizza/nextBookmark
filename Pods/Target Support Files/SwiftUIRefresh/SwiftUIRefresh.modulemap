@@ -1,4 +1,4 @@
-module SwiftUIRefresh {
+framework module SwiftUIRefresh {
   umbrella header "SwiftUIRefresh-umbrella.h"
 
   export *
