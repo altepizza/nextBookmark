@@ -69,7 +69,7 @@ struct BookmarkDetailView: View {
                 Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
                 }) {
-                    Text("Cancel")
+                    Text("Cancel").foregroundColor(.red)
                 }
             }
             .padding(.bottom, keyboardHeight).animation(.easeInOut(duration:0.5))
@@ -78,11 +78,7 @@ struct BookmarkDetailView: View {
             .navigationBarItems(
                 trailing:
                     Button(action: {self.showingSheet = true}) {
-                        Image(systemName: "square.and.arrow.up")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: CGFloat(25), height: CGFloat(25))
-                            .padding()
+                        Image(systemName: "square.and.arrow.up").imageScale(.large).padding([.leading, .top, .bottom])
                     }
                     .sheet(isPresented: $showingSheet, content: {
                         ActivityView(activityItems: [NSURL(string: self.model.editing_bookmark.url)!] as [Any], applicationActivities: nil) })
@@ -91,8 +87,8 @@ struct BookmarkDetailView: View {
     }
 }
 
-//struct BookmarkDetailView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        BookmarkDetailView()
-//    }
-//}
+struct BookmarkDetailView_Previews: PreviewProvider {
+    static var previews: some View {
+        BookmarkDetailView(bookmark: create_empty_bookmark(), bookmark_folder: create_root_folder()).environmentObject(Model())
+    }
+}
