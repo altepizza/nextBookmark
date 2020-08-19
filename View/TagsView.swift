@@ -22,12 +22,22 @@ struct TagsView: View {
                             Text(String(self.model.tag_count[tag] ?? 0))
                         }
                     }
-                }
+                }.onDelete(perform: { row in
+                    self.delete(row: row)
+                })
             }
             .navigationBarTitle("Tags", displayMode: .inline)
         }.navigationViewStyle(StackNavigationViewStyle())
     }
+    
+    private func delete(row: IndexSet) {
+        for index in row {
+            CallNextcloud(data: self.model).delete_tag(tag: self.model.tags[index])
+        }
+    }
 }
+
+
 
 struct TagsView_Previews: PreviewProvider {
     static var previews: some View {
