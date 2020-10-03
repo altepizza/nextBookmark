@@ -23,6 +23,12 @@ class Model: ObservableObject {
         }
     }
     @Published var currentRoot : Folder
+    @Published var tmp_credentials_password: String {
+        didSet {
+            sharedUserDefaults?.set(tmp_credentials_password, forKey: SharedUserDefaults.Keys.password)
+            keychain.set(tmp_credentials_password, forKey: "ncPW")
+        }
+    }
     @Published var credentials_password : String {
         didSet {
             //TODO Switch to Keychain
@@ -82,6 +88,7 @@ class Model: ObservableObject {
         self.bookmarks = [.init(id: -1, added: 1, title: "Go to Settings...", url: "...setup your credentials", tags: ["...to..."], folder_ids: [-1], description: "")]
         
         //TODO Switch to keychain
+        self.tmp_credentials_password = "xxx"
         self.credentials_password = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.password) ?? "Your Password"
         //self.credentials_password = keychain.get("ncPW") ?? "xxx"
         

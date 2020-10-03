@@ -46,7 +46,7 @@ struct SettingsView: View {
                         TextField("https://your-nextcloud.instance", text: $model.credentials_url)
                             .keyboardType(.URL)
                         TextField("Your Username", text: $model.credentials_user)
-                        SecureField("Your Password", text: $model.credentials_password)
+                        SecureField("Your Password", text: $model.tmp_credentials_password)
                         Text("Please create and use an 'app password' if you are using Two-Factor Authentication").font(.subheadline)
                     }
                     Section(header: Text("Upload")) {

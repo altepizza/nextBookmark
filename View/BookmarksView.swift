@@ -85,8 +85,8 @@ struct BookmarksView: View {
     var body: some View {
         NavigationView{
             BookmarksFolderView(current_root_folder: self.model.currentRoot)
-            .navigationViewStyle(StackNavigationViewStyle())
-        }
+        }.navigationViewStyle(StackNavigationViewStyle())
+
     }
     
     func startUpCheck() {
