@@ -25,8 +25,11 @@ class Model: ObservableObject {
     @Published var currentRoot : Folder
     @Published var tmp_credentials_password: String {
         didSet {
-            sharedUserDefaults?.set(tmp_credentials_password, forKey: SharedUserDefaults.Keys.password)
-            keychain.set(tmp_credentials_password, forKey: "ncPW")
+            if tmp_credentials_password != "xxx" {
+                sharedUserDefaults?.set(tmp_credentials_password, forKey: SharedUserDefaults.Keys.password)
+                keychain.set(tmp_credentials_password, forKey: "ncPW")
+                credentials_password = tmp_credentials_password
+            }
         }
     }
     @Published var credentials_password : String {
