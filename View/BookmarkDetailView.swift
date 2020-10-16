@@ -24,7 +24,6 @@ struct ActivityView: UIViewControllerRepresentable {
 
 struct BookmarkDetailView: View {
     @State private var showingSheet = false
-    @State private var keyboardHeight: CGFloat = 0
     @EnvironmentObject var model: Model
     @State var bookmark: Bookmark
     @State var bookmark_folder : Folder
@@ -60,7 +59,7 @@ struct BookmarkDetailView: View {
                         self.model.editing_bookmark.folder_ids = [self.bookmark_folder.id]
                         CallNextcloud(data: self.model).edit_or_create_bookmark(bookmark: self.model.editing_bookmark)
                     }) {
-                            Text("Save Bookmark")
+                            Text("Save")
                     }
                 }
                 .sheet(isPresented: $showingSheet,
@@ -72,8 +71,6 @@ struct BookmarkDetailView: View {
                     Text("Cancel").foregroundColor(.red)
                 }
             }
-            .padding(.bottom, keyboardHeight).animation(.easeInOut(duration:0.5))
-            .onReceive(Publishers.keyboardHeight) { self.keyboardHeight = $0 }
             .navigationBarTitle("Bookmark", displayMode: .inline)
             .navigationBarItems(
                 trailing:

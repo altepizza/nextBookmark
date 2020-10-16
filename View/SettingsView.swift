@@ -9,44 +9,28 @@
 import SwiftUI
 import NotificationBannerSwift
 import Alamofire
-import Combine
 
 let sharedUserDefaults = UserDefaults(suiteName: SharedUserDefaults.suiteName)
 
-extension Notification {
-    var keyboardHeight: CGFloat {
-        return (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect)?.height ?? 0
-    }
-}
-
-extension Publishers {
-    static var keyboardHeight: AnyPublisher<CGFloat, Never> {
-        let willShow = NotificationCenter.default.publisher(for: UIApplication.keyboardWillShowNotification)
-            .map { $0.keyboardHeight }
-        
-        let willHide = NotificationCenter.default.publisher(for: UIApplication.keyboardWillHideNotification)
-            .map { _ in CGFloat(0) }
-        
-        return MergeMany(willShow, willHide)
-            .eraseToAnyPublisher()
-    }
-}
-
 struct SettingsView: View {
-    @State private var keyboardHeight: CGFloat = 0
     let orders = ["newest first", "oldest first"]
     
     @EnvironmentObject var model: Model
     
     var body: some View {
         NavigationView{
-            VStack() {
+            VStack {
                 Form {
                     Section(header: Text("Nextcloud credentials")) {
                         TextField("https://your-nextcloud.instance", text: $model.credentials_url)
                             .keyboardType(.URL)
                         TextField("Your Username", text: $model.credentials_user)
                         SecureField("Your Password", text: $model.tmp_credentials_password)
+                        Button(action: {
+                            self.saveSettings()
+                        }) {
+                            Text("Save + Test")
+                        }
                         Text("Please create and use an 'app password' if you are using Two-Factor Authentication").font(.subheadline)
                     }
                     Section(header: Text("Upload")) {
@@ -69,15 +53,7 @@ struct SettingsView: View {
                         }
                     }
                 }
-                Spacer()
-                Button(action: {
-                    self.saveSettings()
-                }) {
-                    Text("Save And Test Settings").padding()
-                }
             }
-            .padding(.bottom, keyboardHeight).animation(.easeInOut(duration:0.5))
-            .onReceive(Publishers.keyboardHeight) { self.keyboardHeight = $0 }
             .navigationBarTitle("Settings", displayMode: .inline)
             .navigationBarItems(trailing: NavigationLink(destination: ThanksView()) {
             Text("About")})

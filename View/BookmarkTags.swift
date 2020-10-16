@@ -40,9 +40,7 @@ struct BookmarkTagsRow: View {
 
 
 struct BookmarkTags: View {
-    @EnvironmentObject var model: Model
-    @State private var keyboardHeight: CGFloat = 0
-    
+    @EnvironmentObject var model: Model    
     @State private var new_tag: String = ""
     
     var body: some View {
@@ -64,8 +62,6 @@ struct BookmarkTags: View {
                 }
             }
         }
-        .padding(.bottom, keyboardHeight).animation(.easeInOut(duration:0.1))
-        .onReceive(Publishers.keyboardHeight) { self.keyboardHeight = $0 }
         .navigationBarTitle(Text("Tags"), displayMode: .inline)
     }
 }
