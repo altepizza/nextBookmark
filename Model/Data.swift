@@ -79,16 +79,15 @@ class Model: ObservableObject {
         }
     }
     @Published var tags: [String] = []
-    
-    @Published var editing_bookmark = Bookmark(id: -1, added: -1, title: "Title", url: "URL", tags: [], folder_ids: [-1], description: "Description") {
+    @Published var editing_bookmark = Bookmark(id: -1, url: "URL", title: "Title", description: "Description", lastmodified: -1, added: -1, tags: [], folders: [-1]) {
         didSet {
-            editing_bookmark_folder = folders.filter({ $0.id == editing_bookmark.folder_ids.first }).first!
+            editing_bookmark_folder = folders.filter({ $0.id == editing_bookmark.folders.first }).first!
         }
     }
     @Published var editing_bookmark_folder = Folder(id: -1, title: "/", parent_folder_id: -1)
    
     init() {
-        self.bookmarks = [.init(id: -1, added: 1, title: "Go to Settings...", url: "...setup your credentials", tags: ["...to..."], folder_ids: [-1], description: "")]
+        self.bookmarks = [.init(id: -1, url: "...setup your credentials", title: "Go to Settings...", description: "", lastmodified: -1, added: 1, tags: ["...to..."], folders: [-1])]
         
         //TODO Switch to keychain
         self.tmp_credentials_password = "xxx"
@@ -109,12 +108,12 @@ class Model: ObservableObject {
     func sorted_filtered_bookmarks(searchText: String) -> [Bookmark] {
         if(order_bookmarks == "newest first") {
             return bookmarks.filter {
-                searchText.isEmpty ? $0.folder_ids.contains(currentRoot.id) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folder_ids.contains(currentRoot.id)}
+                searchText.isEmpty ? $0.folders.contains(currentRoot.id) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folders.contains(currentRoot.id)}
             .sorted(by: {($0.added > $1.added)})
         }
         if(order_bookmarks == "oldest first") {
             return bookmarks.filter {
-            searchText.isEmpty ? $0.folder_ids.contains(currentRoot.id) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folder_ids.contains(currentRoot.id)}
+            searchText.isEmpty ? $0.folders.contains(currentRoot.id) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folders.contains(currentRoot.id)}
             .sorted(by: {($0.added < $1.added)})
         }
         return bookmarks
@@ -123,12 +122,12 @@ class Model: ObservableObject {
     func sorted_filtered_bookmarks_of_folder(searchText: String, folder: Folder) -> [Bookmark] {
         if(order_bookmarks == "newest first") {
             return bookmarks.filter {
-                searchText.isEmpty ? $0.folder_ids.contains(folder.id) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folder_ids.contains(folder.id)}
+                searchText.isEmpty ? $0.folders.contains(folder.id) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folders.contains(folder.id)}
             .sorted(by: {($0.added > $1.added)})
         }
         if(order_bookmarks == "oldest first") {
             return bookmarks.filter {
-            searchText.isEmpty ? $0.folder_ids.contains(folder.id) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folder_ids.contains(folder.id)}
+            searchText.isEmpty ? $0.folders.contains(folder.id) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folders.contains(folder.id)}
             .sorted(by: {($0.added < $1.added)})
         }
         return bookmarks

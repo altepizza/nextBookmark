@@ -56,7 +56,7 @@ struct BookmarkDetailView: View {
                     Button(action: {
                         self.model.isShowing = true
                         self.presentationMode.wrappedValue.dismiss()
-                        self.model.editing_bookmark.folder_ids = [self.bookmark_folder.id]
+                        self.model.editing_bookmark.folders = [self.bookmark_folder.id]
                         CallNextcloud(data: self.model).edit_or_create_bookmark(bookmark: self.model.editing_bookmark)
                     }) {
                             Text("Save")
