@@ -74,7 +74,11 @@ struct SettingsView: View {
         model.credentials_url = model.credentials_url.trimmingCharacters(in: .whitespacesAndNewlines)
         
         if NSURL(string: model.credentials_url) != nil {
-            if (model.credentials_url.starts(with: "https://")) {
+            if !(model.credentials_url.starts(with: "https://")) {
+                var warning_banner = NotificationBanner(title: "Non-HTTPS", subtitle: "Your connection is not encrypted!", style: .warning)
+                warning_banner.autoDismiss = true
+                warning_banner.show()
+            }
                 var headers: HTTPHeaders
                 headers = [
                     .authorization(username: model.credentials_user, password: model.credentials_password),
@@ -98,13 +102,8 @@ struct SettingsView: View {
                 }
             }
             else {
-                show_error_banner(banner: banner, subtitle: "Your URL dosn't start with 'https://'. Only SSL encrypted connections are supported")
+                show_error_banner(banner: banner, subtitle: "Your URL is invalid")
             }
-            
-        }
-        else {
-            show_error_banner(banner: banner, subtitle: "Invalid URL")
-        }
     }
 }
 
