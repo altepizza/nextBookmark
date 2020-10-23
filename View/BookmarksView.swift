@@ -55,7 +55,7 @@ struct BookmarkRow: View {
                 }
                 Text(book.url).font(.footnote).lineLimit(1).foregroundColor(Color.gray)
             }.onTapGesture {
-                self.editing_bookmark_folder = self.model.folders.filter({ $0.id == self.book.folders.first }).first!
+                self.editing_bookmark_folder = self.model.folders.filter({ $0.id == self.book.folders.first }).first ?? create_root_folder()
                 self.model.editing_bookmark = self.book
                 self.tapped_bookmark = self.book
                 self.showModal = true
