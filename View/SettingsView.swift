@@ -56,7 +56,7 @@ struct SettingsView: View {
             }
             .navigationBarTitle("Settings", displayMode: .inline)
             .navigationBarItems(trailing: NavigationLink(destination: ThanksView()) {
-            Text("About")})
+                                    Text("About")})
         }.navigationViewStyle(StackNavigationViewStyle())
     }
     
@@ -75,35 +75,35 @@ struct SettingsView: View {
         
         if NSURL(string: model.credentials_url) != nil {
             if !(model.credentials_url.starts(with: "https://")) {
-                var warning_banner = NotificationBanner(title: "Non-HTTPS", subtitle: "Your connection is not encrypted!", style: .warning)
+                let warning_banner = NotificationBanner(title: "Non-HTTPS", subtitle: "Your connection is not encrypted!", style: .warning)
                 warning_banner.autoDismiss = true
                 warning_banner.show()
             }
-                var headers: HTTPHeaders
-                headers = [
-                    .authorization(username: model.credentials_user, password: model.credentials_password),
-                    .accept("application/json")
-                ]
-                AF.request(model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/bookmark?page=0", headers: headers)
-                    .validate(statusCode: 200..<300)
-                    .responseJSON { response in
-                        switch response.result {
-                        case .success( _):
-                            banner.dismiss()
-                            banner.autoDismiss = true
-                            banner = NotificationBanner(title: "Connection successful", style: .success)
-                            sharedUserDefaults?.set(true, forKey: SharedUserDefaults.Keys.valid)
-                            banner.show()
-                            CallNextcloud(data: self.model).requestFolderHierarchy()
-                            CallNextcloud(data: self.model).get_all_bookmarks()
-                        case .failure( _):
-                            self.show_error_banner(banner: banner, subtitle: "Cannot login to Nextcloud Bookmarks. Please check you credentials")
-                        }
+            var headers: HTTPHeaders
+            headers = [
+                .authorization(username: model.credentials_user, password: model.credentials_password),
+                .accept("application/json")
+            ]
+            AF.request(model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/bookmark?page=0", headers: headers)
+                .validate(statusCode: 200..<300)
+                .responseJSON { response in
+                    switch response.result {
+                    case .success( _):
+                        banner.dismiss()
+                        banner.autoDismiss = true
+                        banner = NotificationBanner(title: "Connection successful", style: .success)
+                        sharedUserDefaults?.set(true, forKey: SharedUserDefaults.Keys.valid)
+                        banner.show()
+                        CallNextcloud(data: self.model).requestFolderHierarchy()
+                        CallNextcloud(data: self.model).get_all_bookmarks()
+                    case .failure( _):
+                        self.show_error_banner(banner: banner, subtitle: "Cannot login to Nextcloud Bookmarks. Please check you credentials")
+                    }
                 }
-            }
-            else {
-                show_error_banner(banner: banner, subtitle: "Your URL is invalid")
-            }
+        }
+        else {
+            show_error_banner(banner: banner, subtitle: "Your URL is invalid")
+        }
     }
 }
 

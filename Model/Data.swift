@@ -81,7 +81,7 @@ class Model: ObservableObject {
     @Published var tags: [String] = []
     @Published var editing_bookmark = Bookmark(id: -1, url: "URL", title: "Title", description: "Description", lastmodified: -1, added: -1, tags: [], folders: [-1]) {
         didSet {
-            editing_bookmark_folder = folders.filter({ $0.id == editing_bookmark.folders.first }).first!
+            editing_bookmark_folder = folders.filter({ $0.id == editing_bookmark.folders.first }).first ?? create_root_folder()
         }
     }
     @Published var editing_bookmark_folder = Folder(id: -1, title: "/", parent_folder_id: -1)

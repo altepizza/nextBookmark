@@ -160,12 +160,12 @@ struct CallNextcloud
     
     private func create_bookmark(bookmark: Bookmark) {
         let parameters: [String: Any] = [
-                "url": bookmark.url,
-                "title": bookmark.title,
-                "description": bookmark.description,
-                "tags": bookmark.tags,
-                "folders": bookmark.folders
-            ]
+            "url": bookmark.url,
+            "title": bookmark.title,
+            "description": bookmark.description,
+            "tags": bookmark.tags,
+            "folders": bookmark.folders
+        ]
         
         var swiftyJsonVar = JSON("")
         let _ = AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/bookmark", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: create_headers()).responseJSON { response in
@@ -217,14 +217,13 @@ struct CallNextcloud
     }
     
     func delete_tag(tag: String) {
-        self.main_model.isShowing = true
-        let _ = AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/tag/" + tag, method: .delete, headers: create_headers()).responseJSON { response in
+        AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/tag/" + tag, method: .delete, headers: create_headers()).responseJSON { response in
             switch response.result {
             case .success(_):
                 self.get_tags()
-                self.main_model.isShowing = false
             case .failure(let error):
                 print(error)
+                print(response)
             }
         }
     }
@@ -242,7 +241,7 @@ struct CallNextcloud
         let parameters = [
             "title": folder.title,
             "parent_folder": folder.parent_folder_id,
-            ] as [String : Any]
+        ] as [String : Any]
         var swiftyJsonVar = JSON("")
         let _ = AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/folder", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: create_headers()).responseJSON { response in
             switch response.result {
