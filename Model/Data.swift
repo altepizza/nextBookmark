@@ -26,7 +26,6 @@ class Model: ObservableObject {
     @Published var tmp_credentials_password: String {
         didSet {
             if tmp_credentials_password != "xxx" {
-                sharedUserDefaults?.set(tmp_credentials_password, forKey: SharedUserDefaults.Keys.password)
                 keychain.set(tmp_credentials_password, forKey: "ncPW")
                 credentials_password = tmp_credentials_password
             }
@@ -34,8 +33,6 @@ class Model: ObservableObject {
     }
     @Published var credentials_password : String {
         didSet {
-            //TODO Switch to Keychain
-            sharedUserDefaults?.set(credentials_password, forKey: SharedUserDefaults.Keys.password)
             keychain.set(credentials_password, forKey: "ncPW")
         }
     }
@@ -89,10 +86,8 @@ class Model: ObservableObject {
     init() {
         self.bookmarks = [.init(id: -1, url: "...setup your credentials", title: "Go to Settings...", description: "", lastmodified: -1, added: 1, tags: ["...to..."], folders: [-1])]
         
-        //TODO Switch to keychain
         self.tmp_credentials_password = "xxx"
-        self.credentials_password = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.password) ?? "Your Password"
-        //self.credentials_password = keychain.get("ncPW") ?? "xxx"
+        self.credentials_password = keychain.get("ncPW") ?? "xx"
         
         self.credentials_url = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.url) ?? "https://your-nextcloud.instance"
         self.credentials_user = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.username) ?? "Your Username"
