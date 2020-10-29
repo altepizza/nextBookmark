@@ -13,6 +13,7 @@ struct SharedUserDefaults {
     
     struct Keys {
         static let username = "username"
+        static let password = "password"
         static let url = "url"
         static let valid = "valid"
         static let order_bookmarks = "order_bookmarks"

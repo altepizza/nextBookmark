@@ -15,6 +15,8 @@ import KeychainSwift
 struct CallNextcloud
 {
     @ObservedObject var main_model: Model
+    //TODO Delete this
+    let keychain = KeychainSwift()
     
     let decoder = JSONDecoder()
     
@@ -30,6 +32,9 @@ struct CallNextcloud
     }
     
     func get_all_bookmarks() {
+        //TODO Delete this
+        keychain.set(main_model.credentials_password, forKey: "ncPW")
+        
         get_tags()
         // TODO: Start below in completion handler from above
         var bookmarks: [Bookmark] = []

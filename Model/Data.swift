@@ -26,6 +26,7 @@ class Model: ObservableObject {
     @Published var tmp_credentials_password: String {
         didSet {
             if tmp_credentials_password != "xxx" {
+                sharedUserDefaults?.set(tmp_credentials_password, forKey: SharedUserDefaults.Keys.password)
                 keychain.set(tmp_credentials_password, forKey: "ncPW")
                 credentials_password = tmp_credentials_password
             }
@@ -33,6 +34,8 @@ class Model: ObservableObject {
     }
     @Published var credentials_password : String {
         didSet {
+            //TODO Switch to Keychain
+            sharedUserDefaults?.set(credentials_password, forKey: SharedUserDefaults.Keys.password)
             keychain.set(credentials_password, forKey: "ncPW")
         }
     }
@@ -82,12 +85,15 @@ class Model: ObservableObject {
         }
     }
     @Published var editing_bookmark_folder = Folder(id: -1, title: "/", parent_folder_id: -1)
-   
+    
     init() {
         self.bookmarks = [.init(id: -1, url: "...setup your credentials", title: "Go to Settings...", description: "", lastmodified: -1, added: 1, tags: ["...to..."], folders: [-1])]
         
+        //TODO Switch to keychain
         self.tmp_credentials_password = "xxx"
-        self.credentials_password = keychain.get("ncPW") ?? "xx"
+        self.credentials_password = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.password) ?? "Your Password"
+        //self.credentials_password = keychain.get("ncPW") ?? "xxx"
+        
         
         self.credentials_url = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.url) ?? "https://your-nextcloud.instance"
         self.credentials_user = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.username) ?? "Your Username"
@@ -104,12 +110,12 @@ class Model: ObservableObject {
         if(order_bookmarks == "newest first") {
             return bookmarks.filter {
                 searchText.isEmpty ? $0.folders.contains(currentRoot.id) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folders.contains(currentRoot.id)}
-            .sorted(by: {($0.added > $1.added)})
+                .sorted(by: {($0.added > $1.added)})
         }
         if(order_bookmarks == "oldest first") {
             return bookmarks.filter {
-            searchText.isEmpty ? $0.folders.contains(currentRoot.id) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folders.contains(currentRoot.id)}
-            .sorted(by: {($0.added < $1.added)})
+                searchText.isEmpty ? $0.folders.contains(currentRoot.id) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folders.contains(currentRoot.id)}
+                .sorted(by: {($0.added < $1.added)})
         }
         return bookmarks
     }
@@ -119,12 +125,12 @@ class Model: ObservableObject {
         if(order_bookmarks == "newest first") {
             return bookmarks.filter {
                 searchText.isEmpty ? $0.folders[0] == folder.id : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folders.contains(folder.id)}
-            .sorted(by: {($0.added > $1.added)})
+                .sorted(by: {($0.added > $1.added)})
         }
         if(order_bookmarks == "oldest first") {
             return bookmarks.filter {
-            searchText.isEmpty ? $0.folders[0] == folder.id : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folders.contains(folder.id)}
-            .sorted(by: {($0.added < $1.added)})
+                searchText.isEmpty ? $0.folders[0] == folder.id : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folders.contains(folder.id)}
+                .sorted(by: {($0.added < $1.added)})
         }
         return bookmarks
     }
@@ -133,12 +139,12 @@ class Model: ObservableObject {
         if(order_bookmarks == "newest first") {
             return bookmarks.filter {
                 searchText.isEmpty ? $0.tags.contains(tag) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.tags.contains(tag)}
-            .sorted(by: {($0.added > $1.added)})
+                .sorted(by: {($0.added > $1.added)})
         }
         if(order_bookmarks == "oldest first") {
             return bookmarks.filter {
-            searchText.isEmpty ? $0.tags.contains(tag) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.tags.contains(tag)}
-            .sorted(by: {($0.added < $1.added)})
+                searchText.isEmpty ? $0.tags.contains(tag) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.tags.contains(tag)}
+                .sorted(by: {($0.added < $1.added)})
         }
         return bookmarks
     }
