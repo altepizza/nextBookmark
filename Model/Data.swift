@@ -114,15 +114,16 @@ class Model: ObservableObject {
         return bookmarks
     }
     
-    func sorted_filtered_bookmarks_of_folder(searchText: String, folder: Folder) -> [Bookmark] {
+    // TODO $0.folders[0] is just a workaround. Why do bookmarks contain multiple folders?
+    func sorted_filtered_bookmarks_of_folder(searchText: String, folder: Folder) -> [Bookmark] {        
         if(order_bookmarks == "newest first") {
             return bookmarks.filter {
-                searchText.isEmpty ? $0.folders.contains(folder.id) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folders.contains(folder.id)}
+                searchText.isEmpty ? $0.folders[0] == folder.id : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folders.contains(folder.id)}
             .sorted(by: {($0.added > $1.added)})
         }
         if(order_bookmarks == "oldest first") {
             return bookmarks.filter {
-            searchText.isEmpty ? $0.folders.contains(folder.id) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folders.contains(folder.id)}
+            searchText.isEmpty ? $0.folders[0] == folder.id : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folders.contains(folder.id)}
             .sorted(by: {($0.added < $1.added)})
         }
         return bookmarks
