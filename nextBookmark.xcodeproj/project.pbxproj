@@ -35,6 +35,7 @@
 		98AF64C723245CE70029F327 /* SharedUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98AF64C523245CE70029F327 /* SharedUserDefaults.swift */; };
 		98B2BAAC24574693002FD3CB /* BookmarkDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B2BAAB24574693002FD3CB /* BookmarkDetailView.swift */; };
 		98B3C3E623DA432500524D07 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 98B3C3E523DA432400524D07 /* README.md */; };
+		98B3F100254B419200F7CB4B /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B3F0FF254B419200F7CB4B /* SnapshotHelper.swift */; };
 		98C1DA2B2370BCD50006B4BC /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 98C1DA2A2370BCD50006B4BC /* Podfile */; };
 		98C4C40C24046515008EB872 /* ThanksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C4C40B24046515008EB872 /* ThanksView.swift */; };
 		98C4C40E240476C3008EB872 /* privacy_policy.md in Resources */ = {isa = PBXBuildFile; fileRef = 98C4C40D240476C3008EB872 /* privacy_policy.md */; };
@@ -119,6 +120,7 @@
 		98AF64C523245CE70029F327 /* SharedUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedUserDefaults.swift; sourceTree = "<group>"; };
 		98B2BAAB24574693002FD3CB /* BookmarkDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkDetailView.swift; sourceTree = "<group>"; };
 		98B3C3E523DA432400524D07 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.markdown; };
+		98B3F0FF254B419200F7CB4B /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
 		98C1DA2A2370BCD50006B4BC /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		98C4C40B24046515008EB872 /* ThanksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThanksView.swift; sourceTree = "<group>"; };
 		98C4C40D240476C3008EB872 /* privacy_policy.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = privacy_policy.md; sourceTree = SOURCE_ROOT; };
@@ -300,6 +302,7 @@
 		98CB335C2319A8A000DA4763 /* nextBookmarkUITests */ = {
 			isa = PBXGroup;
 			children = (
+				98B3F0FF254B419200F7CB4B /* SnapshotHelper.swift */,
 				98CB335D2319A8A000DA4763 /* nextBookmarkUITests.swift */,
 				98CB335F2319A8A000DA4763 /* Info.plist */,
 			);
@@ -687,6 +690,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				98CB335E2319A8A000DA4763 /* nextBookmarkUITests.swift in Sources */,
+				98B3F100254B419200F7CB4B /* SnapshotHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
