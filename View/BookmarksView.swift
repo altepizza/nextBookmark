@@ -165,23 +165,7 @@ struct SearchBar: UIViewRepresentable {
     }
 }
 
-
-struct ActivityIndicator: UIViewRepresentable {
-    
-    @Binding var isAnimating: Bool
-    let style: UIActivityIndicatorView.Style
-    
-    func makeUIView(context: UIViewRepresentableContext<ActivityIndicator>) -> UIActivityIndicatorView {
-        return UIActivityIndicatorView(style: style)
-    }
-    
-    func updateUIView(_ uiView: UIActivityIndicatorView, context: UIViewRepresentableContext<ActivityIndicator>) {
-        isAnimating ? uiView.startAnimating() : uiView.stopAnimating()
-    }
-}
-
 struct LoadingView<Content>: View where Content: View {
-    
     @Binding var isShowing: Bool
     var content: () -> Content
     
@@ -194,8 +178,7 @@ struct LoadingView<Content>: View where Content: View {
                     .blur(radius: self.isShowing ? 3 : 0)
                 
                 VStack {
-                    Text("Loading...")
-                    ActivityIndicator(isAnimating: .constant(true), style: .large)
+                    ProgressView("Loading...")
                 }
                 .frame(width: geometry.size.width / 2,
                        height: geometry.size.height / 5)
