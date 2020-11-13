@@ -41,6 +41,7 @@ struct CallNextcloud
         AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/bookmark?page=-1", headers: create_headers()).responseJSON { response in
             switch response.result {
             case .success(let value):
+                self.main_model.weAreOnline = true
                 let swiftyJsonVar = JSON(value)
                 bookmarks = try! decoder.decode([Bookmark].self, from: swiftyJsonVar["data"].rawData())
                 self.main_model.isShowing = false
@@ -207,6 +208,7 @@ struct CallNextcloud
         let _ = AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/tag", headers: create_headers()).responseJSON { response in
             switch response.result {
             case .success(let value):
+                self.main_model.weAreOnline = true
                 let swiftyJsonVar = JSON(value)
                 self.main_model.tags = swiftyJsonVar.arrayValue.map {$0.stringValue}
             case .failure(let error):

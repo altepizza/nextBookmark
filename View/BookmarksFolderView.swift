@@ -45,7 +45,7 @@ struct BookmarksFolderView: View {
                     self.show_new_bookmark_modal = true
                 }) {
                     Image(systemName: "plus").imageScale(.large).padding([.leading, .top, .bottom])
-                }
+                }.disabled(!model.weAreOnline)
             )
             .sheet(isPresented: self.$show_new_bookmark_modal, onDismiss: {}) {
                 BookmarkDetailView(bookmark: create_empty_bookmark(), bookmark_folder: self.current_root_folder).environmentObject(self.model)

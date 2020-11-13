@@ -53,23 +53,27 @@ struct BookmarkDetailView: View {
                             }
                         }
                     }
-                    Button(action: {
-                        self.model.isShowing = true
-                        self.presentationMode.wrappedValue.dismiss()
-                        self.model.editing_bookmark.folders = [self.bookmark_folder.id]
-                        CallNextcloud(data: self.model).edit_or_create_bookmark(bookmark: self.model.editing_bookmark)
-                    }) {
+                    Section {
+                        Button(action: {
+                            self.model.isShowing = true
+                            self.presentationMode.wrappedValue.dismiss()
+                            self.model.editing_bookmark.folders = [self.bookmark_folder.id]
+                            CallNextcloud(data: self.model).edit_or_create_bookmark(bookmark: self.model.editing_bookmark)
+                        }) {
                             Text("Save")
+                        }.disabled(!model.weAreOnline)
+
+                        Button(action: {
+                            self.presentationMode.wrappedValue.dismiss()
+                        }) {
+                            Text("Cancel").foregroundColor(.red)
+                        }
                     }
                 }
                 .sheet(isPresented: $showingSheet,
                        content: {
                         ActivityView(activityItems: [NSURL(string: self.model.editing_bookmark.url)!] as [Any], applicationActivities: nil) })
-                Button(action: {
-                    self.presentationMode.wrappedValue.dismiss()
-                }) {
-                    Text("Cancel").foregroundColor(.red)
-                }
+
             }
             .navigationBarTitle("Bookmark", displayMode: .inline)
             .navigationBarItems(
@@ -78,7 +82,7 @@ struct BookmarkDetailView: View {
                         Image(systemName: "square.and.arrow.up").imageScale(.large).padding([.leading, .top, .bottom])
                     }
                     .sheet(isPresented: $showingSheet, content: {
-                        ActivityView(activityItems: [NSURL(string: self.model.editing_bookmark.url)!] as [Any], applicationActivities: nil) })
+                            ActivityView(activityItems: [NSURL(string: self.model.editing_bookmark.url)!] as [Any], applicationActivities: nil) })
             )
         }.navigationViewStyle(StackNavigationViewStyle())
     }

@@ -12,6 +12,8 @@ import KeychainSwift
 class Model: ObservableObject {
     let keychain = KeychainSwift()
     
+    @Published var weAreOnline = false
+    
     let sharedUserDefaults = UserDefaults(suiteName: SharedUserDefaults.suiteName)
     @Published var tag_count : [String:Int] = [:]
     @Published var bookmarks : [Bookmark] {

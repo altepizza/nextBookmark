@@ -38,11 +38,11 @@ struct FoldersView: View {
             }
             .navigationBarTitle("Folders", displayMode: .inline)
             .navigationBarItems(
-            trailing: Button(action: {
-                self.show_folder_detail_modal = true
-            }) {
-                Image(systemName: "plus").imageScale(.large).padding([.leading, .top, .bottom])
-            })
+                trailing: Button(action: {
+                    self.show_folder_detail_modal = true
+                }) {
+                    Image(systemName: "plus").imageScale(.large).padding([.leading, .top, .bottom])
+                }).disabled(!model.weAreOnline)
         }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
