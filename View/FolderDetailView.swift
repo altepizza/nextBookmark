@@ -31,9 +31,9 @@ struct FolderDetailView: View {
                 Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
                     self.new_folder.parent_folder_id = self.parent_folder.id
-                    CallNextcloud(data: self.model).create_folder(folder: self.new_folder)
+                    model.middleware(data: self.model).create_folder(folder: self.new_folder)
                     // TODO Put in completion handler
-                    CallNextcloud(data: self.model).requestFolderHierarchy()
+                    model.middleware(data: self.model).requestFolderHierarchy()
                 }) {
                     Text("Create Folder")
                 }

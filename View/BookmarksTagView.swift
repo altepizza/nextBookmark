@@ -31,8 +31,8 @@ struct BookmarksTagView: View {
                 }
                 .pullToRefresh(isShowing: self.$model.isShowing) {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        CallNextcloud(data: self.model).get_all_bookmarks()
-                        CallNextcloud(data: self.model).get_tags()
+                        model.middleware(data: self.model).get_all_bookmarks()
+                        model.middleware(data: self.model).get_tags()
                     }
                 }
                 .navigationBarTitle(Text(self.current_tag), displayMode: .inline)
@@ -43,7 +43,7 @@ struct BookmarksTagView: View {
     func delete(row: IndexSet) {
         for index in row {
             let real_index = model.bookmarks.firstIndex{$0.id == self.model.sorted_filtered_bookmarks_of_tag(searchText: self.searchText, tag: self.current_tag)[index].id}
-            CallNextcloud(data: self.model).delete(bookId: model.bookmarks[real_index!].id)
+            model.middleware(data: self.model).delete(bookId: model.bookmarks[real_index!].id)
             debugPrint(self.model.sorted_filtered_bookmarks_of_tag(searchText: self.searchText, tag: self.current_tag))
             debugPrint(model.bookmarks[real_index!].title)
             model.bookmarks.remove(at: real_index!)

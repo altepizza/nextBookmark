@@ -12,7 +12,7 @@ import SwiftyJSON
 import SwiftUI
 import KeychainSwift
 
-struct CallNextcloud
+struct CallNextcloud: Nextcloud
 {
     @ObservedObject var main_model: Model
     //TODO Delete this

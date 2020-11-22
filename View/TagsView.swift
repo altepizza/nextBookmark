@@ -32,7 +32,7 @@ struct TagsView: View {
     
     private func delete(row: IndexSet) {
         for index in row {
-            CallNextcloud(data: self.model).delete_tag(tag: self.model.tags[index])
+            model.middleware(data: self.model).delete_tag(tag: self.model.tags[index])
         }
     }
 }

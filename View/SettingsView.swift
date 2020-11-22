@@ -21,6 +21,11 @@ struct SettingsView: View {
         NavigationView{
             VStack {
                 Form {
+                    Section(header: Text("For testing purposes only")) {
+                        Toggle(isOn: $model.demo_mode) {
+                            Text("Demo Mode")
+                        }
+                    }
                     Section(header: Text("Nextcloud credentials")) {
                         TextField("https://your-nextcloud.instance", text: $model.credentials_url)
                             .keyboardType(.URL)
@@ -32,7 +37,7 @@ struct SettingsView: View {
                             Text("Save + Test")
                         }
                         Text("Please create and use an 'app password' if you are using Two-Factor Authentication").font(.subheadline)
-                    }
+                    }.disabled(model.demo_mode)
                     Section(header: Text("Upload")) {
                         Text("Where to upload new bookmarks").font(.subheadline)
                         Picker(selection: $model.default_upload_folder, label: Text("Target Folder")){
@@ -94,8 +99,8 @@ struct SettingsView: View {
                         banner = NotificationBanner(title: "Connection successful", style: .success)
                         sharedUserDefaults?.set(true, forKey: SharedUserDefaults.Keys.valid)
                         banner.show()
-                        CallNextcloud(data: self.model).requestFolderHierarchy()
-                        CallNextcloud(data: self.model).get_all_bookmarks()
+                        model.middleware(data: self.model).requestFolderHierarchy()
+                        model.middleware(data: self.model).get_all_bookmarks()
                     case .failure( _):
                         self.show_error_banner(banner: banner, subtitle: "Cannot login to Nextcloud Bookmarks. Please check you credentials")
                     }

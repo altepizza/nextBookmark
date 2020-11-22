@@ -38,9 +38,9 @@ struct AppView: View {
         }.onAppear() {
             if sharedUserDefaults?.bool(forKey: SharedUserDefaults.Keys.valid) ?? false {
                 self.model.isShowing = true
-                CallNextcloud(data: self.model).requestFolderHierarchy()
-                CallNextcloud(data: self.model).get_all_bookmarks()
-                CallNextcloud(data: self.model).get_tags()
+                model.middleware(data: self.model).requestFolderHierarchy()
+                model.middleware(data: self.model).get_all_bookmarks()
+                model.middleware(data: self.model).get_tags()
             }
         }
     }

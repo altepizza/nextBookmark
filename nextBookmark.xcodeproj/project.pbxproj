@@ -51,6 +51,9 @@
 		98CB33722319AD7100DA4763 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CB33712319AD7100DA4763 /* ShareViewController.swift */; };
 		98CB33752319AD7100DA4763 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98CB33732319AD7100DA4763 /* MainInterface.storyboard */; };
 		98CB33792319AD7100DA4763 /* ShareExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 98CB336F2319AD7100DA4763 /* ShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		98D28B8C25697FAA000A3771 /* Demo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D28B8B25697FAA000A3771 /* Demo.swift */; };
+		98D28B8D25697FAA000A3771 /* Demo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D28B8B25697FAA000A3771 /* Demo.swift */; };
+		98D28B8E25697FAA000A3771 /* Demo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D28B8B25697FAA000A3771 /* Demo.swift */; };
 		98E12EFD23A82D7600E6CDD6 /* CallNextcloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E12EFC23A82D7600E6CDD6 /* CallNextcloud.swift */; };
 		98E12F0023A82F0500E6CDD6 /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E12EFF23A82F0500E6CDD6 /* Bookmark.swift */; };
 		98E3112C240B19EC00D6C5C5 /* Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E3112B240B19EC00D6C5C5 /* Folder.swift */; };
@@ -141,6 +144,7 @@
 		98CB33762319AD7100DA4763 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		98CB337E2319B4B300DA4763 /* nextBookmark.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = nextBookmark.entitlements; sourceTree = "<group>"; };
 		98CB337F2319B6B700DA4763 /* ShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShareExtension.entitlements; sourceTree = "<group>"; };
+		98D28B8B25697FAA000A3771 /* Demo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Demo.swift; sourceTree = "<group>"; };
 		98E12EFC23A82D7600E6CDD6 /* CallNextcloud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallNextcloud.swift; sourceTree = "<group>"; };
 		98E12EFF23A82F0500E6CDD6 /* Bookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bookmark.swift; sourceTree = "<group>"; };
 		98E3112B240B19EC00D6C5C5 /* Folder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Folder.swift; sourceTree = "<group>"; };
@@ -324,6 +328,7 @@
 			isa = PBXGroup;
 			children = (
 				98E12EFC23A82D7600E6CDD6 /* CallNextcloud.swift */,
+				98D28B8B25697FAA000A3771 /* Demo.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -658,6 +663,7 @@
 				98E12EFD23A82D7600E6CDD6 /* CallNextcloud.swift in Sources */,
 				98AED5F52364F5A40009ACA3 /* SceneDelegate.swift in Sources */,
 				98E12F0023A82F0500E6CDD6 /* Bookmark.swift in Sources */,
+				98D28B8C25697FAA000A3771 /* Demo.swift in Sources */,
 				980CB5502482DCF70093AFFC /* TagsView.swift in Sources */,
 				980CB54E2482D5730093AFFC /* FoldersView.swift in Sources */,
 				980CB54A2482A07D0093AFFC /* BookmarkTags.swift in Sources */,
@@ -676,6 +682,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9888FA572548B7A5007816A3 /* CallNextcloud.swift in Sources */,
+				98D28B8D25697FAA000A3771 /* Demo.swift in Sources */,
 				9888FA752548B89C007816A3 /* Data.swift in Sources */,
 				9888FA702548B899007816A3 /* Folder.swift in Sources */,
 				9888FA6A2548B893007816A3 /* SharedUserDefaults.swift in Sources */,
@@ -700,6 +707,7 @@
 			files = (
 				98CB33722319AD7100DA4763 /* ShareViewController.swift in Sources */,
 				98AAEF7C2450B8BB00205348 /* Data.swift in Sources */,
+				98D28B8E25697FAA000A3771 /* Demo.swift in Sources */,
 				98C774B92440C3A700B357B8 /* Folder.swift in Sources */,
 				98C774B72440C39900B357B8 /* CallNextcloud.swift in Sources */,
 				98AF64C723245CE70029F327 /* SharedUserDefaults.swift in Sources */,
@@ -865,7 +873,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = nextBookmark/nextBookmark.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 3K22348YPB;
 				INFOPLIST_FILE = nextBookmark/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -873,7 +881,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.11.8;
+				MARKETING_VERSION = 1.12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -889,7 +897,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = nextBookmark/nextBookmark.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 3K22348YPB;
 				INFOPLIST_FILE = nextBookmark/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -897,7 +905,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.11.8;
+				MARKETING_VERSION = 1.12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -920,7 +928,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.11.8;
+				MARKETING_VERSION = 1.12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmarkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -944,7 +952,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.11.8;
+				MARKETING_VERSION = 1.12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmarkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -966,7 +974,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.11.8;
+				MARKETING_VERSION = 1.12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmarkUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -988,7 +996,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.11.8;
+				MARKETING_VERSION = 1.12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmarkUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1003,7 +1011,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = ShareExtension/ShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 3K22348YPB;
 				INFOPLIST_FILE = ShareExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1011,7 +1019,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.11.8;
+				MARKETING_VERSION = 1.12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1026,7 +1034,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = ShareExtension/ShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 3K22348YPB;
 				INFOPLIST_FILE = ShareExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1034,7 +1042,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.11.8;
+				MARKETING_VERSION = 1.12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

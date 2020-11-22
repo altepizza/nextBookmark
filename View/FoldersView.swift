@@ -28,7 +28,7 @@ struct FoldersView: View {
             }
             .pullToRefresh(isShowing: self.$model.isShowing) {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    CallNextcloud(data: self.model).requestFolderHierarchy()
+                    model.middleware(data: self.model).requestFolderHierarchy()
                     // TODO: Put in completion handler
                     self.model.isShowing = false
                 }

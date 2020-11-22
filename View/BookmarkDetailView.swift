@@ -58,7 +58,7 @@ struct BookmarkDetailView: View {
                             self.model.isShowing = true
                             self.presentationMode.wrappedValue.dismiss()
                             self.model.editing_bookmark.folders = [self.bookmark_folder.id]
-                            CallNextcloud(data: self.model).edit_or_create_bookmark(bookmark: self.model.editing_bookmark)
+                            model.middleware(data: self.model).edit_or_create_bookmark(bookmark: self.model.editing_bookmark)
                         }) {
                             Text("Save")
                         }.disabled(!model.weAreOnline)

@@ -11,10 +11,14 @@ import KeychainSwift
 
 class Model: ObservableObject {
     let keychain = KeychainSwift()
-    
-    @Published var weAreOnline = false
-    
     let sharedUserDefaults = UserDefaults(suiteName: SharedUserDefaults.suiteName)
+
+    @Published var demo_mode: Bool {
+        didSet {
+            sharedUserDefaults?.set(demo_mode, forKey: SharedUserDefaults.Keys.demo)
+        }
+    }
+    @Published var weAreOnline = false
     @Published var tag_count : [String:Int] = [:]
     @Published var bookmarks : [Bookmark] {
         didSet {
@@ -100,6 +104,7 @@ class Model: ObservableObject {
         self.credentials_url = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.url) ?? "https://your-nextcloud.instance"
         self.credentials_user = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.username) ?? "Your Username"
         self.currentRoot = Folder(id: -1, title: "/", parent_folder_id: -1)
+        self.demo_mode = sharedUserDefaults?.bool(forKey: SharedUserDefaults.Keys.demo) ?? false
         self.folders = [.init(id: -20, title: "<Pull down to load your bookmarks>",  parent_folder_id: -10)]
         self.full_title = sharedUserDefaults?.bool(forKey: SharedUserDefaults.Keys.username) ?? false
         self.order_bookmarks = sharedUserDefaults?.string(forKey: SharedUserDefaults.Keys.order_bookmarks) ?? "newest first"
@@ -148,5 +153,12 @@ class Model: ObservableObject {
                 .sorted(by: {($0.added < $1.added)})
         }
         return bookmarks
+    }
+    
+    func middleware(data: Model) -> Nextcloud {
+        if demo_mode {
+            return DemoCallNextcloud(data: data)
+        }
+        return CallNextcloud(data: data)
     }
 }
