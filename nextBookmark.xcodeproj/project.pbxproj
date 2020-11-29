@@ -17,6 +17,7 @@
 		980CB5542483E5590093AFFC /* BookmarksFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980CB5532483E5590093AFFC /* BookmarksFolderView.swift */; };
 		980CB5562483F5130093AFFC /* BookmarksTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980CB5552483F5130093AFFC /* BookmarksTagView.swift */; };
 		980D9122254311EC00CECEE0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980D9121254311EC00CECEE0 /* Constants.swift */; };
+		9818A4A82573BC290019CA07 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 9818A4A72573BC290019CA07 /* SwiftPackageProductDependency */; };
 		98239462235CE2A1005A3AC9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98239461235CE2A1005A3AC9 /* SettingsView.swift */; };
 		9874B04C23C51E9D0070C202 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 9874B04B23C51E9D0070C202 /* .gitignore */; };
 		9888FA572548B7A5007816A3 /* CallNextcloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E12EFC23A82D7600E6CDD6 /* CallNextcloud.swift */; };
@@ -163,6 +164,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9818A4A82573BC290019CA07 /* BuildFile in Frameworks */,
 				B6A2EC3AF0B1FF951F631D6F /* Pods_nextBookmark.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -365,6 +367,9 @@
 				98CB33782319AD7100DA4763 /* PBXTargetDependency */,
 			);
 			name = nextBookmark;
+			packageProductDependencies = (
+				9818A4A72573BC290019CA07 /* SwiftPackageProductDependency */,
+			);
 			productName = nextBookmark;
 			productReference = 98CB33372319A89F00DA4763 /* nextBookmark.app */;
 			productType = "com.apple.product-type.application";
@@ -471,6 +476,9 @@
 				Base,
 			);
 			mainGroup = 98CB332E2319A89F00DA4763;
+			packageReferences = (
+				9818A4A62573BC290019CA07 /* RemoteSwiftPackageReference */,
+			);
 			productRefGroup = 98CB33382319A89F00DA4763 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -873,7 +881,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = nextBookmark/nextBookmark.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 3K22348YPB;
 				INFOPLIST_FILE = nextBookmark/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -881,7 +889,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.12.0;
+				MARKETING_VERSION = 1.13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -897,7 +905,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = nextBookmark/nextBookmark.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 3K22348YPB;
 				INFOPLIST_FILE = nextBookmark/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -905,7 +913,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.12.0;
+				MARKETING_VERSION = 1.13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -928,7 +936,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.12.0;
+				MARKETING_VERSION = 1.13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmarkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -952,7 +960,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.12.0;
+				MARKETING_VERSION = 1.13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmarkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -974,7 +982,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.12.0;
+				MARKETING_VERSION = 1.13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmarkUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -996,7 +1004,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.12.0;
+				MARKETING_VERSION = 1.13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmarkUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1011,7 +1019,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = ShareExtension/ShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 3K22348YPB;
 				INFOPLIST_FILE = ShareExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1019,7 +1027,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.12.0;
+				MARKETING_VERSION = 1.13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1034,7 +1042,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = ShareExtension/ShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 3K22348YPB;
 				INFOPLIST_FILE = ShareExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1042,7 +1050,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.12.0;
+				MARKETING_VERSION = 1.13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = altepizza.nextBookmark.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1100,6 +1108,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9818A4A62573BC290019CA07 /* RemoteSwiftPackageReference */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/twostraws/CodeScanner";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.7;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9818A4A72573BC290019CA07 /* SwiftPackageProductDependency */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9818A4A62573BC290019CA07 /* RemoteSwiftPackageReference */;
+			productName = CodeScanner;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 98CB332F2319A89F00DA4763 /* Project object */;
 }

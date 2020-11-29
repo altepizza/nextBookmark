@@ -6,9 +6,10 @@
 //  Copyright © 2019 Kai. All rights reserved.
 //
 
-import SwiftUI
-import NotificationBannerSwift
 import Alamofire
+import CodeScanner
+import NotificationBannerSwift
+import SwiftUI
 
 let sharedUserDefaults = UserDefaults(suiteName: SharedUserDefaults.suiteName)
 
@@ -16,7 +17,8 @@ struct SettingsView: View {
     let orders = ["newest first", "oldest first"]
     
     @EnvironmentObject var model: Model
-    
+    @State private var isShowingScanner = false
+        
     var body: some View {
         NavigationView{
             VStack {
@@ -27,6 +29,14 @@ struct SettingsView: View {
                         }
                     }
                     Section(header: Text("Nextcloud credentials")) {
+                        Button(action: {
+                            self.isShowingScanner = true
+                        }) {
+                            HStack {
+                                Image(systemName: "qrcode.viewfinder")
+                                Text("Scan Credentials")
+                            }
+                        }
                         TextField("https://your-nextcloud.instance", text: $model.credentials_url)
                             .keyboardType(.URL)
                         TextField("Your Username", text: $model.credentials_user)
@@ -63,6 +73,23 @@ struct SettingsView: View {
             .navigationBarItems(trailing: NavigationLink(destination: ThanksView()) {
                                     Text("About")})
         }.navigationViewStyle(StackNavigationViewStyle())
+        .sheet(isPresented: $isShowingScanner) {
+            CodeScannerView(codeTypes: [.qr], simulatedData: "String", completion: handleScan)
+        }
+    }
+    
+    func handleScan(result: Result<String, CodeScannerView.ScanError>) {
+        self.isShowingScanner = false
+        switch result {
+        case .success(var code):
+            code = code.replacingOccurrences(of: "nc://login/", with: "", options: [.caseInsensitive])
+            let creds = code.components(separatedBy: "&")
+            model.credentials_user = creds[0].replacingOccurrences(of: "user:", with: "", options: [.caseInsensitive])
+            model.tmp_credentials_password = creds[1].replacingOccurrences(of: "password:", with: "", options: [.caseInsensitive])
+            model.credentials_url = creds[2].replacingOccurrences(of: "server:", with: "", options: [.caseInsensitive])
+        case .failure(let _):
+            debugPrint("SCAN FAILED")
+        }
     }
     
     func show_error_banner(banner: NotificationBanner, subtitle: String) {

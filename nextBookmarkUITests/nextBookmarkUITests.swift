@@ -32,10 +32,10 @@ class nextBookmarkUITests: XCTestCase {
         let app = XCUIApplication()
         setupSnapshot(app)
         let tabBar = app.tabBars["Tab Bar"]
-        tabBar.buttons["gear"].tap()
+        tabBar.buttons["Bookmarks"].tap()
+        tabBar.buttons["Settings"].tap()
         snapshot("03Settings")
         app.navigationBars["Settings"].buttons["About"].tap()
         snapshot("04About")
     }
-    
 }
