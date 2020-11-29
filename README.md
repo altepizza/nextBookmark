@@ -21,6 +21,7 @@ here
 
 ## Acknowledgments
 * [Alamofire](https://github.com/Alamofire/Alamofire)
+* [CodeScanner](https://github.com/twostraws/CodeScanner)
 * [JGProgressHUD](https://github.com/JonasGessner/JGProgressHUD)
 * [KeychainSwift](https://github.com/evgenyneu/keychain-swift)
 * [Nextcloud](https://nextcloud.com/)
