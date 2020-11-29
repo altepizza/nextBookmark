@@ -11,9 +11,13 @@ a very simple iOS client for the
 
 ## Build
 
-1. (First time setup) Get [fastlane](https://fastlane.tools/) and init in in
+(First time setup) Get [fastlane](https://fastlane.tools/) and init in in
 here
-2. Run ```fastlane release```
+
+* `fastlane build` to create new builds
+* `fastlane patch` to release fixes
+* `fastlane minor` to release new features
+* `fastlane snapshot` to create all screenshots
 
 ## Acknowledgments
 * [Alamofire](https://github.com/Alamofire/Alamofire)
