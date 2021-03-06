@@ -99,9 +99,9 @@ struct BookmarksView: View {
     
     func delete(row: IndexSet) {
         for index in row {
-            let real_index = model.bookmarks.firstIndex{$0.id == self.model.sorted_filtered_bookmarks(searchText: self.searchText)[index].id}
+            let real_index = model.bookmarks.firstIndex{$0.id == self.model.get_relevant_bookmarks(search_text: self.searchText)[index].id}
             model.middleware(data: self.model).delete(bookId: model.bookmarks[real_index!].id)
-            debugPrint(self.model.sorted_filtered_bookmarks(searchText: self.searchText)[index].title)
+            debugPrint(self.model.get_relevant_bookmarks(search_text: self.searchText)[index].title)
             debugPrint(model.bookmarks[real_index!].title)
             model.bookmarks.remove(at: real_index!)
         }

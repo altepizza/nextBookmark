@@ -8,6 +8,31 @@
 
 import SwiftUI
 
+struct sortButtonView: View {
+    @EnvironmentObject var model: Model
+    var body: some View {
+        Button {
+            model.cycle_to_next_sort_option()
+        } label: {
+            HStack {
+                if model.order_bookmarks == "NEWEST" {
+                    Image(systemName: "arrow.up.arrow.down.square").imageScale(.large)
+                    Image(systemName: "calendar")
+                } else if model.order_bookmarks == "OLDEST" {
+                    Image(systemName: "arrow.up.arrow.down.square.fill").imageScale(.large)
+                    Image(systemName: "calendar")
+                } else if model.order_bookmarks == "AZ" {
+                    Image(systemName: "arrow.up.arrow.down.square").imageScale(.large)
+                    Image(systemName: "textformat.abc")
+                } else if model.order_bookmarks == "ZA" {
+                    Image(systemName: "arrow.up.arrow.down.square.fill").imageScale(.large)
+                    Image(systemName: "textformat.abc")
+                }
+            }
+        }
+    }
+}
+
 struct BookmarksFolderView: View {
     @EnvironmentObject var model: Model
     @State private var searchText: String = ""
@@ -25,7 +50,7 @@ struct BookmarksFolderView: View {
                         FolderRow(folder: folder)
                     }
                     
-                    ForEach(self.model.sorted_filtered_bookmarks_of_folder(searchText: self.searchText, folder: self.current_root_folder), id: \.id)
+                    ForEach(self.model.get_relevant_bookmarks(search_text: self.searchText, folder: self.current_root_folder), id: \.id)
                     { book in
                         BookmarkRow(book: book)
                     }
@@ -40,6 +65,7 @@ struct BookmarksFolderView: View {
             }
             .navigationBarTitle(Text(self.current_root_folder.title), displayMode: .inline)
             .navigationBarItems(
+                leading: sortButtonView(),
                 trailing: Button(action: {
                     self.model.editing_bookmark = create_empty_bookmark(folder_id: self.model.currentRoot.id)
                     self.show_new_bookmark_modal = true
@@ -55,7 +81,7 @@ struct BookmarksFolderView: View {
     
     func delete(row: IndexSet) {
         for index in row {
-            let real_index = model.bookmarks.firstIndex{$0.id == self.model.sorted_filtered_bookmarks_of_folder(searchText: self.searchText, folder: self.current_root_folder)[index].id}
+            let real_index = model.bookmarks.firstIndex{$0.id == self.model.get_relevant_bookmarks(search_text: self.searchText, folder: self.current_root_folder)[index].id}
             model.middleware(data: self.model).delete(bookId: model.bookmarks[real_index!].id)
             model.bookmarks.remove(at: real_index!)
         }

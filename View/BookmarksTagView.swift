@@ -22,7 +22,7 @@ struct BookmarksTagView: View {
                     SearchBar(text: self.$searchText, placeholder: "Filter bookmarks")
                     
                     List {
-                        ForEach(self.model.sorted_filtered_bookmarks_of_tag(searchText: self.searchText, tag: self.current_tag), id: \.id)
+                        ForEach(self.model.get_relevant_bookmarks(search_text: self.searchText, tag: self.current_tag), id: \.id)
                         { book in
                             BookmarkRow(book: book)
                         }
@@ -42,9 +42,9 @@ struct BookmarksTagView: View {
     
     func delete(row: IndexSet) {
         for index in row {
-            let real_index = model.bookmarks.firstIndex{$0.id == self.model.sorted_filtered_bookmarks_of_tag(searchText: self.searchText, tag: self.current_tag)[index].id}
+            let real_index = model.bookmarks.firstIndex{$0.id == self.model.get_relevant_bookmarks(search_text: self.searchText, tag: self.current_tag)[index].id}
             model.middleware(data: self.model).delete(bookId: model.bookmarks[real_index!].id)
-            debugPrint(self.model.sorted_filtered_bookmarks_of_tag(searchText: self.searchText, tag: self.current_tag))
+            debugPrint(self.model.get_relevant_bookmarks(search_text: self.searchText, tag: self.current_tag))
             debugPrint(model.bookmarks[real_index!].title)
             model.bookmarks.remove(at: real_index!)
         }

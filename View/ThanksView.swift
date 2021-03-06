@@ -35,7 +35,7 @@ struct ThanksView: View {
                 LinkButton(urlString: "https://gitlab.com/altepizza/nextbookmark", header: "Visit me!")
             }
             Section (header: Text("Thanks")) {
-                ForEach(CREDITS.sorted(by: <), id: \.key) { key, value in
+                ForEach(Constants.CREDITS.sorted(by: <), id: \.key) { key, value in
                     LinkButton(urlString: value, header: key)
                 }
             }

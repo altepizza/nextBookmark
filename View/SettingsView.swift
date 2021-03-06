@@ -59,8 +59,8 @@ struct SettingsView: View {
                     Section(header: Text("Visuals")) {
                         Text("Altering these settings might take a couple of seconds to load").font(.subheadline)
                         Picker(selection: $model.order_bookmarks, label: Text("Order bookmarks by")){
-                            ForEach(orders, id: \.self) { order in
-                                Text(verbatim: order)
+                            ForEach(Constants.SORT_OPTIONS.sorted(by: <), id: \.key) { key, value in
+                                Text(verbatim: value)
                             }
                         }
                         Toggle(isOn: $model.full_title) {

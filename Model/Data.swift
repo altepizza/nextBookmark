@@ -24,7 +24,7 @@ class Model: ObservableObject {
         didSet {
             tag_count = [:]
             for tag in tags {
-                tag_count[tag] = sorted_filtered_bookmarks_of_tag(searchText: "", tag: tag).count
+                tag_count[tag] = get_relevant_bookmarks(search_text: "", tag: tag).count
             }
         }
     }
@@ -113,46 +113,34 @@ class Model: ObservableObject {
         self.default_upload_folder = Folder(id: -1, title: "/", parent_folder_id: -1)
     }
     
-    func sorted_filtered_bookmarks(searchText: String) -> [Bookmark] {
-        if(order_bookmarks == "newest first") {
-            return bookmarks.filter {
-                searchText.isEmpty ? $0.folders.contains(currentRoot.id) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folders.contains(currentRoot.id)}
-                .sorted(by: {($0.added > $1.added)})
+    func get_relevant_bookmarks(search_text: String = "", tag: String = "", folder: Folder? = nil) -> [Bookmark] {
+        var tmp_bookmarks = bookmarks
+        if !search_text.isEmpty {
+            tmp_bookmarks = tmp_bookmarks.filter {
+                ($0.title.lowercased().contains(search_text.lowercased()) || $0.url.lowercased().contains(search_text.lowercased()))
+            }
         }
-        if(order_bookmarks == "oldest first") {
-            return bookmarks.filter {
-                searchText.isEmpty ? $0.folders.contains(currentRoot.id) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folders.contains(currentRoot.id)}
-                .sorted(by: {($0.added < $1.added)})
+        if !tag.isEmpty {
+            tmp_bookmarks = tmp_bookmarks.filter {
+                $0.tags.contains(tag)
+            }
         }
-        return bookmarks
-    }
-    
-    func sorted_filtered_bookmarks_of_folder(searchText: String, folder: Folder) -> [Bookmark] {
-        if(order_bookmarks == "newest first") {
-            return bookmarks.filter {
-                searchText.isEmpty ? $0.folders.contains(folder.id) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folders.contains(folder.id)}
-                .sorted(by: {($0.added > $1.added)})
+        if let folder = folder {
+            tmp_bookmarks = tmp_bookmarks.filter {
+                $0.folders.contains(folder.id)
+            }
         }
-        if(order_bookmarks == "oldest first") {
-            return bookmarks.filter {
-                searchText.isEmpty ? $0.folders.contains(folder.id) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.folders.contains(folder.id)}
-                .sorted(by: {($0.added < $1.added)})
+        
+        if (order_bookmarks == "NEWEST") {
+            return tmp_bookmarks.sorted(by: {($0.added > $1.added)})
+        } else if (order_bookmarks == "OLDEST") {
+            return tmp_bookmarks.sorted(by: {($0.added < $1.added)})
+        } else if (order_bookmarks == "AZ") {
+            return tmp_bookmarks.sorted(by: {($0.title < $1.title)})
+        } else if (order_bookmarks == "ZA") {
+            return tmp_bookmarks.sorted(by: {($0.title > $1.title)})
         }
-        return bookmarks
-    }
-    
-    func sorted_filtered_bookmarks_of_tag(searchText: String, tag: String) -> [Bookmark] {
-        if(order_bookmarks == "newest first") {
-            return bookmarks.filter {
-                searchText.isEmpty ? $0.tags.contains(tag) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.tags.contains(tag)}
-                .sorted(by: {($0.added > $1.added)})
-        }
-        if(order_bookmarks == "oldest first") {
-            return bookmarks.filter {
-                searchText.isEmpty ? $0.tags.contains(tag) : ($0.title.lowercased().contains(searchText.lowercased()) || $0.url.lowercased().contains(searchText.lowercased())) && $0.tags.contains(tag)}
-                .sorted(by: {($0.added < $1.added)})
-        }
-        return bookmarks
+        return tmp_bookmarks
     }
     
     func middleware(data: Model) -> Nextcloud {
@@ -160,5 +148,17 @@ class Model: ObservableObject {
             return DemoCallNextcloud(data: data)
         }
         return CallNextcloud(data: data)
+    }
+    
+    func cycle_to_next_sort_option() {
+        if (order_bookmarks == "NEWEST") {
+            order_bookmarks = "OLDEST"
+        } else if (order_bookmarks == "OLDEST") {
+            order_bookmarks = "AZ"
+        } else if (order_bookmarks == "AZ") {
+            order_bookmarks = "ZA"
+        } else if (order_bookmarks == "ZA") {
+            order_bookmarks = "NEWEST"
+        }
     }
 }
