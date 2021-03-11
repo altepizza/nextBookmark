@@ -218,10 +218,11 @@ struct CallNextcloud: Nextcloud
     }
     
     func delete_tag(tag: String) {
+        print("Going to delete tag: " + tag)
         let _ = AF.request(main_model.credentials_url + "/index.php/apps/bookmarks/public/rest/v2/tag/" + tag, method: .delete, headers: create_headers()).responseJSON { response in
             switch response.result {
             case .success(_):
-                self.get_tags()
+                self.main_model.tags = self.main_model.tags.filter { $0 != tag }
             case .failure(let error):
                 print(error)
                 print(response)
